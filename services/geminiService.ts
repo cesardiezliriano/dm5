@@ -17,7 +17,7 @@ if (!API_KEY || API_KEY === "MISSING_API_KEY_DO_NOT_USE_PLACEHOLDER") { // Use a
 }
 
 const TEXT_MODEL = 'gemini-2.5-flash';
-const IMAGE_MODEL = 'imagen-3.0-generate-002';
+const IMAGE_MODEL = 'imagen-4.0-generate-001';
 
 function constructPrompt(
   spec: AdFormatSpec,
@@ -102,37 +102,57 @@ export const generateCreativeAsset = async (
     throw new Error(i18n.t('geminiService.errors.apiKeyMissing', "API_KEY is not configured. Please set the API_KEY environment variable."));
   }
 
-  const prompt = constructPrompt(spec, creativeIdea, campaignObjective);
-  console.log("Constructed Prompt for Gemini:", prompt);
-
   const translatedPlatformName = i18n.t(PlatformTranslationKeys[spec.platform], {defaultValue: spec.platform});
   const translatedFormatName = i18n.t(spec.formatNameKey, {defaultValue: spec.formatNameKey});
   const assetFormatDescription = `${translatedPlatformName} - ${translatedFormatName}`;
 
   try {
     if (spec.generationType === 'image') {
-      // Create a more direct prompt for the image model based on creative idea and key visual elements.
-      let imageGenPrompt = creativeIdea;
-      if (spec.promptGuidanceKey) {
-          imageGenPrompt += `. ${i18n.t(spec.promptGuidanceKey, { lng: 'en', defaultValue: spec.promptGuidanceKey })}`;
-      }
-      if (spec.aspectRatio) imageGenPrompt += `. Aspect ratio: ${spec.aspectRatio}`;
-      imageGenPrompt += `. Culturally relevant for Spain.`; // Add realism for Spain instruction
+      const t = (key: string, options?: any) => i18n.t(key, { lng: 'en', ...options });
+      const guidance = spec.promptGuidanceKey ? t(spec.promptGuidanceKey) : '';
+      const bestPractices = spec.bestPracticesKeys.map(key => t(key)).join(', ');
 
-      console.log("Prompt for Image Generation Model:", imageGenPrompt);
+      let imageGenPrompt = `Generate a single, professional, high-quality, photorealistic advertisement image. The image must visually represent this core idea: "${creativeIdea}".
+
+**Style and Mood:** Cinematic, clean, modern, engaging. The lighting should be professional (e.g., soft natural light or dramatic studio lighting, as appropriate for the subject). The image should have a sharp focus and high detail.`;
+
+      if (campaignObjective) {
+        imageGenPrompt += `\n\n**Campaign Context:** The objective is to "${campaignObjective}". The image should support this goal.`;
+      }
+      if (guidance) {
+        imageGenPrompt += `\n\n**Format Specifics:** Follow this guidance for the ad format: "${guidance}".`;
+      }
+      if (bestPractices) {
+        imageGenPrompt += `\n\n**Creative Best Practices to follow:** ${bestPractices}.`;
+      }
+      imageGenPrompt += `\n\n**Audience:** The entire scene, including any models, environment, and objects, must be culturally authentic and relevant for an audience in Spain.`;
+
+      console.log("Constructed Image Prompt:", imageGenPrompt);
+
+      const imageGenConfig: any = {
+          numberOfImages: 1,
+          outputMimeType: 'image/jpeg',
+      };
+
+      if (spec.aspectRatio) {
+          const supportedRatios = ["1:1", "3:4", "4:3", "9:16", "16:9"];
+          const availableRatios = spec.aspectRatio.split(/[,;]|\sor\s/).map(r => r.trim());
+          const chosenRatio = availableRatios.find(r => supportedRatios.includes(r));
+          if (chosenRatio) {
+              imageGenConfig.aspectRatio = chosenRatio;
+          }
+      }
       
       const response = await ai.models.generateImages({
         model: IMAGE_MODEL,
         prompt: imageGenPrompt,
-        // config: { numberOfImages: 1, outputMimeType: 'image/png' },
-        config: { numberOfImages: 1, outputMimeType: 'image/jpeg' }, // Requesting JPEG
+        config: imageGenConfig,
       });
 
       if (response.generatedImages && response.generatedImages.length > 0 && response.generatedImages[0].image.imageBytes) {
         const base64ImageBytes = response.generatedImages[0].image.imageBytes;
         return {
           type: 'image',
-          // data: `data:image/png;base64,${base64ImageBytes}`,
           data: `data:image/jpeg;base64,${base64ImageBytes}`,
           assetFormatDescription: assetFormatDescription
         };
@@ -141,6 +161,9 @@ export const generateCreativeAsset = async (
         throw new Error(i18n.t('geminiService.errors.imageGenFailed', "Image generation failed or returned no data."));
       }
     } else { // Handles text, video_script, ad_copy, image_concept, audio_script etc.
+      const prompt = constructPrompt(spec, creativeIdea, campaignObjective);
+      console.log("Constructed Prompt for Gemini:", prompt);
+
       const response: GenerateContentResponse = await ai.models.generateContent({
         model: TEXT_MODEL,
         contents: prompt,
