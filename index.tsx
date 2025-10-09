@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
-import './i18n'; // Initialize i18next
-import { LoadingSpinner } from './components/LoadingSpinner'; // Import a loading component
+import App from './src/App';
+import './src/i18n'; // Initialize i18next from the correct path
+import { LoadingSpinner } from './src/components/LoadingSpinner';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -12,7 +12,7 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <React.Suspense fallback={<LoadingSpinner message="Loading application..." />}>
+    <React.Suspense fallback={<LoadingSpinner message="Loading..." />}>
       <App />
     </React.Suspense>
   </React.StrictMode>

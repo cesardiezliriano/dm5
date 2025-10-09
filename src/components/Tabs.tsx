@@ -11,11 +11,11 @@ export const Tabs: React.FC<TabsProps> = ({ activeTab, onTabChange }) => {
 
   const getTabClass = (tabName: 'generator' | 'validator') => {
     const isActive = activeTab === tabName;
-    return `w-1/2 py-3 px-1 text-center font-montserrat font-semibold text-sm sm:text-base border-b-4 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[var(--llyc-dark-blue)] rounded-t-md
+    return `w-1/2 py-3 px-1 text-center font-montserrat font-semibold text-sm sm:text-base border-b-4 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[var(--llyc-white)] rounded-t-md
             ${
               isActive
-                ? 'border-[var(--llyc-red)] text-[var(--llyc-white)]'
-                : 'border-transparent text-[var(--llyc-gray-2)] hover:text-[var(--llyc-white)] hover:border-[var(--llyc-gray-3)]'
+                ? 'border-[var(--llyc-red)] text-[var(--llyc-dark-blue)]'
+                : 'border-transparent text-[var(--llyc-gray-2)] hover:text-[var(--llyc-dark-blue)] hover:border-[var(--llyc-gray-3)]'
             }`;
   };
 

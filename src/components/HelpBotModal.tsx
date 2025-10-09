@@ -71,11 +71,11 @@ export const HelpBotModal: React.FC<HelpBotModalProps> = ({ isOpen, onClose }) =
       aria-labelledby="help-modal-title"
     >
       <div 
-        className="bg-[var(--llyc-card-bg)] text-[var(--llyc-white)] rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden border border-[var(--llyc-gray-2)]/30"
+        className="bg-[var(--llyc-white)] text-[var(--llyc-dark-blue)] rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden border border-[var(--llyc-gray-3)]"
         onClick={(e) => e.stopPropagation()} // Prevent click inside modal from closing it
       >
         {/* Header */}
-        <header className="flex items-center justify-between p-4 sm:p-6 border-b border-[var(--llyc-input-bg)]">
+        <header className="flex items-center justify-between p-4 sm:p-6 border-b border-[var(--llyc-gray-4)]">
           <h2 id="help-modal-title" className="text-2xl font-montserrat font-semibold text-[var(--llyc-turquoise)]">
             {t('helpBotModal.title')}
           </h2>
@@ -94,17 +94,17 @@ export const HelpBotModal: React.FC<HelpBotModalProps> = ({ isOpen, onClose }) =
           <aside 
             className={`
               ${showTopicsListOnMobile ? 'block' : 'hidden md:block'} 
-              md:w-1/3 w-full p-4 sm:p-6 border-r-0 md:border-r border-[var(--llyc-input-bg)] overflow-y-auto
+              md:w-1/3 w-full p-4 sm:p-6 border-r-0 md:border-r border-[var(--llyc-gray-4)] overflow-y-auto bg-slate-50
             `}
           >
-            <h3 className="text-lg font-montserrat font-medium text-[var(--llyc-white)] mb-4">{t('helpBotModal.topicsListHeader')}</h3>
+            <h3 className="text-lg font-montserrat font-medium text-[var(--llyc-dark-blue)] mb-4">{t('helpBotModal.topicsListHeader')}</h3>
             <ul className="space-y-2">
               {HELP_TOPICS_LIST.map((topic) => (
                 <li key={topic.id}>
                   <button
                     onClick={() => handleTopicSelect(topic)}
                     className={`w-full text-left px-3 py-2 rounded-md font-open-sans text-sm transition-colors duration-150 
-                                ${selectedTopic?.id === topic.id ? 'bg-[var(--llyc-turquoise)] text-[var(--llyc-white)]' : 'text-[var(--llyc-gray-2)] hover:bg-[var(--llyc-input-bg)] hover:text-[var(--llyc-white)]'}`}
+                                ${selectedTopic?.id === topic.id ? 'bg-[var(--llyc-turquoise)] text-[var(--llyc-white)]' : 'text-[var(--llyc-gray-1)] hover:bg-slate-200 hover:text-[var(--llyc-dark-blue)]'}`}
                     aria-current={selectedTopic?.id === topic.id ? "page" : undefined}
                   >
                     {t(topic.questionKey)}
@@ -131,9 +131,9 @@ export const HelpBotModal: React.FC<HelpBotModalProps> = ({ isOpen, onClose }) =
                 </button>
                 <h3 className="text-xl font-montserrat font-semibold text-[var(--llyc-turquoise)] mb-3">{t(selectedTopic.questionKey)}</h3>
                 <div 
-                  className="prose prose-sm prose-invert font-open-sans text-[var(--llyc-gray-1)] max-w-none 
-                             prose-headings:text-[var(--llyc-white)] prose-headings:font-montserrat 
-                             prose-strong:text-[var(--llyc-white)] 
+                  className="prose prose-sm font-open-sans text-[var(--llyc-gray-1)] max-w-none 
+                             prose-headings:text-[var(--llyc-dark-blue)] prose-headings:font-montserrat 
+                             prose-strong:text-[var(--llyc-dark-blue)] 
                              prose-a:text-[var(--llyc-turquoise)] hover:prose-a:text-[var(--llyc-red)]
                              prose-ul:list-disc prose-ol:list-decimal prose-li:my-1"
                   dangerouslySetInnerHTML={{ __html: t(selectedTopic.answerKey) }} 

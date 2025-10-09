@@ -84,7 +84,7 @@ export const ValidatorInput: React.FC<ValidatorInputProps> = ({ spec, onAssetCha
                 onChange={handleTextChange}
                 rows={5}
                 placeholder={t('validator.textInputPlaceholder')}
-                className="w-full p-3 font-open-sans bg-[var(--llyc-input-bg)] border border-[var(--llyc-gray-3)] rounded-md shadow-sm focus:ring-2 focus:ring-[var(--llyc-red)] focus:border-[var(--llyc-red)] text-[var(--llyc-white)] placeholder-[var(--llyc-gray-2)]"
+                className="w-full p-3 font-open-sans bg-[var(--llyc-input-bg)] border border-[var(--llyc-gray-3)] rounded-md shadow-sm focus:ring-2 focus:ring-[var(--llyc-red)] focus:border-[var(--llyc-red)] text-[var(--llyc-dark-blue)] placeholder-[var(--llyc-gray-2)]"
             />
             <p className="mt-1 text-xs text-[var(--llyc-gray-2)] font-open-sans">{t('validator.textInputSubtext')}</p>
         </div>
@@ -100,12 +100,12 @@ export const ValidatorInput: React.FC<ValidatorInputProps> = ({ spec, onAssetCha
       <div 
         onDragOver={handleDragOver}
         onDrop={handleDrop}
-        className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-[var(--llyc-gray-3)] border-dashed rounded-md bg-[var(--llyc-input-bg)]"
+        className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-[var(--llyc-gray-3)] border-dashed rounded-md bg-slate-50"
         >
         <div className="space-y-1 text-center">
           <UploadIcon />
           <div className="flex text-sm text-[var(--llyc-gray-1)]">
-            <label htmlFor="file-upload" className="relative cursor-pointer bg-[var(--llyc-dark-blue)] rounded-md font-medium text-[var(--llyc-red)] hover:text-red-400 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-[var(--llyc-input-bg)] focus-within:ring-[var(--llyc-red)] px-1">
+            <label htmlFor="file-upload" className="relative cursor-pointer rounded-md font-medium text-[var(--llyc-red)] hover:text-red-400 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-slate-50 focus-within:ring-[var(--llyc-red)] px-1">
               <span>{t('validator.uploadAction')}</span>
               <input id="file-upload" name="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept={acceptedFileTypes} />
             </label>

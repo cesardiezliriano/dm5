@@ -7,13 +7,13 @@ interface ValidationResultsProps {
 }
 
 const CheckIcon: React.FC = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-600" viewBox="0 0 20 20" fill="currentColor">
         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
     </svg>
 );
 
 const CrossIcon: React.FC = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-600" viewBox="0 0 20 20" fill="currentColor">
         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
     </svg>
 );
@@ -23,21 +23,21 @@ export const ValidationResults: React.FC<ValidationResultsProps> = ({ result }) 
   const { t } = useTranslation();
 
   return (
-    <section className="bg-[var(--llyc-card-bg)] p-6 rounded-xl shadow-xl my-8 border border-[var(--llyc-gray-3)]/20">
+    <section className="bg-[var(--llyc-white)] p-6 rounded-xl shadow-md my-8 border border-[var(--llyc-gray-4)]">
       <h2 className="text-2xl font-montserrat font-semibold mb-4 text-[var(--llyc-turquoise)] border-b-2 border-[var(--llyc-turquoise)] pb-2">
         {t('validator.results.title')}
       </h2>
 
-      <div className={`flex items-center p-3 rounded-lg mb-6 ${result.overallCompliant ? 'bg-green-900/40' : 'bg-red-900/40'}`}>
+      <div className={`flex items-center p-3 rounded-lg mb-6 ${result.overallCompliant ? 'bg-green-100' : 'bg-red-100'}`}>
         {result.overallCompliant ? <CheckIcon /> : <CrossIcon />}
-        <span className={`ml-3 font-semibold font-montserrat ${result.overallCompliant ? 'text-green-300' : 'text-red-300'}`}>
+        <span className={`ml-3 font-semibold font-montserrat ${result.overallCompliant ? 'text-green-800' : 'text-red-800'}`}>
           {t('validator.results.overallStatus')}: {result.overallCompliant ? t('validator.results.compliant') : t('validator.results.nonCompliant')}
         </span>
       </div>
 
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left font-open-sans">
-            <thead className="bg-[var(--llyc-input-bg)] text-[var(--llyc-gray-2)] uppercase text-xs">
+            <thead className="bg-slate-50 text-[var(--llyc-gray-2)] uppercase text-xs">
                 <tr>
                     <th scope="col" className="px-4 py-2 rounded-l-md">{t('validator.results.table.spec')}</th>
                     <th scope="col" className="px-4 py-2">{t('validator.results.table.expected')}</th>
@@ -48,12 +48,12 @@ export const ValidationResults: React.FC<ValidationResultsProps> = ({ result }) 
             <tbody>
                 {result.results.length > 0 ? (
                     result.results.map(item => (
-                        <tr key={item.key} className="border-b border-[var(--llyc-input-bg)] last:border-0">
-                            <td className="px-4 py-3 font-semibold text-[var(--llyc-white)]">{item.specName}</td>
+                        <tr key={item.key} className="border-b border-[var(--llyc-gray-4)] last:border-0">
+                            <td className="px-4 py-3 font-semibold text-[var(--llyc-dark-blue)]">{item.specName}</td>
                             <td className="px-4 py-3 text-[var(--llyc-gray-1)]">{item.expected}</td>
                             <td className="px-4 py-3 text-[var(--llyc-gray-1)]">{item.actual}</td>
                             <td className="px-4 py-3">
-                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${item.compliant ? 'bg-green-200/20 text-green-300' : 'bg-red-200/20 text-red-300'}`}>
+                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${item.compliant ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
                                     {item.compliant ? t('validator.results.status.ok') : t('validator.results.status.fail')}
                                 </span>
                             </td>

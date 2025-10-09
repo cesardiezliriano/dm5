@@ -15,7 +15,7 @@ if (!API_KEY || API_KEY === "MISSING_API_KEY_DO_NOT_USE_PLACEHOLDER") {
 }
 
 const TEXT_MODEL = 'gemini-2.5-flash';
-const IMAGE_MODEL = 'imagen-3.0-generate-002';
+const IMAGE_MODEL = 'imagen-4.0-generate-001';
 
 function constructTextPrompt(
   spec: AdFormatSpec,
@@ -105,14 +105,30 @@ export const generateCreativeAsset = async (
 Creative Idea: "${creativeIdea}".
 Ad Format Guidance: ${guidance}.
 Key Best Practices: ${bestPractices}.`;
-      if (spec.aspectRatio) imageGenPrompt += `\nStrictly adhere to aspect ratio: ${spec.aspectRatio}.`;
       
+      const imageGenConfig: any = {
+          numberOfImages: 1,
+          outputMimeType: 'image/jpeg',
+      };
+
+      if (spec.aspectRatio) {
+          const supportedRatios = ["1:1", "3:4", "4:3", "9:16", "16:9"];
+          const availableRatios = spec.aspectRatio.split(/[,;]|\sor\s/).map(r => r.trim());
+          const chosenRatio = availableRatios.find(r => supportedRatios.includes(r));
+          if (chosenRatio) {
+              imageGenConfig.aspectRatio = chosenRatio;
+          } else {
+              // Add a note to the prompt if no directly supported ratio is found.
+              imageGenPrompt += `\nTry to visually match this aspect ratio as closely as possible: ${spec.aspectRatio}.`;
+          }
+      }
+
       console.log("Prompt for Image Generation Model:", imageGenPrompt);
       
       const response = await ai.models.generateImages({
         model: IMAGE_MODEL,
         prompt: imageGenPrompt,
-        config: { numberOfImages: 1, outputMimeType: 'image/jpeg' },
+        config: imageGenConfig,
       });
 
       if (response.generatedImages && response.generatedImages.length > 0 && response.generatedImages[0].image.imageBytes) {

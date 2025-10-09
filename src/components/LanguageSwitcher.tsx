@@ -1,0 +1,33 @@
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+
+export const LanguageSwitcher: React.FC = () => {
+  const { i18n } = useTranslation();
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
+
+  return (
+    <div className="flex items-center space-x-2">
+      <button
+        onClick={() => changeLanguage('en')}
+        disabled={i18n.language === 'en'}
+        aria-label="Switch to English"
+        className={`px-3 py-1 text-sm rounded-md font-montserrat transition-colors duration-150 ease-in-out
+                    ${i18n.language === 'en' ? 'bg-[var(--llyc-red)] text-[var(--llyc-white)] cursor-default' : 'bg-transparent text-[var(--llyc-turquoise)] hover:bg-[var(--llyc-red)] hover:text-[var(--llyc-white)]'}`}
+      >
+        EN
+      </button>
+      <button
+        onClick={() => changeLanguage('es')}
+        disabled={i18n.language === 'es'}
+        aria-label="Cambiar a español"
+        className={`px-3 py-1 text-sm rounded-md font-montserrat transition-colors duration-150 ease-in-out
+                    ${i18n.language === 'es' ? 'bg-[var(--llyc-red)] text-[var(--llyc-white)] cursor-default' : 'bg-transparent text-[var(--llyc-turquoise)] hover:bg-[var(--llyc-red)] hover:text-[var(--llyc-white)]'}`}
+      >
+        ES
+      </button>
+    </div>
+  );
+};

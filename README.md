@@ -1,5 +1,3 @@
-
-
 # DM 5 - Specs & Creatives
 
 An advanced web application designed to assist in the automated development and validation of creative materials (graphics, ad copy, video scripts) for multi-channel digital advertising campaigns. Powered by Google's Gemini API, it provides a streamlined workflow for creating compliant and optimized ad assets.
@@ -10,11 +8,11 @@ The application features a modern, responsive, and dark-themed UI built with Rea
 
 - **Creative Generation**: Generate ad assets based on user-provided ideas and campaign objectives.
   - **Text Generation**: Creates ad copy, headlines, and descriptions using `gemini-2.5-flash`.
-  - **Image Generation**: Produces high-quality visual ads with `imagen-3.0-generate-002`.
+  - **Image Generation**: Produces high-quality visual ads with `imagen-4.0-generate-001`.
   - **Script Generation**: Develops detailed video and audio scripts suitable for production.
 - **Creative Validator**: Upload or paste existing creatives to validate them against the technical specifications of the selected ad format (e.g., file size, dimensions, aspect ratio, character count).
 - **Comprehensive Ad Specs Database**: Includes detailed specifications and best practices for dozens of ad formats across major platforms like Meta, Google/YouTube, TikTok, LinkedIn, Amazon, Spotify, and more.
-- **Multi-language Support**: Fully internationalized with support for English and Spanish using `i18next`.
+- **Multi-language Support**: Fully internationalized with support for English and Spanish using `i18next`, with translations bundled for robust offline-first support.
 - **Dynamic & Intuitive UI**: The interface progressively discloses options as the user makes selections, providing a clean and focused workflow.
 - **Built-in Help & Feedback**: Features a modal-based help center explaining app functionality and a one-click mailto link for sending feedback.
 - **Responsive Design**: A modern, responsive UI/UX designed for various screen sizes.
@@ -70,9 +68,8 @@ You need to serve the project root directory using a simple local web server. He
 
 ```
 .
-├── public/
-│   ├── locales/              # i18n translation JSON files (en, es)
-│   └── index.html            # Main HTML file with importmap
+├── index.html                # Main HTML file with importmap
+├── index.tsx                 # React entry point
 ├── src/
 │   ├── components/           # Reusable React components (Buttons, Inputs, etc.)
 │   ├── features/             # Components for major app sections
@@ -83,8 +80,7 @@ You need to serve the project root directory using a simple local web server. He
 │   │   └── validationService.ts # Logic for validating creative assets
 │   ├── App.tsx               # Main app component, handles layout and routing
 │   ├── constants.ts          # App-wide constants (platform data, ad specs)
-│   ├── i18n.ts               # i18next configuration
-│   ├── index.tsx             # React entry point
+│   ├── i18n.ts               # i18next configuration with bundled translations
 │   └── types.ts              # TypeScript type definitions
 └── README.md                 # This file
 ```
@@ -92,7 +88,7 @@ You need to serve the project root directory using a simple local web server. He
 ## How It Works
 
 ### Creative Generator
-The user selects an advertising platform and a specific ad format. This selection loads an `AdFormatSpec` object from `src/constants.ts`, which contains all the technical details and best practices for that format. The user's creative idea and optional campaign objective are combined with this spec data to construct a highly detailed and context-aware prompt. The `geminiService.ts` module sends this prompt to the appropriate Gemini model (`gemini-2.5-flash` for text/scripts, `imagen-3.0-generate-002` for images) to generate the final creative asset.
+The user selects an advertising platform and a specific ad format. This selection loads an `AdFormatSpec` object from `src/constants.ts`, which contains all the technical details and best practices for that format. The user's creative idea and optional campaign objective are combined with this spec data to construct a highly detailed and context-aware prompt. The `geminiService.ts` module sends this prompt to the appropriate Gemini model (`gemini-2.5-flash` for text/scripts, `imagen-4.0-generate-001` for images) to generate the final creative asset.
 
 ### Creative Validator
 The user selects a platform/format and provides an asset (either by uploading a file or pasting text). The `validationService.ts` module uses the corresponding `AdFormatSpec` to run a series of checks. For files, it validates the file type, size, and (for images) dimensions and aspect ratio using browser APIs. For text, it checks character or word count. The results are then displayed in a clear, compliant/non-compliant format.

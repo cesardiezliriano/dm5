@@ -19,7 +19,7 @@ const App: React.FC = () => {
     <div className="container mx-auto p-4 max-w-4xl min-h-screen flex flex-col font-open-sans">
       <Header />
 
-      <main className="flex-grow bg-[var(--llyc-card-bg)] p-6 sm:p-8 rounded-xl shadow-2xl mb-8 border border-[var(--llyc-gray-2)]/30">
+      <main className="flex-grow bg-[var(--llyc-white)] p-6 sm:p-8 rounded-xl shadow-lg mb-8 border border-[var(--llyc-gray-4)]">
         <Tabs activeTab={activeTab} onTabChange={setActiveTab} />
         <div className="mt-6">
           {activeTab === 'generator' && <GeneratorView />}

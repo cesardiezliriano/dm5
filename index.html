@@ -11,16 +11,16 @@
   <style>
     :root {
       --llyc-red: #F54963;
-      --llyc-dark-blue: #0A263B;
+      --llyc-dark-blue: #0A263B; /* For text */
       --llyc-turquoise: #36A7B7;
       --llyc-white: #FFFFFF;
-      --llyc-gray-1: #6D7475; /* Body text on light, or secondary text on dark */
+      --llyc-gray-1: #6D7475; /* Body text */
       --llyc-gray-2: #878E90; /* Subtler text, placeholders */
       --llyc-gray-3: #ACB4B6; /* Borders, lines, inactive icons */
-      --llyc-gray-4: #DDDDDD; /* Light lines, subtle backgrounds if needed */
+      --llyc-gray-4: #DDDDDD; /* Light lines, subtle backgrounds */
       
-      --llyc-input-bg: #14324C; /* Slightly lighter than dark blue for inputs */
-      --llyc-card-bg: #0F2A40; /* Slightly lighter than dark blue for cards */
+      --llyc-input-bg: #FFFFFF; /* White background for inputs */
+      --llyc-card-bg: #FFFFFF; /* White background for cards */
 
       --font-montserrat: 'Montserrat', sans-serif;
       --font-open-sans: 'Open Sans', sans-serif;
@@ -28,32 +28,33 @@
 
     body {
       font-family: var(--font-open-sans);
-      background-color: var(--llyc-dark-blue);
-      color: var(--llyc-white);
+      background-color: var(--llyc-white);
+      color: var(--llyc-gray-1);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Custom scrollbar for LLYC theme */
+    /* Custom scrollbar for LLYC light theme */
     ::-webkit-scrollbar {
       width: 8px;
       height: 8px;
     }
     ::-webkit-scrollbar-track {
-      background: var(--llyc-dark-blue);
+      background: #f1f1f1;
       border-radius: 10px;
     }
     ::-webkit-scrollbar-thumb {
-      background: var(--llyc-gray-2);
+      background: var(--llyc-gray-3);
       border-radius: 10px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: var(--llyc-gray-1);
+      background: var(--llyc-gray-2);
     }
 
     /* Apply Montserrat to headings by default */
     h1, h2, h3, h4, h5, h6 {
       font-family: var(--font-montserrat);
+      color: var(--llyc-dark-blue);
     }
 
     .font-montserrat {
@@ -89,14 +90,13 @@
     "@google/genai": "https://esm.sh/@google/genai@^1.5.1",
     "i18next": "https://esm.sh/i18next@^23.11.2",
     "react-i18next": "https://esm.sh/react-i18next@^14.1.0",
-    "i18next-http-backend": "https://esm.sh/i18next-http-backend@^2.5.0",
-    "i18next-browser-languagedetector": "https://esm.sh/i18next-browser-languagedetector@^7.2.0",
-    "react-dom": "https://esm.sh/react-dom@^19.1.0"
+    "react-dom": "https://esm.sh/react-dom@^19.1.0",
+    "i18next-browser-languagedetector": "https://aistudiocdn.com/i18next-browser-languagedetector@^8.2.0"
   }
 }
 </script>
 </head>
-<body class="bg-[var(--llyc-dark-blue)] text-[var(--llyc-white)]">
+<body class="bg-[var(--llyc-white)] text-[var(--llyc-gray-1)]">
   <div id="root"></div>
   <script>
     // Attempt to unregister any service workers to prevent caching issues during development
@@ -115,6 +115,6 @@
       });
     }
   </script>
-  <script type="module" src="/src/index.tsx"></script>
+  <script type="module" src="/index.tsx"></script>
 </body>
 </html>

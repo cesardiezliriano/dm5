@@ -28,11 +28,11 @@ export const FeedbackButton: React.FC<FeedbackButtonProps> = ({ recipients }) =>
       onClick={handleFeedbackClick}
       title={t('feedbackButton.tooltip')}
       aria-label={t('feedbackButton.tooltip')}
-      className="group relative flex items-center justify-center w-14 h-14 bg-[var(--llyc-red)] text-[var(--llyc-white)] rounded-full shadow-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[var(--llyc-dark-blue)] focus:ring-[var(--llyc-red)] transition-all duration-150 ease-in-out"
+      className="group relative flex items-center justify-center w-14 h-14 bg-[var(--llyc-red)] text-[var(--llyc-white)] rounded-full shadow-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[var(--llyc-white)] focus:ring-[var(--llyc-red)] transition-all duration-150 ease-in-out"
     >
       <FeedbackIcon />
       <span
-        className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 bg-[var(--llyc-gray-1)] text-[var(--llyc-white)] text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 bg-[var(--llyc-dark-blue)] text-[var(--llyc-white)] text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
         role="tooltip"
       >
         {t('feedbackButton.tooltip')}

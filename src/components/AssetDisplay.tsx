@@ -18,12 +18,12 @@ export const AssetDisplay: React.FC<AssetDisplayProps> = ({ asset, platform, for
 
 
   return (
-    <section className="bg-[var(--llyc-card-bg)] p-6 rounded-xl shadow-xl mt-8 transition-all duration-300 hover:shadow-[var(--llyc-red)]/30 border border-[var(--llyc-gray-3)]/20">
+    <section className="bg-[var(--llyc-card-bg)] p-6 rounded-xl shadow-md mt-8 transition-all duration-300 hover:shadow-lg hover:shadow-[var(--llyc-red)]/30 border border-[var(--llyc-gray-4)]">
       <h2 className="text-2xl font-montserrat font-semibold mb-4 text-[var(--llyc-red)] border-b-2 border-[var(--llyc-red)] pb-2">
-        {t('assetDisplay.titlePrefix')} <span className="text-[var(--llyc-white)] font-normal">{displayDescription}</span>
+        {t('assetDisplay.titlePrefix')} <span className="text-[var(--llyc-dark-blue)] font-normal">{displayDescription}</span>
       </h2>
       {asset.type === 'image' && asset.data && (
-        <div className="flex justify-center items-center bg-[var(--llyc-input-bg)] p-4 rounded-lg">
+        <div className="flex justify-center items-center bg-slate-50 p-4 rounded-lg border border-slate-200">
           <img 
             src={asset.data} 
             alt={t('assetDisplay.imageAlt')}
@@ -32,8 +32,8 @@ export const AssetDisplay: React.FC<AssetDisplayProps> = ({ asset, platform, for
         </div>
       )}
       {asset.type === 'text' && (
-        <div className="bg-[var(--llyc-input-bg)] p-4 rounded-lg max-h-[400px] overflow-y-auto">
-          <pre className="whitespace-pre-wrap font-open-sans text-[var(--llyc-white)] text-sm leading-relaxed">{asset.data}</pre>
+        <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 max-h-[400px] overflow-y-auto">
+          <pre className="whitespace-pre-wrap font-open-sans text-[var(--llyc-gray-1)] text-sm leading-relaxed">{asset.data}</pre>
         </div>
       )}
       {asset.type === 'image' && asset.data && (
