@@ -7,9 +7,10 @@ interface FormatSelectorProps {
   selectedFormatId: string | null;
   onChange: (formatId: string | null) => void;
   disabled: boolean;
+  allowAllOption?: boolean;
 }
 
-export const FormatSelector: React.FC<FormatSelectorProps> = ({ formats, selectedFormatId, onChange, disabled }) => {
+export const FormatSelector: React.FC<FormatSelectorProps> = ({ formats, selectedFormatId, onChange, disabled, allowAllOption }) => {
   const { t } = useTranslation();
 
   return (
@@ -27,6 +28,9 @@ export const FormatSelector: React.FC<FormatSelectorProps> = ({ formats, selecte
         <option value="" className="text-[var(--llyc-gray-2)]">
           {disabled ? t('formatSelector.disabledPlaceholder') : t('formatSelector.selectPlaceholder')}
         </option>
+        {allowAllOption && formats.length > 0 && (
+          <option value="ALL">{t('formatSelector.allFormats')}</option>
+        )}
         {formats.map((format) => (
           <option key={format.id} value={format.id}>
             {t(format.formatNameKey)}

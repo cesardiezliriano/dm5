@@ -177,6 +177,11 @@ export interface ValidationResult {
   results: ValidationResultItem[];
 }
 
+export interface FormattedValidationResult {
+  formatNameKey: string;
+  result: ValidationResult;
+}
+
 // Type for Help Modal topics
 export interface HelpTopic {
   id: string;

@@ -4,29 +4,38 @@ import { useTranslation } from 'react-i18next';
 export const LanguageSwitcher: React.FC = () => {
   const { i18n } = useTranslation();
 
-  const changeLanguage = (lng: string) => {
+  const changeLanguage = (lng: 'es' | 'en') => {
     i18n.changeLanguage(lng);
   };
 
+  const isSpanish = i18n.language === 'es' || i18n.language.startsWith('es');
+
   return (
-    <div className="flex items-center space-x-2">
-      <button
-        onClick={() => changeLanguage('en')}
-        disabled={i18n.language === 'en'}
-        aria-label="Switch to English"
-        className={`px-3 py-1 text-sm rounded-md font-montserrat transition-colors duration-150 ease-in-out
-                    ${i18n.language === 'en' ? 'bg-[var(--llyc-red)] text-[var(--llyc-white)] cursor-default' : 'bg-transparent text-[var(--llyc-turquoise)] hover:bg-[var(--llyc-red)] hover:text-[var(--llyc-white)]'}`}
-      >
-        EN
-      </button>
+    <div className="relative flex items-center bg-slate-200 rounded-full p-1 space-x-1">
+      {/* Sliding background element */}
+      <div
+        className={`absolute bg-[var(--llyc-dark-blue)] h-7 w-9 rounded-full transition-transform duration-300 ease-in-out
+          ${isSpanish ? 'transform translate-x-0' : 'transform translate-x-10'}`} // translate-x-10 is 2.5rem (40px)
+      />
+      
+      {/* Language Buttons */}
       <button
         onClick={() => changeLanguage('es')}
-        disabled={i18n.language === 'es'}
+        className={`relative z-10 w-9 h-7 flex items-center justify-center pr-px text-sm font-montserrat font-semibold rounded-full transition-colors duration-300
+          ${isSpanish ? 'text-[var(--llyc-white)]' : 'text-[var(--llyc-gray-2)]'}`}
+        aria-pressed={isSpanish}
         aria-label="Cambiar a español"
-        className={`px-3 py-1 text-sm rounded-md font-montserrat transition-colors duration-150 ease-in-out
-                    ${i18n.language === 'es' ? 'bg-[var(--llyc-red)] text-[var(--llyc-white)] cursor-default' : 'bg-transparent text-[var(--llyc-turquoise)] hover:bg-[var(--llyc-red)] hover:text-[var(--llyc-white)]'}`}
       >
         ES
+      </button>
+      <button
+        onClick={() => changeLanguage('en')}
+        className={`relative z-10 w-9 h-7 flex items-center justify-center pl-px text-sm font-montserrat font-semibold rounded-full transition-colors duration-300
+          ${!isSpanish ? 'text-[var(--llyc-white)]' : 'text-[var(--llyc-gray-2)]'}`}
+        aria-pressed={!isSpanish}
+        aria-label="Switch to English"
+      >
+        EN
       </button>
     </div>
   );

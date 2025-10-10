@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ValidationResult } from '../types';
+import { FormattedValidationResult } from '../types';
 
 interface ValidationResultsProps {
-  result: ValidationResult;
+  results: FormattedValidationResult[];
 }
 
 const CheckIcon: React.FC = () => (
@@ -19,54 +19,65 @@ const CrossIcon: React.FC = () => (
 );
 
 
-export const ValidationResults: React.FC<ValidationResultsProps> = ({ result }) => {
+export const ValidationResults: React.FC<ValidationResultsProps> = ({ results }) => {
   const { t } = useTranslation();
 
+  if (!results || results.length === 0) {
+    return null;
+  }
+
   return (
-    <section className="bg-[var(--llyc-white)] p-6 rounded-xl shadow-md my-8 border border-[var(--llyc-gray-4)]">
-      <h2 className="text-2xl font-montserrat font-semibold mb-4 text-[var(--llyc-turquoise)] border-b-2 border-[var(--llyc-turquoise)] pb-2">
+    <section className="bg-[var(--llyc-white)] p-6 rounded-xl shadow-md my-8 border border-[var(--llyc-gray-4)] space-y-8">
+      <h2 className="text-2xl font-montserrat font-semibold text-[var(--llyc-turquoise)] border-b-2 border-[var(--llyc-turquoise)] pb-2 m-0">
         {t('validator.results.title')}
       </h2>
 
-      <div className={`flex items-center p-3 rounded-lg mb-6 ${result.overallCompliant ? 'bg-green-100' : 'bg-red-100'}`}>
-        {result.overallCompliant ? <CheckIcon /> : <CrossIcon />}
-        <span className={`ml-3 font-semibold font-montserrat ${result.overallCompliant ? 'text-green-800' : 'text-red-800'}`}>
-          {t('validator.results.overallStatus')}: {result.overallCompliant ? t('validator.results.compliant') : t('validator.results.nonCompliant')}
-        </span>
-      </div>
+      {results.map(({ formatNameKey, result }) => (
+        <div key={formatNameKey}>
+            <h3 className="text-lg font-montserrat font-semibold text-[var(--llyc-dark-blue)] mb-3">
+                {t(formatNameKey)}
+            </h3>
+            <div className={`flex items-center p-3 rounded-lg mb-4 ${result.overallCompliant ? 'bg-green-100' : 'bg-red-100'}`}>
+                {result.overallCompliant ? <CheckIcon /> : <CrossIcon />}
+                <span className={`ml-3 font-semibold font-montserrat text-sm ${result.overallCompliant ? 'text-green-800' : 'text-red-800'}`}>
+                    {t('validator.results.overallStatus')}: {result.overallCompliant ? t('validator.results.compliant') : t('validator.results.nonCompliant')}
+                </span>
+            </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm text-left font-open-sans">
-            <thead className="bg-slate-50 text-[var(--llyc-gray-2)] uppercase text-xs">
-                <tr>
-                    <th scope="col" className="px-4 py-2 rounded-l-md">{t('validator.results.table.spec')}</th>
-                    <th scope="col" className="px-4 py-2">{t('validator.results.table.expected')}</th>
-                    <th scope="col" className="px-4 py-2">{t('validator.results.table.actual')}</th>
-                    <th scope="col" className="px-4 py-2 rounded-r-md">{t('validator.results.table.status')}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {result.results.length > 0 ? (
-                    result.results.map(item => (
-                        <tr key={item.key} className="border-b border-[var(--llyc-gray-4)] last:border-0">
-                            <td className="px-4 py-3 font-semibold text-[var(--llyc-dark-blue)]">{item.specName}</td>
-                            <td className="px-4 py-3 text-[var(--llyc-gray-1)]">{item.expected}</td>
-                            <td className="px-4 py-3 text-[var(--llyc-gray-1)]">{item.actual}</td>
-                            <td className="px-4 py-3">
-                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${item.compliant ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                                    {item.compliant ? t('validator.results.status.ok') : t('validator.results.status.fail')}
-                                </span>
-                            </td>
+            <div className="overflow-x-auto">
+                <table className="w-full text-sm text-left font-open-sans">
+                    <thead className="bg-slate-50 text-[var(--llyc-gray-2)] uppercase text-xs">
+                        <tr>
+                            <th scope="col" className="px-4 py-2 rounded-l-md">{t('validator.results.table.spec')}</th>
+                            <th scope="col" className="px-4 py-2">{t('validator.results.table.expected')}</th>
+                            <th scope="col" className="px-4 py-2">{t('validator.results.table.actual')}</th>
+                            <th scope="col" className="px-4 py-2 rounded-r-md">{t('validator.results.table.status')}</th>
                         </tr>
-                    ))
-                ) : (
-                     <tr>
-                        <td colSpan={4} className="px-4 py-3 text-center text-[var(--llyc-gray-2)]">{t('validator.spec.noSpec')}</td>
-                    </tr>
-                )}
-            </tbody>
-        </table>
-      </div>
+                    </thead>
+                    <tbody>
+                        {result.results.length > 0 ? (
+                            result.results.map(item => (
+                                <tr key={item.key} className="border-b border-[var(--llyc-gray-4)] last:border-0">
+                                    <td className="px-4 py-3 font-semibold text-[var(--llyc-dark-blue)]">{item.specName}</td>
+                                    <td className="px-4 py-3 text-[var(--llyc-gray-1)]">{item.expected}</td>
+                                    <td className="px-4 py-3 text-[var(--llyc-gray-1)]">{item.actual}</td>
+                                    <td className="px-4 py-3">
+                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${item.compliant ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                            {item.compliant ? t('validator.results.status.ok') : t('validator.results.status.fail')}
+                                        </span>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                             <tr>
+                                <td colSpan={4} className="px-4 py-3 text-center text-[var(--llyc-gray-2)]">{t('validator.spec.noSpec')}</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      ))}
     </section>
   );
 };

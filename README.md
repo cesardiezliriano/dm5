@@ -1,4 +1,4 @@
-# DM 5 - Specs & Creatives
+# Specs & Creatives
 
 An advanced web application designed to assist in the automated development and validation of creative materials (graphics, ad copy, video scripts) for multi-channel digital advertising campaigns. Powered by Google's Gemini API, it provides a streamlined workflow for creating compliant and optimized ad assets.
 

@@ -11,7 +11,7 @@ import { ValidatorInput } from '../../components/ValidatorInput';
 import { ValidationResults } from '../../components/ValidationResults';
 
 // Types
-import { Platform, ValidationResult } from '../../types';
+import { Platform, FormattedValidationResult, AdFormatSpec } from '../../types';
 
 // Constants
 import { PLATFORMS, AD_SPECS_DATA } from '../../constants';
@@ -25,7 +25,7 @@ export const ValidatorView: React.FC = () => {
     const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(null);
     const [selectedFormatId, setSelectedFormatId] = useState<string | null>(null);
     const [assetToValidate, setAssetToValidate] = useState<File | string | null>(null);
-    const [validationResult, setValidationResult] = useState<ValidationResult | null>(null);
+    const [validationResults, setValidationResults] = useState<FormattedValidationResult[] | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     
@@ -35,7 +35,7 @@ export const ValidatorView: React.FC = () => {
     }, [selectedPlatform]);
 
     const selectedFormatSpec = useMemo(() => {
-        if (!selectedFormatId) return null;
+        if (!selectedFormatId || selectedFormatId === 'ALL') return null;
         return AD_SPECS_DATA.find(spec => spec.id === selectedFormatId) || null;
     }, [selectedFormatId]);
 
@@ -43,38 +43,66 @@ export const ValidatorView: React.FC = () => {
         setSelectedPlatform(platform);
         setSelectedFormatId(null);
         setAssetToValidate(null);
-        setValidationResult(null);
+        setValidationResults(null);
         setError(null);
     }, []);
 
     const handleFormatChange = useCallback((formatId: string | null) => {
         setSelectedFormatId(formatId);
         setAssetToValidate(null);
-        setValidationResult(null);
+        setValidationResults(null);
         setError(null);
     }, []);
     
     const handleValidateAsset = useCallback(async () => {
-        if (!selectedFormatSpec || !assetToValidate) {
+        if ((!selectedFormatSpec && selectedFormatId !== 'ALL') || !assetToValidate) {
             setError(t('validator.errors.noAssetOrFormat'));
             return;
         }
         setIsLoading(true);
         setError(null);
-        setValidationResult(null);
+        setValidationResults(null);
 
         try {
-            const result = await validateAsset(selectedFormatSpec, assetToValidate, t);
-            setValidationResult(result);
+            let results: FormattedValidationResult[] = [];
+             if (selectedFormatId === 'ALL') {
+                // Validate against all available formats for the platform
+                 results = await Promise.all(
+                    availableFormats.map(async (spec) => {
+                        const result = await validateAsset(spec, assetToValidate, t);
+                        return { formatNameKey: spec.formatNameKey, result };
+                    })
+                );
+            } else if (selectedFormatSpec) {
+                // Validate against the single selected format
+                const result = await validateAsset(selectedFormatSpec, assetToValidate, t);
+                results.push({ formatNameKey: selectedFormatSpec.formatNameKey, result });
+            }
+            setValidationResults(results);
         } catch(e: any) {
             setError(e.message || t('fallbackError'));
             console.error("Validation failed:", e);
         } finally {
             setIsLoading(false);
         }
-    }, [selectedFormatSpec, assetToValidate, t]);
+    }, [selectedFormatId, selectedFormatSpec, assetToValidate, t, availableFormats]);
 
     const isValidationDisabled = !selectedPlatform || !selectedFormatId || !assetToValidate || isLoading;
+
+    // Create a composite spec for the 'ALL' option to pass to the ValidatorInput.
+    // This tells the input to accept a wide range of file types, covering the most common validation use case.
+    const compositeSpecForAll = useMemo((): AdFormatSpec | null => {
+        if (!selectedPlatform) return null;
+        const allFileTypes = availableFormats.flatMap(f => f.fileTypes || []);
+        return {
+          id: 'all-formats-composite',
+          platform: selectedPlatform,
+          formatNameKey: 'formatSelector.allFormats',
+          generationType: 'asset_ideas', // A non-text type to force file input
+          fileTypes: [...new Set(allFileTypes)],
+          bestPracticesKeys: [],
+        } as AdFormatSpec;
+    }, [selectedPlatform, availableFormats]);
     
     return (
         <div id="validator-panel" role="tabpanel" aria-labelledby="validator-tab">
@@ -89,15 +117,20 @@ export const ValidatorView: React.FC = () => {
                     selectedFormatId={selectedFormatId}
                     onChange={handleFormatChange}
                     disabled={!selectedPlatform}
+                    allowAllOption={true}
                 />
             </div>
 
-            <div className={`disclosure-section ${selectedFormatSpec ? 'expanded' : 'collapsed'} mt-6 space-y-6`}>
-                {selectedFormatSpec && (
-                    <ValidatorInput spec={selectedFormatSpec} onAssetChange={setAssetToValidate} key={selectedFormatId} />
+            <div className={`disclosure-section ${selectedFormatId ? 'expanded' : 'collapsed'} mt-6 space-y-6`}>
+                {selectedFormatId && (
+                    <ValidatorInput 
+                        spec={(selectedFormatId === 'ALL' ? compositeSpecForAll : selectedFormatSpec)!}
+                        onAssetChange={setAssetToValidate} 
+                        key={selectedFormatId} 
+                    />
                 )}
 
-                {selectedFormatSpec && (
+                {selectedFormatId && (
                     <div className="my-8 text-center">
                         <button
                             onClick={handleValidateAsset}
@@ -112,9 +145,9 @@ export const ValidatorView: React.FC = () => {
 
             {isLoading && <LoadingSpinner message={t('validator.loading')} />}
             {error && <ErrorMessage message={error} />}
-            {validationResult && <ValidationResults result={validationResult} />}
+            {validationResults && <ValidationResults results={validationResults} />}
             
-            {selectedFormatSpec && !validationResult && (
+            {selectedFormatSpec && !validationResults && (
                 <SpecsDisplay spec={selectedFormatSpec} />
             )}
         </div>

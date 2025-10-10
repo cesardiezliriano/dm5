@@ -13,11 +13,11 @@ export const Header: React.FC = () => {
       <div className="absolute top-5 right-4">
         <LanguageSwitcher />
       </div>
-      <div className="text-center pt-12 sm:pt-4"> {/* Adjusted padding to move title down */}
-        <h1 className="text-3xl sm:text-4xl font-montserrat font-bold text-[var(--llyc-red)]">
+      <div className="text-center pt-16 sm:pt-6"> {/* Further adjusted padding to move title down */}
+        <h1 className="text-2xl sm:text-3xl font-montserrat font-bold text-[var(--llyc-red)]">
           {t('header.title')}
         </h1>
-        <p className="text-[var(--llyc-gray-2)] font-open-sans mt-3 text-lg">
+        <p className="text-[var(--llyc-gray-2)] font-open-sans mt-2 text-lg">
           {t('header.subtitle')}
         </p>
       </div>

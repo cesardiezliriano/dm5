@@ -1,479 +1,428 @@
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
 
-// Bundled resources to guarantee availability and prevent loading errors.
-const resources = {
-  en: {
-    translation: {
-      "header": {
-        "llycLogo": "LLYC",
-        "title": "Specs & Creatives",
-        "subtitle": "Generate and validate optimized ad creatives with AI.",
-        "langSwitcherLabel": "Language:"
+// English translations
+const en = {
+  "header": {
+    "llycLogo": "LLYC",
+    "title": "Specs & Creatives",
+    "subtitle": "DM 5: Generate and validate optimized ad creatives with AI."
+  },
+  "tabs": {
+    "generator": "Creative Generator",
+    "validator": "Creative Validator"
+  },
+  "platformSelector": {
+    "label": "Advertising Platform",
+    "selectPlaceholder": "Select a Platform"
+  },
+  "formatSelector": {
+    "label": "Ad Format / Creative Type",
+    "selectPlaceholder": "Select a Format",
+    "disabledPlaceholder": "Select a platform first",
+    "allFormats": "All Formats for Platform"
+  },
+  "objectiveInput": {
+    "label": "Campaign Objective (Optional)",
+    "placeholder": "e.g., Increase brand awareness, Drive website traffic, App installs"
+  },
+  "creativeInput": {
+    "label": "Creative Idea / Base Asset Description",
+    "placeholder": "Describe your product, service, target audience, key message, desired style, or any existing assets. For example: 'A minimalist ad for a new eco-friendly coffee brand targeting young professionals. Show a sleek product shot with natural elements.'",
+    "subtext": "The more detail you provide, the better the AI can assist."
+  },
+  "detailedCreativeInput": {
+    "inclusions": {
+      "label": "Mandatory Inclusions (Optional)",
+      "placeholder": "e.g., Brand name 'EcoMornings', the color green, a toucan",
+      "subtext": "Keywords, objects, or themes that must be in the asset."
+    },
+    "exclusions": {
+      "label": "Negative Keywords / Exclusions (Optional)",
+      "placeholder": "e.g., No plastic, no cities, avoid the color red",
+      "subtext": "Keywords, objects, or themes to strictly avoid."
+    }
+  },
+  "assetGenerator": {
+    "buttonText": "✨ Generate Creative Asset"
+  },
+  "loadingSpinner": {
+    "message": "Generating your creative masterpiece..."
+  },
+  "errorMessage": {
+    "prefix": "Oops! An error occurred:",
+    "userErrorPrefix": "Please select a platform, format, and provide a creative idea."
+  },
+  "assetDisplay": {
+    "titlePrefix": "Generated Asset:",
+    "imageAlt": "Generated Creative",
+    "saveImageHint": "Right-click or long-press on the image to save.",
+    "copyTextHint": "You can copy the text above."
+  },
+  "specsDisplay": {
+    "titlePrefix": "Format Details:",
+    "forPlatform": "for",
+    "techSpecsTitle": "Technical Specifications:",
+    "generationTypeLabel": "Generation Type",
+    "dimensionsLabel": "Dimensions",
+    "aspectRatioLabel": "Aspect Ratio",
+    "maxLengthSizeLabel": "Max Length/Size",
+    "fileTypesLabel": "File Types",
+    "maxFileSizeLabel": "Max File Size",
+    "resolutionLabel": "Resolution",
+    "safeZoneLabel": "Safe Zone",
+    "iabEquivalentLabel": "IAB Equivalent",
+    "bestPracticesTitle": "Creative Best Practices:",
+    "noBestPractices": "No specific best practices listed for this format.",
+    "promptGuidanceTitle": "AI Prompt Guidance:",
+    "notesTitle": "Notes:",
+    "ctaButtonRecommendationsLabel": "CTA Button Recommendations"
+  },
+  "footer": {
+    "apiKeyWarning": "Ensure your API_KEY is correctly configured for Gemini API interactions.",
+    "copyright": "Creative Campaign Assistant - LLYC"
+  },
+  "platforms": {
+    "META": "Meta (Instagram/Facebook)",
+    "YOUTUBE": "YouTube Ads",
+    "DV360": "DV360 / DOOH / CTV",
+    "LINKEDIN": "LinkedIn Ads",
+    "TIKTOK": "TikTok Ads",
+    "IAB": "IAB New Ad Portfolio",
+    "GOOGLE_ADS": "Google Ads (Display/Search/Video)",
+    "AMAZON": "Amazon Advertising",
+    "SPOTIFY": "Spotify Ads",
+    "X_TWITTER": "X (Twitter) Ads"
+  },
+  "adFormatNames": {
+    "meta_reels_video_script": "Reels (Video Script/Ideas)",
+    "meta_stories_image": "Stories (Image)",
+    "meta_stories_video_script": "Stories (Video Script/Ideas)",
+    "meta_feed_image": "Feed (Image)",
+    "meta_feed_ad_copy": "Feed (Ad Copy)",
+    "youtube_non_skippable_in_stream_video_script": "Non-Skippable In-Stream Ad (Video Script/Concept)",
+    "youtube_bumper_ad_video_script": "Bumper Ad (Video Script/Concept)",
+    "youtube_trueview_in_stream_video_script": "TrueView In-Stream Ad (Skippable) (Video Script/Concept)",
+    "google_ads_video_action_campaign": "Google Ads: Video Action Campaign (Assets)",
+    "tiktok_in_feed_ad_video_script": "In-Feed Ad (Video Script)",
+    "tiktok_lead_gen_form_concept": "Lead Gen Instant Form (Concept & Questions)",
+    "linkedin_single_image_ad_concept": "Single Image Ad (Image & Copy)",
+    "linkedin_video_ad_script": "Video Ad (Script)",
+    "google_display_ad_image_concept": "Google Ads: Display Ad (Image)",
+    "google_search_ad_copy": "Google Ads: Search Ad (Copy)",
+    "google_ads_performance_max_assets": "Google Ads: Performance Max (Asset Group Ideas)",
+    "iab_digital_video_linear_ad_concept": "IAB: Digital Video Linear Ad (Concept/Script)",
+    "iab_new_ad_portfolio_lean_concept": "IAB: LEAN Ad (Concept)",
+    "dv360_dooh_concept": "DV360: Digital Out-of-Home (DOOH) (Concept)",
+    "dv360_video_concept": "DV360: Video Ad (Script/Concept)",
+    "amazon_sponsored_products_copy": "Amazon: Sponsored Products (Listing Copy)",
+    "amazon_sponsored_brands_headline_logo_concept": "Amazon: Sponsored Brands (Headline & Logo/Image Concept)",
+    "amazon_video_ad_script": "Amazon: Video Ad (Streaming TV / Online Video Script)",
+    "amazon_audio_ad_script": "Amazon: Audio Ad (Script)",
+    "spotify_audio_ad_script": "Spotify: Audio Ad (Script & Concept)",
+    "spotify_video_takeover_script": "Spotify: Video Takeover (Vertical Video Script)",
+    "x_twitter_image_ad_concept": "X/Twitter: Image Ad (Concept & Copy)",
+    "x_twitter_video_ad_script": "X/Twitter: Video Ad (Script)"
+  },
+  "generationTypes": {
+    "image_concept": "Image Concept", "image": "Image", "text": "Text", "video_script": "Video Script", "ad_copy": "Ad Copy", "creative_concept": "Creative Concept", "asset_ideas": "Asset Ideas", "form_concept": "Form Concept", "audio_script": "Audio Script", "listing_copy": "Product Listing Copy"
+  },
+  "fallbackError": "An unexpected error occurred during generation.",
+  "geminiService": { "errors": { "apiKeyMissing": "API_KEY is not configured. Please set the API_KEY environment variable.", "imageGenFailed": "Image generation failed or returned no data.", "textGenFailed": "Text generation failed or returned no data.", "unknown": "An unknown error occurred while communicating with the Gemini API.", "apiKeyInvalid": "Gemini API Error: API Key is invalid or missing, or you lack permissions. Please ensure the API_KEY environment variable is correctly set and valid. Original error: {{originalError}}", "quotaExceeded": "Gemini API Error: You have exceeded your API quota. Please check your usage and limits. Original error: {{originalError}}", "apiError": "Gemini API Error: {{originalError}}" } },
+  "meta_reels_video_script_bp.hook": "Hook in first 3s.", "meta_reels_video_script_bp.trending": "Use trending audio/effects.", "meta_reels_video_script_bp.vertical": "Shoot vertical (9:16).", "meta_reels_video_script_bp.length": "Keep it short (max 90s).", "meta_reels_video_script_bp.cta": "Clear Call to Action.", "meta_reels_video_script_bp.captions": "Use captions/text overlays.", "meta_reels_video_script_pg": "Generate a concept or script for a Meta Reel. Emphasize visual storytelling, a strong hook, and use of native features like trending audio or text overlays. Aim for authenticity and quick engagement.", "meta_ads_guide_general_link": "Refer to Meta Ads Guide for detailed specs.", "meta_stories_image_bp.fullscreen": "Design for fullscreen vertical (9:16).", "meta_stories_image_bp.interactive": "Utilize interactive elements (polls, stickers).", "meta_stories_image_bp.branding": "Clear branding, visible quickly.", "meta_stories_image_bp.compelling": "Compelling visuals, concise text.", "meta_stories_image_pg": "Generate an image for Meta Stories. Focus on vertical, full-screen impact, and opportunities for interactive elements. Visuals should be captivating and messaging brief.", "meta_stories_video_script_bp.fastpaced": "Fast-paced, engaging content.", "meta_stories_video_script_bp.overlays": "Use text overlays and stickers.", "meta_stories_video_script_bp.sound": "Design for sound-on, but make sense sound-off.", "meta_stories_video_script_bp.swipeup": "Include a clear 'Swipe Up' or CTA.", "meta_stories_video_script_pg": "Create a video script for Meta Stories. Emphasize quick, visually engaging scenes, native features like polls or quizzes, and a clear call to action. Max 60 seconds, but 15s often better.", "meta_feed_image_bp.quality": "High-quality, visually appealing image.", "meta_feed_image_bp.minimaltext": "Minimize text on image.", "meta_feed_image_bp.alignbrand": "Align with brand identity.", "meta_feed_image_bp.focalpoint": "Clear focal point.", "meta_feed_image_pg": "Generate an image for Meta Feed. Consider 1:1 or 4:5 aspect ratios. Image should be high quality with minimal text on it. Focus on a clear message and brand alignment.", "meta_feed_ad_copy_bp.valueprop": "Clear value proposition.", "meta_feed_ad_copy_bp.headline": "Compelling headline (40 chars).", "meta_feed_ad_copy_bp.cta": "Strong Call to Action.", "meta_feed_ad_copy_bp.emojis": "Use emojis appropriately.", "meta_feed_ad_copy_bp.concise": "Keep primary text concise (around 125 chars).", "meta_feed_ad_copy_pg": "Write ad copy for Meta Feed. Include a primary text (approx 125 chars), a headline (40 chars), and a link description (30 chars optional). Focus on clarity, value, and a strong CTA.", "youtube_non_skippable_bp.keymessage": "Deliver key message upfront.", "youtube_non_skippable_bp.branding": "Strong branding within first few seconds.", "youtube_non_skippable_bp.visuals": "Compelling visuals.", "youtube_non_skippable_bp.cta_non_skip": "Clear CTA if applicable (though often for awareness).", "youtube_non_skippable_pg": "Generate a video script for a YouTube Non-Skippable In-Stream Ad (max 15-20s). Focus on immediate impact, clear branding, and delivering the core message quickly.", "google_ads_video_specs_link": "Refer to Google Ads Video specifications for details.", "youtube_bumper_bp.shortmemorable": "Short, memorable message (6s).", "youtube_bumper_bp.oneidea": "Focus on a single, simple idea.", "youtube_bumper_bp.visualsbranding": "Strong visuals and branding.", "youtube_bumper_bp.sequence": "Consider using in a sequence.", "youtube_bumper_pg": "Create a script for a YouTube Bumper Ad (6 seconds). It must be concise, impactful, and leave a lasting impression. Focus on one key message or brand element.", "youtube_abcds_effectiveness": "Follow YouTube's ABCD framework for effective ads (Attract, Brand, Connect, Direct).", "google_ads_bumper_specs_link": "Refer to Google Ads Bumper Ad specifications.", "youtube_trueview_instream_bp.hook5s": "Hook viewers in the first 5 seconds.", "youtube_trueview_instream_bp.story": "Tell a compelling story.", "youtube_trueview_instream_bp.showdonttell": "Show, don't just tell.", "youtube_trueview_instream_bp.cta": "Clear Call to Action.", "youtube_trueview_instream_bp.endscreen": "Use end screens effectively.", "youtube_trueview_instream_pg": "Develop a video script for a YouTube Skippable In-Stream Ad. Grab attention in the first 5 seconds. Provide value to encourage viewers not to skip. Include a clear CTA.", "google_ads_skippable_specs_link": "Refer to Google Ads Skippable In-Stream Ad specifications.", "google_ads_video_action_bp.clear_cta": "Prominent and clear call-to-action.", "google_ads_video_action_bp.value_prop": "Highlight value proposition early.", "google_ads_video_action_bp.various_lengths": "Test various video lengths (10s+ recommended).", "google_ads_video_action_pg": "Generate asset ideas (video script, headlines, descriptions) for a Google Ads Video Action Campaign. Focus on driving conversions with clear CTAs and value propositions.", "google_ads_video_action_specs_link": "Refer to Google Ads Video Action Campaign specs.",
+  "validator": {
+    "uploadLabel": "Upload your creative asset",
+    "uploadAction": "Upload a file",
+    "uploadOrDrag": "or drag and drop",
+    "fileTypesHint": "Supports: {{types}}",
+    "textInputLabel": "Paste your text asset",
+    "textInputPlaceholder": "Paste your ad copy, headline, or script here...",
+    "textInputSubtext": "The content will be validated against the selected format's text length specifications.",
+    "validateButton": "🔍 Validate Asset",
+    "loading": "Analyzing your creative...",
+    "errors": {
+      "noAssetOrFormat": "Please select a format and provide an asset to validate."
+    },
+    "results": {
+      "title": "Validation Results",
+      "overallStatus": "Overall Status",
+      "compliant": "Compliant",
+      "nonCompliant": "Non-Compliant",
+      "table": {
+        "spec": "Specification",
+        "expected": "Expected",
+        "actual": "Actual",
+        "status": "Status"
       },
-      "tabs": {
-        "generator": "Creative Generator",
-        "validator": "Creative Validator"
-      },
-      "platformSelector": {
-        "label": "Advertising Platform",
-        "selectPlaceholder": "Select a Platform"
-      },
-      "formatSelector": {
-        "label": "Ad Format / Creative Type",
-        "selectPlaceholder": "Select a Format",
-        "disabledPlaceholder": "Select a platform first"
-      },
-      "objectiveInput": {
-        "label": "Campaign Objective (Optional)",
-        "placeholder": "e.g., Increase brand awareness, Drive website traffic, App installs"
-      },
-      "creativeInput": {
-        "label": "Creative Idea / Base Asset Description",
-        "placeholder": "Describe your product, service, target audience, key message, desired style, or any existing assets. For example: 'A minimalist ad for a new eco-friendly coffee brand targeting young professionals. Show a sleek product shot with natural elements.'",
-        "subtext": "The more detail you provide, the better the AI can assist."
-      },
-      "assetGenerator": {
-        "buttonText": "✨ Generate Creative Asset"
-      },
-      "loadingSpinner": {
-        "message": "Generating your creative masterpiece..."
-      },
-      "errorMessage": {
-        "prefix": "Oops! An error occurred:",
-        "userErrorPrefix": "Please select a platform, format, and provide a creative idea."
-      },
-      "assetDisplay": {
-        "titlePrefix": "Generated Asset:",
-        "imageAlt": "Generated Creative",
-        "saveImageHint": "Right-click or long-press on the image to save.",
-        "copyTextHint": "You can copy the text above."
-      },
-      "specsDisplay": {
-        "titlePrefix": "Format Details:",
-        "forPlatform": "for",
-        "techSpecsTitle": "Technical Specifications:",
-        "generationTypeLabel": "Generation Type",
-        "dimensionsLabel": "Dimensions",
-        "aspectRatioLabel": "Aspect Ratio",
-        "maxLengthSizeLabel": "Max Length/Size",
-        "fileTypesLabel": "File Types",
-        "maxFileSizeLabel": "Max File Size",
-        "resolutionLabel": "Resolution",
-        "safeZoneLabel": "Safe Zone",
-        "iabEquivalentLabel": "IAB Equivalent",
-        "bestPracticesTitle": "Creative Best Practices:",
-        "noBestPractices": "No specific best practices listed for this format.",
-        "promptGuidanceTitle": "AI Prompt Guidance:",
-        "notesTitle": "Notes:",
-        "ctaButtonRecommendationsLabel": "CTA Button Recommendations"
-      },
-      "footer": {
-        "apiKeyWarning": "Ensure your API_KEY is correctly configured for Gemini API interactions.",
-        "copyright": "Creative Campaign Assistant - LLYC"
-      },
-      "validator": {
-        "loading": "Validating your creative...",
-        "validateButton": "🔍 Validate Creative",
-        "uploadLabel": "Upload Creative Asset",
-        "uploadAction": "Upload a file",
-        "uploadOrDrag": "or drag and drop",
-        "fileTypesHint": "File types: {{types}}",
-        "textInputLabel": "Paste Creative Text",
-        "textInputPlaceholder": "Paste your ad copy, script, or other text here to validate its length.",
-        "textInputSubtext": "The system will check the content against the character limits of the selected format.",
-        "results": {
-            "title": "Validation Results",
-            "overallStatus": "Overall Status",
-            "compliant": "Compliant",
-            "nonCompliant": "Non-Compliant",
-            "table": {
-                "spec": "Specification",
-                "expected": "Expected",
-                "actual": "Actual",
-                "status": "Status"
-            },
-            "status": {
-              "ok": "OK",
-              "fail": "Fail"
-            }
-        },
-        "errors": {
-          "noAssetOrFormat": "Please select a format and provide an asset (text or file) to validate.",
-          "imageReadError": "Could not read the image file to check its dimensions. Please try another file."
-        },
-        "spec": {
-            "maxLength": "Max Length",
-            "maxLengthExpected": "{{count}} {{unit}} or less",
-            "maxLengthActual": "{{count}} {{unit}}",
-            "fileType": "File Type",
-            "maxFileSize": "Max File Size",
-            "dimensions": "Dimensions",
-            "aspectRatio": "Aspect Ratio",
-            "resolution": "Min. Resolution",
-            "noSpec": "No applicable technical specs found to validate for this format."
-        }
-      },
-      "helpBotButton": {
-        "tooltip": "Get Help"
-      },
-      "feedbackButton": {
-        "tooltip": "Send Feedback",
-        "emailSubject": "Feedback for {{appName}}",
-        "emailBodyPlaceholder": "Please provide your feedback or report an issue for the {{appName}} application here...\n\n"
-      },
-      "helpBotModal": {
-        "title": "Help Center",
-        "closeButtonAriaLabel": "Close help modal",
-        "topicsListHeader": "Topics",
-        "noTopicSelected": "Select a topic from the list to see the details.",
-        "introduction": "Hello! How can I help you today?",
-        "backToTopics": "Back to Topics"
-      },
-      "helpTopics": {
-        "aboutApp": {
-          "question": "What is this application for?",
-          "answer": "This application helps you <strong>generate creative assets</strong> (like ad copy, image concepts, and video scripts) and <strong>validate them</strong> against the technical specifications of major digital advertising platforms.<br/>It uses AI to streamline the creative process, ensuring your ads are optimized and compliant from the start."
-        },
-        "generatingAssets": {
-          "question": "How do I generate an asset?",
-          "answer": "To generate an asset: <ol class='list-decimal list-inside pl-4 mt-2 space-y-1'><li>Go to the <strong>Creative Generator</strong> tab.</li><li>Select an <strong>Advertising Platform</strong> (e.g., Meta, Google Ads).</li><li>Choose an <strong>Ad Format</strong> (e.g., Instagram Story, Search Ad Copy).</li><li>Optionally, enter a <strong>Campaign Objective</strong>.</li><li>Describe your <strong>Creative Idea</strong> in the text box. Be as detailed as possible for the best results!</li><li>Click <strong>'Generate Creative Asset'</strong> and the AI will create the content for you.</li></ol>"
-        },
-        "validatingAssets": {
-          "question": "How do I validate an asset?",
-          "answer": "To validate an existing creative:<ol class='list-decimal list-inside pl-4 mt-2 space-y-1'><li>Go to the <strong>Creative Validator</strong> tab.</li><li>Select the <strong>Advertising Platform</strong> and <strong>Ad Format</strong> your creative was designed for.</li><li>Depending on the format, either <strong>upload your file</strong> (e.g., JPG, PNG, MP4) or <strong>paste your text</strong> into the input box.</li><li>Click <strong>'Validate Creative'</strong>.</li><li>The results will show a checklist of technical specs and whether your asset passes each one.</li></ol>"
-        },
-        "apiKey": {
-          "question": "How does the API Key work?",
-          "answer": "The application requires a <strong>Google Gemini API Key</strong> to function. This key must be configured in the execution environment as an environment variable named `API_KEY`.<br/><br/><strong>You do not need to enter the key in the app.</strong> It is handled automatically in the backend. If you see errors related to the API Key, please contact the application administrator to ensure it is set up correctly."
-        },
-        "interpretingResults": {
-          "question": "How do I interpret the results?",
-          "answer": "After generating an asset, you will see two main sections:<ul><li class='mt-1'><strong>Generated Asset:</strong> This card shows the creative produced by the AI (an image or text).</li><li class='mt-1'><strong>Format Details:</strong> This card displays the technical specs and best practices for the ad format you selected. You can use this to understand the requirements and guide your creative process.</li></ul><br/>In the <strong>Creative Validator</strong> tab, the results table will show you a direct comparison of your asset against the required specs, with a clear 'OK' or 'Fail' status for each."
-        }
-      },
-      "platforms": {
-        "META": "Meta (Instagram/Facebook)",
-        "YOUTUBE": "YouTube Ads",
-        "DV360": "DV360 / DOOH / CTV",
-        "LINKEDIN": "LinkedIn Ads",
-        "TIKTOK": "TikTok Ads",
-        "IAB": "IAB New Ad Portfolio",
-        "GOOGLE_ADS": "Google Ads (Display/Search/Video)",
-        "AMAZON": "Amazon Advertising",
-        "SPOTIFY": "Spotify Ads",
-        "X_TWITTER": "X (Twitter) Ads"
-      },
-      "adFormatNames": {
-        "meta_reels_video_script": "Reels (Video Script/Ideas)",
-        "meta_stories_image": "Stories (Image)",
-        "meta_stories_video_script": "Stories (Video Script/Ideas)",
-        "meta_feed_image": "Feed (Image)",
-        "meta_feed_video_script": "Feed (Video Script/Ideas)",
-        "meta_feed_ad_copy": "Feed (Ad Copy)",
-        "meta_carousel_ideas": "Carousel (Component Ideas)",
+      "status": {
+        "ok": "OK",
+        "fail": "Fail"
+      }
+    },
+    "spec": {
+        "noSpec": "No specific technical specs to validate for this text format."
+    }
+  },
+  "feedbackButton": {
+    "tooltip": "Send Feedback",
+    "emailSubject": "Feedback for {{appName}}",
+    "emailBodyPlaceholder": "Hi team,\n\nI have some feedback regarding the {{appName}} application:\n\n"
+  },
+  "helpBotButton": {
+    "tooltip": "Get Help"
+  },
+  "helpBotModal": {
+    "title": "Help Center",
+    "closeButtonAriaLabel": "Close help modal",
+    "topicsListHeader": "Topics",
+    "noTopicSelected": "Select a topic from the list to see the answer.",
+    "introduction": "How can we help you today?",
+    "backToTopics": "Back to Topics"
+  },
+  "helpTopics": {
+    "aboutApp": {
+        "question": "What is this application for?",
+        "answer": "<strong>Specs & Creatives</strong> is a tool to help you create and validate advertising materials. <br/>Use the <strong>Creative Generator</strong> to produce images, ad copy, or video scripts with AI. <br/>Use the <strong>Creative Validator</strong> to check if your existing assets meet the technical requirements for different ad platforms."
+    },
+    "generatingAssets": {
+        "question": "How do I generate an asset?",
+        "answer": "1. Go to the 'Creative Generator' tab.<br/>2. Select an <strong>Advertising Platform</strong> (e.g., Meta).<br/>3. Select an <strong>Ad Format</strong> (e.g., Feed Image).<br/>4. Describe your <strong>Creative Idea</strong> in the text box. The more detail, the better!<br/>5. (Optional) Add a campaign objective, mandatory inclusions, or exclusions.<br/>6. Click the 'Generate' button and wait for the AI to create your asset."
+    },
+    "validatingAssets": {
+        "question": "How do I validate an asset?",
+        "answer": "1. Go to the 'Creative Validator' tab.<br/>2. Select the <strong>Platform</strong> and <strong>Format</strong> your asset was designed for. You can also select 'All Formats for Platform' to check against every format.<br/>3. Upload your file (image, video) or paste your text into the input area.<br/>4. Click the 'Validate Asset' button.<br/>5. The results will show a table comparing your asset's properties (like dimensions, file size, or length) against the platform's requirements."
+    },
+    "apiKey": {
+        "question": "Do I need an API key?",
+        "answer": "Yes, this application requires a Google Gemini API key to function. The application is designed to use an `API_KEY` environment variable that should be configured in the environment where it's deployed. If the key is missing or invalid, the generation will fail."
+    },
+    "interpretingResults": {
+        "question": "How do I interpret the validation results?",
+        "answer": "The results table shows a row for each technical specification.<ul><li><strong>Expected:</strong> The requirement from the ad platform.</li><li><strong>Actual:</strong> The property measured from your asset.</li><li><strong>Status:</strong> 'OK' if your asset is compliant, 'Fail' if it is not.</li></ul> The 'Overall Status' at the top tells you if your asset passed all checks."
+    }
+  }
+};
 
-        "youtube_in_stream_video_script": "In-Stream Ad (Video Script/Concept)",
-        "youtube_non_skippable_in_stream_video_script": "Non-Skippable In-Stream Ad (Video Script/Concept)",
-        "youtube_bumper_ad_video_script": "Bumper Ad (Video Script/Concept)",
-        "youtube_masthead_concept": "Masthead (Creative Concept)",
-        "youtube_shorts_video_script": "Shorts (Video Script/Concept)",
-        "youtube_audio_ad_concept": "Audio Ad (Concept/Script)",
-        "youtube_trueview_discovery_ad_copy": "TrueView Discovery Ad (Copy & Thumbnail Idea)",
-        "youtube_trueview_in_stream_video_script": "TrueView In-Stream Ad (Skippable) (Video Script/Concept)",
-        "google_ads_video_action_campaign": "Google Ads: Video Action Campaign (Assets)",
-        "google_ads_video_reach_campaign": "Google Ads: Video Reach Campaign (Assets)",
-        "google_ads_outstream_video_script": "Google Ads: Outstream Video Ad (Script/Concept)",
-
-        "tiktok_in_feed_ad_video_script": "In-Feed Ad (Video Script)",
-        "tiktok_topview_ad_video_script": "TopView Ad (Video Script)",
-        "tiktok_spark_ad_concept": "Spark Ad (Content Idea)",
-        "tiktok_lead_gen_form_concept": "Lead Gen Instant Form (Concept & Questions)",
-
-        "linkedin_single_image_ad_concept": "Single Image Ad (Image & Copy)",
-        "linkedin_carousel_ad_ideas": "Carousel Ad (Component Ideas & Copy)",
-        "linkedin_video_ad_script": "Video Ad (Script)",
-        "linkedin_text_ad_copy": "Text Ad (Copy)",
-        "linkedin_document_ad_concept": "Document Ad (Content Concept)",
-        "linkedin_conversation_ad_concept": "Conversation Ad (Flow/Copy Concept)",
-        "linkedin_event_ad_concept": "Event Ad (Concept/Copy)",
-
-        "google_display_ad_image_concept": "Google Ads: Display Ad (Image)",
-        "google_display_ad_headlines": "Google Ads: Display Ad (Headlines/Descriptions)",
-        "google_search_ad_copy": "Google Ads: Search Ad (Copy)",
-        "google_responsive_display_ad_assets": "Google Ads: Responsive Display Ad (Asset Ideas)",
-        "google_ads_app_campaign_assets": "Google Ads: App Campaign (Asset Ideas)",
-        "google_ads_performance_max_assets": "Google Ads: Performance Max (Asset Group Ideas)",
-        "google_ads_demand_gen_assets": "Google Ads: Demand Gen Campaign (Assets)",
-
-        "iab_digital_video_linear_ad_concept": "IAB: Digital Video Linear Ad (Concept/Script)",
-        "iab_digital_video_non_linear_ad_concept": "IAB: Digital Video Non-Linear Ad (Overlay Concept)",
-        "iab_new_ad_portfolio_lean_concept": "IAB: LEAN Ad (Concept)",
-        "iab_banner_ad_concept": "IAB: Banner Ad (Standard Sizes Concept)",
-        "iab_rich_media_ad_concept": "IAB: Rich Media Ad (Interactive Concept)",
-        "iab_native_ad_concept": "IAB: Native Ad (Content-aligned Concept)",
-
-        "dv360_concept": "DV360: General Creative Concept (Display/Video/Audio)",
-        "dv360_dooh_concept": "DV360: Digital Out-of-Home (DOOH) (Concept)",
-        "dv360_video_concept": "DV360: Video Ad (Script/Concept)",
-
-        "amazon_sponsored_products_copy": "Amazon: Sponsored Products (Listing Copy)",
-        "amazon_sponsored_brands_headline_logo_concept": "Amazon: Sponsored Brands (Headline & Logo/Image Concept)",
-        "amazon_sponsored_display_image_concept": "Amazon: Sponsored Display (Image & Headline)",
-        "amazon_video_ad_script": "Amazon: Video Ad (Streaming TV / Online Video Script)",
-        "amazon_audio_ad_script": "Amazon: Audio Ad (Script)",
-        "amazon_fire_tv_ad_concept": "Amazon: Fire TV Ad (Display/Video Concept)",
-        "amazon_dooh_concept": "Amazon: DOOH (Concept for Digital Billboards)",
-        "amazon_custom_advertising_concept": "Amazon: Custom Advertising Solution (Overall Concept)",
-
-        "spotify_audio_ad_script": "Spotify: Audio Ad (Script & Concept)",
-        "spotify_video_takeover_script": "Spotify: Video Takeover (Vertical Video Script)",
-        "spotify_sponsored_playlist_concept": "Spotify: Sponsored Playlist (Concept & Branding)",
-        "spotify_overlay_ad_concept": "Spotify: Overlay Ad (Display Concept)",
-        "spotify_homepage_takeover_concept": "Spotify: Homepage Takeover (Concept)",
-
-        "x_twitter_image_ad_concept": "X/Twitter: Image Ad (Concept & Copy)",
-        "x_twitter_video_ad_script": "X/Twitter: Video Ad (Script)",
-        "x_twitter_app_card_image_concept": "X/Twitter: Image App Card (Concept & Copy)",
-        "x_twitter_app_card_video_concept": "X/Twitter: Video App Card (Script & Copy)",
-        "x_twitter_carousel_ad_ideas": "X/Twitter: Carousel Ad (Ideas & Copy)",
-        "x_twitter_takeover_ad_concept": "X/Twitter: Takeover Ad (Concept)"
+// Spanish translations
+const es = {
+  "header": {
+    "llycLogo": "LLYC",
+    "title": "Specs & Creatives",
+    "subtitle": "DM 5: Genera y valida creatividades publicitarias optimizadas con IA."
+  },
+  "tabs": {
+    "generator": "Generador Creativo",
+    "validator": "Validador Creativo"
+  },
+  "platformSelector": {
+    "label": "Plataforma Publicitaria",
+    "selectPlaceholder": "Selecciona una Plataforma"
+  },
+  "formatSelector": {
+    "label": "Formato de Anuncio / Tipo de Creatividad",
+    "selectPlaceholder": "Selecciona un Formato",
+    "disabledPlaceholder": "Selecciona una plataforma primero",
+    "allFormats": "Todos los Formatos de la Plataforma"
+  },
+  "objectiveInput": {
+    "label": "Objetivo de Campaña (Opcional)",
+    "placeholder": "Ej: Aumentar notoriedad de marca, Generar tráfico web, Instalaciones de app"
+  },
+  "creativeInput": {
+    "label": "Idea Creativa / Descripción Base del Activo",
+    "placeholder": "Describe tu producto, servicio, público objetivo, mensaje clave, estilo deseado o cualquier activo existente. Por ejemplo: 'Un anuncio minimalista para una nueva marca de café ecológico dirigida a jóvenes profesionales. Mostrar una foto de producto elegante con elementos naturales.'",
+    "subtext": "Cuanto más detalle proporciones, mejor podrá ayudarte la IA."
+  },
+  "detailedCreativeInput": {
+    "inclusions": {
+      "label": "Inclusiones Obligatorias (Opcional)",
+      "placeholder": "Ej: Nombre de marca 'EcoMornings', el color verde, un tucán",
+      "subtext": "Palabras clave, objetos o temas que deben estar en el activo."
+    },
+    "exclusions": {
+      "label": "Palabras Clave Negativas / Exclusiones (Opcional)",
+      "placeholder": "Ej: Nada de plástico, no ciudades, evitar el color rojo",
+      "subtext": "Palabras clave, objetos o temas a evitar estrictamente."
+    }
+  },
+  "assetGenerator": {
+    "buttonText": "✨ Generar Activo Creativo"
+  },
+  "loadingSpinner": {
+    "message": "Generando tu obra maestra creativa..."
+  },
+  "errorMessage": {
+    "prefix": "¡Ups! Ocurrió un error:",
+    "userErrorPrefix": "Por favor, selecciona una plataforma, un formato y proporciona una idea creativa."
+  },
+  "assetDisplay": {
+    "titlePrefix": "Activo Generado:",
+    "imageAlt": "Creatividad Generada",
+    "saveImageHint": "Haz clic derecho o mantén pulsado sobre la imagen para guardarla.",
+    "copyTextHint": "Puedes copiar el texto de arriba."
+  },
+  "specsDisplay": {
+    "titlePrefix": "Detalles del Formato:",
+    "forPlatform": "para",
+    "techSpecsTitle": "Especificaciones Técnicas:",
+    "generationTypeLabel": "Tipo de Generación",
+    "dimensionsLabel": "Dimensiones",
+    "aspectRatioLabel": "Relación de Aspecto",
+    "maxLengthSizeLabel": "Longitud/Tamaño Máx.",
+    "fileTypesLabel": "Tipos de Archivo",
+    "maxFileSizeLabel": "Tamaño Máx. Archivo",
+    "resolutionLabel": "Resolución",
+    "safeZoneLabel": "Zona Segura",
+    "iabEquivalentLabel": "Equivalente IAB",
+    "bestPracticesTitle": "Mejores Prácticas Creativas:",
+    "noBestPractices": "No hay mejores prácticas específicas listadas para este formato.",
+    "promptGuidanceTitle": "Guía para el Prompt de IA:",
+    "notesTitle": "Notas:",
+    "ctaButtonRecommendationsLabel": "Recomendaciones Botón CTA"
+  },
+  "footer": {
+    "apiKeyWarning": "Asegúrate de que tu API_KEY esté configurada correctamente para las interacciones con la API de Gemini.",
+    "copyright": "Asistente de Campañas Creativas - LLYC"
+  },
+  "platforms": {
+    "META": "Meta (Instagram/Facebook)",
+    "YOUTUBE": "YouTube Ads",
+    "DV360": "DV360 / DOOH / CTV",
+    "LINKEDIN": "LinkedIn Ads",
+    "TIKTOK": "TikTok Ads",
+    "IAB": "IAB New Ad Portfolio",
+    "GOOGLE_ADS": "Google Ads (Display/Search/Video)",
+    "AMAZON": "Amazon Advertising",
+    "SPOTIFY": "Spotify Ads",
+    "X_TWITTER": "X (Twitter) Ads"
+  },
+  "adFormatNames": {
+    "meta_reels_video_script": "Reels (Guion/Ideas de Video)",
+    "meta_stories_image": "Stories (Imagen)",
+    "meta_stories_video_script": "Stories (Guion/Ideas de Video)",
+    "meta_feed_image": "Feed (Imagen)",
+    "meta_feed_ad_copy": "Feed (Copy de Anuncio)",
+    "youtube_non_skippable_in_stream_video_script": "Anuncio In-Stream No Saltable (Guion/Concepto de Video)",
+    "youtube_bumper_ad_video_script": "Bumper Ad (Guion/Concepto de Video)",
+    "youtube_trueview_in_stream_video_script": "Anuncio TrueView In-Stream (Saltable) (Guion/Concepto de Video)",
+    "google_ads_video_action_campaign": "Google Ads: Campaña de Vídeo de Acción (Activos)",
+    "tiktok_in_feed_ad_video_script": "Anuncio In-Feed (Guion de Video)",
+    "tiktok_lead_gen_form_concept": "Formulario Instantáneo Lead Gen (Concepto y Preguntas)",
+    "linkedin_single_image_ad_concept": "Anuncio de Imagen Única (Imagen y Copy)",
+    "linkedin_video_ad_script": "Anuncio de Video (Guion)",
+    "google_display_ad_image_concept": "Google Ads: Anuncio de Display (Imagen)",
+    "google_search_ad_copy": "Google Ads: Anuncio de Búsqueda (Copy)",
+    "google_ads_performance_max_assets": "Google Ads: Máximo Rendimiento (Ideas para Grupos de Activos)",
+    "iab_digital_video_linear_ad_concept": "IAB: Anuncio Lineal de Video Digital (Concepto/Guion)",
+    "iab_new_ad_portfolio_lean_concept": "IAB: Anuncio LEAN (Concepto)",
+    "dv360_dooh_concept": "DV360: Digital Out-of-Home (DOOH) (Concepto)",
+    "dv360_video_concept": "DV360: Anuncio de Video (Guion/Concepto)",
+    "amazon_sponsored_products_copy": "Amazon: Sponsored Products (Copy de Listing)",
+    "amazon_sponsored_brands_headline_logo_concept": "Amazon: Sponsored Brands (Concepto Titular y Logo/Imagen)",
+    "amazon_video_ad_script": "Amazon: Anuncio de Video (Streaming TV / Video Online - Guion)",
+    "amazon_audio_ad_script": "Amazon: Anuncio de Audio (Guion)",
+    "spotify_audio_ad_script": "Spotify: Anuncio de Audio (Guion y Concepto)",
+    "spotify_video_takeover_script": "Spotify: Video Takeover (Guion Video Vertical)",
+    "x_twitter_image_ad_concept": "X/Twitter: Anuncio con Imagen (Concepto y Copy)",
+    "x_twitter_video_ad_script": "X/Twitter: Anuncio de Video (Guion)"
+  },
+  "generationTypes": {
+    "image_concept": "Concepto de Imagen", "image": "Imagen", "text": "Texto", "video_script": "Guion de Video", "ad_copy": "Copy de Anuncio", "creative_concept": "Concepto Creativo", "asset_ideas": "Ideas de Activos", "form_concept": "Concepto de Formulario", "audio_script": "Guion de Audio", "listing_copy": "Copy de Ficha de Producto"
+  },
+  "fallbackError": "Ocurrió un error inesperado durante la generación.",
+  "geminiService": { "errors": { "apiKeyMissing": "API_KEY no está configurada. Por favor, establece la variable de entorno API_KEY.", "imageGenFailed": "La generación de imagen falló o no devolvió datos.", "textGenFailed": "La generación de texto falló o no devolvió datos.", "unknown": "Ocurrió un error desconocido al comunicarse con la API de Gemini.", "apiKeyInvalid": "Error API Gemini: La API Key es inválida, no existe o careces de permisos. Asegúrate de que la variable de entorno API_KEY está correctamente configurada y es válida. Error original: {{originalError}}", "quotaExceeded": "Error API Gemini: Has excedido tu cuota de API. Por favor, revisa tu uso y límites. Error original: {{originalError}}", "apiError": "Error API Gemini: {{originalError}}" } },
+  "meta_reels_video_script_bp.hook": "Engancha en los primeros 3s.", "meta_reels_video_script_bp.trending": "Usa audio/efectos en tendencia.", "meta_reels_video_script_bp.vertical": "Graba en vertical (9:16).", "meta_reels_video_script_bp.length": "Sé breve (máx 90s).", "meta_reels_video_script_bp.cta": "Llamada a la Acción clara.", "meta_reels_video_script_bp.captions": "Usa subtítulos/texto superpuesto.", "meta_reels_video_script_pg": "Genera un concepto o guion para un Reel de Meta. Enfatiza la narración visual, un gancho fuerte y el uso de funciones nativas como audio en tendencia o superposiciones de texto. Busca autenticidad y engagement rápido.", "meta_ads_guide_general_link": "Consulta la Guía de Anuncios de Meta para especificaciones detalladas.", "meta_stories_image_bp.fullscreen": "Diseña para vertical a pantalla completa (9:16).", "meta_stories_image_bp.interactive": "Utiliza elementos interactivos (encuestas, stickers).", "meta_stories_image_bp.branding": "Branding claro, visible rápidamente.", "meta_stories_image_bp.compelling": "Visuales atractivos, texto conciso.", "meta_stories_image_pg": "Genera una imagen para Meta Stories. Enfócate en el impacto vertical a pantalla completa y oportunidades para elementos interactivos. Los visuales deben ser cautivadores y el mensaje breve.", "meta_stories_video_script_bp.fastpaced": "Contenido rápido y atractivo.", "meta_stories_video_script_bp.overlays": "Usa superposiciones de texto y stickers.", "meta_stories_video_script_bp.sound": "Diseña para sonido activado, pero que tenga sentido sin sonido.", "meta_stories_video_script_bp.swipeup": "Incluye un 'Desliza hacia arriba' o CTA claro.", "meta_stories_video_script_pg": "Crea un guion de video para Meta Stories. Enfatiza escenas rápidas y visualmente atractivas, funciones nativas como encuestas o quizzes, y una llamada a la acción clara. Máx 60 segundos, pero 15s suele ser mejor.", "meta_feed_image_bp.quality": "Imagen de alta calidad y visualmente atractiva.", "meta_feed_image_bp.minimaltext": "Minimiza el texto en la imagen.", "meta_feed_image_bp.alignbrand": "Alinea con la identidad de marca.", "meta_feed_image_bp.focalpoint": "Punto focal claro.", "meta_feed_image_pg": "Genera una imagen para el Feed de Meta. Considera relaciones de aspecto 1:1 o 4:5. La imagen debe ser de alta calidad con texto mínimo sobre ella. Enfócate en un mensaje claro y alineación de marca.", "meta_feed_ad_copy_bp.valueprop": "Propuesta de valor clara.", "meta_feed_ad_copy_bp.headline": "Titular atractivo (40 car.).", "meta_feed_ad_copy_bp.cta": "Llamada a la Acción fuerte.", "meta_feed_ad_copy_bp.emojis": "Usa emojis apropiadamente.", "meta_feed_ad_copy_bp.concise": "Mantén el texto principal conciso (alrededor de 125 car.).", "meta_feed_ad_copy_pg": "Escribe un copy para un anuncio de Feed de Meta. Incluye un texto principal (aprox 125 car.), un titular (40 car.) y una descripción del enlace (30 car. opcional). Enfócate en claridad, valor y una CTA fuerte.", "youtube_non_skippable_bp.keymessage": "Entrega el mensaje clave al inicio.", "youtube_non_skippable_bp.branding": "Branding fuerte en los primeros segundos.", "youtube_non_skippable_bp.visuals": "Visuales atractivos.", "youtube_non_skippable_bp.cta_non_skip": "CTA claro si aplica (aunque suele ser para notoriedad).", "youtube_non_skippable_pg": "Genera un guion para un anuncio In-Stream No Saltable de YouTube (máx 15-20s). Enfócate en impacto inmediato, branding claro y entrega rápida del mensaje central.", "google_ads_video_specs_link": "Consulta las especificaciones de Vídeo de Google Ads para detalles.", "youtube_bumper_bp.shortmemorable": "Mensaje corto y memorable (6s).", "youtube_bumper_bp.oneidea": "Enfócate en una idea simple y única.", "youtube_bumper_bp.visualsbranding": "Visuales y branding fuertes.", "youtube_bumper_bp.sequence": "Considera usar en secuencia.", "youtube_bumper_pg": "Crea un guion para un Bumper Ad de YouTube (6 segundos). Debe ser conciso, impactante y dejar una impresión duradera. Enfócate en un mensaje clave o elemento de marca.", "youtube_abcds_effectiveness": "Sigue el framework ABCD de YouTube para anuncios efectivos (Atraer, Brandear, Conectar, Dirigir).", "google_ads_bumper_specs_link": "Consulta las especificaciones de Bumper Ads de Google Ads.", "youtube_trueview_instream_bp.hook5s": "Engancha a los espectadores en los primeros 5 segundos.", "youtube_trueview_instream_bp.story": "Cuenta una historia atractiva.", "youtube_trueview_instream_bp.showdonttell": "Muestra, no solo cuentes.", "youtube_trueview_instream_bp.cta": "Llamada a la Acción clara.", "youtube_trueview_instream_bp.endscreen": "Usa las pantallas finales eficazmente.", "youtube_trueview_instream_pg": "Desarrolla un guion para un anuncio In-Stream Saltable de YouTube. Capta la atención en los primeros 5 segundos. Proporciona valor para animar a los espectadores a no saltar. Incluye una CTA clara.", "google_ads_skippable_specs_link": "Consulta las especificaciones de Anuncios In-Stream Saltables de Google Ads.", "google_ads_video_action_bp.clear_cta": "Llamada a la acción prominente y clara.", "google_ads_video_action_bp.value_prop": "Destaca la propuesta de valor pronto.", "google_ads_video_action_bp.various_lengths": "Prueba varias duraciones de video (10s+ recomendado).", "google_ads_video_action_pg": "Genera ideas de activos (guion de video, titulares, descripciones) para una Campaña de Vídeo de Acción de Google Ads. Enfócate en impulsar conversiones con CTAs claras y propuestas de valor.", "google_ads_video_action_specs_link": "Consulta las especificaciones de Campañas de Vídeo de Acción de Google Ads.",
+  "validator": {
+    "uploadLabel": "Sube tu activo creativo",
+    "uploadAction": "Sube un archivo",
+    "uploadOrDrag": "o arrastra y suelta",
+    "fileTypesHint": "Soportados: {{types}}",
+    "textInputLabel": "Pega tu activo de texto",
+    "textInputPlaceholder": "Pega aquí el copy de tu anuncio, titular o guion...",
+    "textInputSubtext": "El contenido se validará según las especificaciones de longitud del formato seleccionado.",
+    "validateButton": "🔍 Validar Activo",
+    "loading": "Analizando tu creatividad...",
+    "errors": {
+      "noAssetOrFormat": "Por favor, selecciona un formato y proporciona un activo para validar."
+    },
+    "results": {
+      "title": "Resultados de la Validación",
+      "overallStatus": "Estado General",
+      "compliant": "Cumple",
+      "nonCompliant": "No Cumple",
+      "table": {
+        "spec": "Especificación",
+        "expected": "Esperado",
+        "actual": "Actual",
+        "status": "Estado"
       },
-      "generationTypes": {
-        "image_concept": "Image Concept",
-        "image": "Image",
-        "text": "Text",
-        "video_script": "Video Script",
-        "ad_copy": "Ad Copy",
-        "creative_concept": "Creative Concept",
-        "asset_ideas": "Asset Ideas",
-        "form_concept": "Form Concept",
-        "audio_script": "Audio Script",
-        "listing_copy": "Product Listing Copy"
-      },
-      "fallbackError": "An unexpected error occurred during generation.",
-      "geminiService": {
-        "errors": {
-          "apiKeyMissing": "API_KEY is not configured. Please set the API_KEY environment variable.",
-          "imageGenFailed": "Image generation failed or returned no data.",
-          "textGenFailed": "Text generation failed or returned no data.",
-          "unknown": "An unknown error occurred while communicating with the Gemini API.",
-          "apiKeyInvalid": "Gemini API Error: API Key is invalid or missing, or you lack permissions. Please ensure the API_KEY environment variable is correctly set and valid. Original error: {{originalError}}",
-          "quotaExceeded": "Gemini API Error: You have exceeded your API quota. Please check your usage and limits. Original error: {{originalError}}",
-          "apiError": "Gemini API Error: {{originalError}}"
-        }
-      },
-      "meta_reels_video_script_bp.hook": "Hook in first 3s.",
-      "meta_reels_video_script_bp.trending": "Use trending audio/effects.",
-      "meta_reels_video_script_bp.vertical": "Shoot vertical (9:16).",
-      "meta_reels_video_script_bp.length": "Keep it short (max 90s).",
-      "meta_reels_video_script_bp.cta": "Clear Call to Action.",
-      "meta_reels_video_script_bp.captions": "Use captions/text overlays.",
-      "meta_reels_video_script_pg": "Generate a concept or script for a Meta Reel. Emphasize visual storytelling, a strong hook, and use of native features like trending audio or text overlays. Aim for authenticity and quick engagement.",
-      "meta_ads_guide_general_link": "Refer to Meta Ads Guide for detailed specs.",
-      "meta_stories_image_bp.fullscreen": "Design for fullscreen vertical (9:16).",
-      "meta_stories_image_bp.interactive": "Utilize interactive elements (polls, stickers).",
-      "meta_stories_image_bp.branding": "Clear branding, visible quickly.",
-      "meta_stories_image_bp.compelling": "Compelling visuals, concise text.",
-      "meta_stories_image_pg": "Generate an image for Meta Stories. Focus on vertical, full-screen impact, and opportunities for interactive elements. Visuals should be captivating and messaging brief.",
-      "meta_stories_video_script_bp.fastpaced": "Fast-paced, engaging content.",
-      "meta_stories_video_script_bp.overlays": "Use text overlays and stickers.",
-      "meta_stories_video_script_bp.sound": "Design for sound-on, but make sense sound-off.",
-      "meta_stories_video_script_bp.swipeup": "Include a clear 'Swipe Up' or CTA.",
-      "meta_stories_video_script_pg": "Create a video script for Meta Stories. Emphasize quick, visually engaging scenes, native features like polls or quizzes, and a clear call to action. Max 60 seconds, but 15s often better.",
-      "meta_feed_image_bp.quality": "High-quality, visually appealing image.",
-      "meta_feed_image_bp.minimaltext": "Minimize text on image.",
-      "meta_feed_image_bp.alignbrand": "Align with brand identity.",
-      "meta_feed_image_bp.focalpoint": "Clear focal point.",
-      "meta_feed_image_pg": "Generate an image for Meta Feed. Consider 1:1 or 4:5 aspect ratios. Image should be high quality with minimal text on it. Focus on a clear message and brand alignment.",
-      "meta_feed_ad_copy_bp.valueprop": "Clear value proposition.",
-      "meta_feed_ad_copy_bp.headline": "Compelling headline (40 chars).",
-      "meta_feed_ad_copy_bp.cta": "Strong Call to Action.",
-      "meta_feed_ad_copy_bp.emojis": "Use emojis appropriately.",
-      "meta_feed_ad_copy_bp.concise": "Keep primary text concise (around 125 chars).",
-      "meta_feed_ad_copy_pg": "Write ad copy for Meta Feed. Include a primary text (approx 125 chars), a headline (40 chars), and a link description (30 chars optional). Focus on clarity, value, and a strong CTA.",
-      "youtube_non_skippable_bp.keymessage": "Deliver key message upfront.",
-      "youtube_non_skippable_bp.branding": "Strong branding within first few seconds.",
-      "youtube_non_skippable_bp.visuals": "Compelling visuals.",
-      "youtube_non_skippable_bp.cta_non_skip": "Clear CTA if applicable (though often for awareness).",
-      "youtube_non_skippable_pg": "Generate a video script for a YouTube Non-Skippable In-Stream Ad (max 15-20s). Focus on immediate impact, clear branding, and delivering the core message quickly.",
-      "google_ads_video_specs_link": "Refer to Google Ads Video specifications for details.",
-      "youtube_bumper_bp.shortmemorable": "Short, memorable message (6s).",
-      "youtube_bumper_bp.oneidea": "Focus on a single, simple idea.",
-      "youtube_bumper_bp.visualsbranding": "Strong visuals and branding.",
-      "youtube_bumper_bp.sequence": "Consider using in a sequence.",
-      "youtube_bumper_pg": "Create a script for a YouTube Bumper Ad (6 seconds). It must be concise, impactful, and leave a lasting impression. Focus on one key message or brand element.",
-      "youtube_abcds_effectiveness": "Follow YouTube's ABCD framework for effective ads (Attract, Brand, Connect, Direct).",
-      "google_ads_bumper_specs_link": "Refer to Google Ads Bumper Ad specifications.",
-      "youtube_trueview_instream_bp.hook5s": "Hook viewers in the first 5 seconds.",
-      "youtube_trueview_instream_bp.story": "Tell a compelling story.",
-      "youtube_trueview_instream_bp.showdonttell": "Show, don't just tell.",
-      "youtube_trueview_instream_bp.cta": "Clear Call to Action.",
-      "youtube_trueview_instream_bp.endscreen": "Use end screens effectively.",
-      "youtube_trueview_instream_pg": "Develop a video script for a YouTube Skippable In-Stream Ad. Grab attention in the first 5 seconds. Provide value to encourage viewers not to skip. Include a clear CTA.",
-      "google_ads_skippable_specs_link": "Refer to Google Ads Skippable In-Stream Ad specifications.",
-      "google_ads_video_action_bp.clear_cta": "Prominent and clear call-to-action.",
-      "google_ads_video_action_bp.value_prop": "Highlight value proposition early.",
-      "google_ads_video_action_bp.various_lengths": "Test various video lengths (10s+ recommended).",
-      "google_ads_video_action_pg": "Generate asset ideas (video script, headlines, descriptions) for a Google Ads Video Action Campaign. Focus on driving conversions with clear CTAs and value propositions.",
-      "google_ads_video_action_specs_link": "Refer to Google Ads Video Action Campaign specs.",
-
-      "tiktok_infeed_bp.nativelook": "Authentic, native-looking content.",
-      "tiktok_infeed_bp.ugc": "Consider User-Generated Content style.",
-      "tiktok_infeed_bp.hook3s": "Hook in the first 1-3 seconds.",
-      "tiktok_infeed_bp.trends": "Leverage trending sounds/challenges (if appropriate).",
-      "tiktok_infeed_bp.ctaontext": "Use on-screen text for CTA.",
-      "tiktok_bp_sound_on": "Sound-on is critical; use music/voiceover effectively.",
-      "tiktok_bp_vertical_video": "Always vertical (9:16).",
-      "tiktok_infeed_pg": "Create a video script for a TikTok In-Feed Ad. Emphasize authenticity, quick hooks, vertical format, and sound. Consider current trends. Aim for 9-15 seconds.",
-      "tiktok_ads_guide_link": "Refer to TikTok Ads Guide for specs.",
-      "tiktok_leadgen_bp.offer": "Clear and compelling offer.",
-      "tiktok_leadgen_bp.minimalfields": "Keep form fields minimal.",
-      "tiktok_leadgen_bp.compellingcopy": "Compelling ad copy driving to the form.",
-      "tiktok_leadgen_bp.visuals": "Visually appealing ad creative.",
-      "tiktok_leadgen_pg": "Design a concept for a TikTok Lead Gen Instant Form. Specify the offer, ad copy, and essential, minimal form fields. Ensure it's enticing and easy to complete.",
-      "tiktok_ads_lead_gen_link": "Refer to TikTok Lead Gen Ad specs.",
-
-      "linkedin_singleimage_bp.professionalimage": "High-quality, professional image.",
-      "linkedin_singleimage_bp.valuepropcopy": "Clear value proposition in copy.",
-      "linkedin_singleimage_bp.targetedmessaging": "Targeted messaging for professionals.",
-      "linkedin_singleimage_bp.strongcta": "Strong and relevant Call to Action.",
-      "linkedin_bp_clear_headline": "Clear, concise headline (max 70 chars recommended).",
-      "linkedin_bp_concise_intro_text": "Introductory text (max 150 chars recommended).",
-      "linkedin_singleimage_pg": "Generate an image and ad copy (intro text, headline) for a LinkedIn Single Image Ad. Focus on professionalism, clear value, and a targeted message for a B2B audience.",
-      "linkedin_ads_guide_image_link": "Refer to LinkedIn Single Image Ad specifications.",
-      "linkedin_video_bp.capture_attention_early": "Capture attention in the first few seconds.",
-      "linkedin_video_bp.design_for_sound_off": "Design for sound-off viewing (use captions).",
-      "linkedin_video_bp.clear_narrative": "Clear narrative or message.",
-      "linkedin_video_bp.strong_cta_video": "Include a strong Call to Action.",
-      "linkedin_bp_show_what_you_do": "Showcase expertise, solutions, or industry insights.",
-      "linkedin_video_pg": "Create a video script for a LinkedIn Video Ad. Aim for short, impactful content (<30s often best). Design for sound-off viewing initially. Focus on professional value.",
-      "linkedin_ads_guide_video_link": "Refer to LinkedIn Video Ad specifications.",
-
-      "google_display_bp.appealingclear": "Visually appealing and clear message.",
-      "google_display_bp.strongbranding": "Strong branding.",
-      "google_display_bp.concisemessage": "Concise message.",
-      "google_display_bp.clearcta_display": "Clear Call to Action.",
-      "google_display_bp.policies": "Adhere to Google Ads policies.",
-      "google_display_bp_landing_page_relevance": "Ensure landing page relevance.",
-      "google_display_pg": "Generate an image for a Google Display Ad (e.g., 300x250). Focus on visual appeal, clear branding, concise messaging, and a strong CTA.",
-      "google_ads_display_specs_link": "Refer to Google Ads Display Ad specifications.",
-      "google_search_bp.keywords": "Include relevant keywords.",
-      "google_search_bp.usps": "Highlight Unique Selling Propositions (USPs).",
-      "google_search_bp.strongcta_search": "Strong Call to Action.",
-      "google_search_bp.extensions": "Utilize ad extensions.",
-      "google_search_bp.matchlandingpage": "Match ad copy to landing page.",
-      "google_search_bp_pinning_assets": "Consider pinning headlines/descriptions in RSAs.",
-      "google_search_pg": "Write ad copy for Google Search Ads (Responsive Search Ad format). Provide multiple headlines (30 chars each) and descriptions (90 chars each) focusing on keywords, USPs, and CTAs.",
-      "google_ads_search_specs_link": "Refer to Google Ads Search Ad specifications.",
-      "google_pmax_bp.provide_variety_assets": "Provide a wide variety of high-quality text, image, and video assets.",
-      "google_pmax_bp.high_quality_creative": "Ensure all creative assets are high quality and diverse.",
-      "google_pmax_bp.audience_signals": "Align assets with audience signals provided.",
-      "google_pmax_bp.refresh_creatives": "Plan to refresh creatives regularly.",
-      "google_ads_pmax_pg": "Generate a diverse set of asset ideas (headlines, long headlines, descriptions, image concepts, video concepts) for a Google Performance Max campaign. Assets should cover different angles and benefits.",
-      "google_ads_pmax_specs_link": "Refer to Google Ads Performance Max asset specifications.",
-
-      "iab_linearvideo_bp.soundon": "Assume sound-on for engagement.",
-      "iab_linearvideo_bp.skippable": "If skippable, make first seconds count.",
-      "iab_linearvideo_bp.brandingmessaging": "Clear branding and message.",
-      "iab_linearvideo_bp.controls": "Be aware of user controls.",
-      "iab_lean_principles": "Apply IAB LEAN principles (Light, Encrypted, AdChoices, Non-invasive).",
-      "iab_new_ad_portfolio_link": "Refer to IAB New Ad Portfolio Guidelines.",
-      "iab_linearvideo_pg": "Develop a video script concept for an IAB standard linear video ad. Consider skippable/non-skippable nature. Apply LEAN principles.",
-      "iab_lean_bp.userexp": "Prioritize user experience.",
-      "iab_lean_bp.fastload": "Ensure fast load times.",
-      "iab_lean_bp.respect_user_choice": "Respect user choice (e.g., close button).",
-      "iab_lean_guide_link": "Refer to IAB LEAN Ad Guidelines.",
-      "iab_lean_pg": "Generate a creative concept for an IAB LEAN Ad. Focus on being lightweight, fast-loading, non-intrusive, and respecting user experience.",
-
-      "dv360_dooh_bp.bold_visuals": "Bold, simple visuals.",
-      "dv360_dooh_bp.minimal_text": "Minimal text, legible from a distance.",
-      "dv360_dooh_bp.context_awareness": "Consider context (time, location, weather if dynamic).",
-      "dv360_dooh_bp.clear_branding": "Clear and quick branding.",
-      "dv360_dooh_bp.dynamic_capabilities": "Leverage dynamic capabilities if applicable.",
-      "dv360_dooh_support_link": "Refer to DV360 DOOH support for specific partner specs.",
-      "dv360_dooh_pg": "Create a concept for a Digital Out-of-Home (DOOH) ad via DV360. Focus on high-impact visuals, minimal text, and quick brand recognition. Consider potential for dynamic content.",
-      "dv360_video_bp.hook_early": "Hook audience in the first few seconds.",
-      "dv360_video_bp.sound_off_design": "Design for sound off primarily (use captions/visuals).",
-      "dv360_video_bp.branding_prominent": "Prominent branding throughout.",
-      "dv360_video_bp.clear_cta_dv_video": "Clear Call To Action if applicable.",
-      "dv360_video_bp.mobile_first_consideration": "Consider mobile-first viewing for many placements.",
-      "dv360_video_best_practices_link_es": "Refer to Google Video Best Practices (relevant for DV360).",
-      "dv360_video_pg": "Generate a video script/concept for DV360. Adhere to general video best practices like strong hooks, designing for sound-off, and clear branding. Consider various placements.",
-      
-      "amazon_sp_bp.keyword_rich_title": "Keyword-rich and clear product title.",
-      "amazon_sp_bp.benefit_driven_bullets": "Benefit-driven bullet points.",
-      "amazon_sp_bp.clear_description": "Clear and informative product description.",
-      "amazon_sp_bp.high_quality_images_concept": "Concept for high-quality product images (though this is copy focused).",
-      "amazon_sp_link": "Refer to Amazon Sponsored Products guidelines.",
-      "amazon_sp_pg": "Optimize product listing copy (title, bullet points, description) for Amazon Sponsored Products. Focus on keywords, benefits, and clarity to improve conversion.",
-      "amazon_sb_bp.compelling_headline": "Compelling and relevant headline.",
-      "amazon_sb_bp.consistent_branding": "Consistent branding (logo).",
-      "amazon_sb_bp.feature_multiple_products": "Showcase a range of relevant products.",
-      "amazon_sb_bp.landing_page_relevance": "Ensure landing page (e.g., Store) relevance.",
-      "amazon_sb_link": "Refer to Amazon Sponsored Brands guidelines.",
-      "amazon_sb_pg": "Develop a headline and concept for an Amazon Sponsored Brands ad. Include ideas for custom image/logo and featured products. Focus on brand visibility and product discoverability.",
-      "amazon_video_bp.clear_message_video": "Clear and concise message.",
-      "amazon_video_bp.high_quality_production": "High-quality video production.",
-      "amazon_video_bp.prominent_branding_video": "Prominent branding.",
-      "amazon_video_bp.relevant_cta_video": "Relevant Call to Action.",
-      "amazon_video_specs_link": "Refer to Amazon Video Ad specifications.",
-      "amazon_video_pg": "Create a video script for Amazon Video Ads (Streaming TV / Online Video). Focus on high quality, clear messaging, and prominent branding. Typically 15s or 30s.",
-      "amazon_audio_bp.clear_voiceover": "Clear and professional voiceover.",
-      "amazon_audio_bp.engaging_script": "Engaging and concise script.",
-      "amazon_audio_bp.mention_brand_early": "Mention brand name early and clearly.",
-      "amazon_audio_bp.specific_cta_audio": "Specific Call to Action (e.g., 'Ask Alexa...').",
-      "amazon_audio_link": "Refer to Amazon Audio Ad guidelines.",
-      "amazon_audio_pg": "Write a script for an Amazon Audio Ad (10-30s). Focus on clear voiceover, engaging content, and a specific CTA, possibly involving Alexa.",
-
-      "spotify_audio_bp.speak_to_listener": "Speak directly to the listener in a conversational tone.",
-      "spotify_audio_bp.clear_cta_audio": "Clear and simple Call to Action.",
-      "spotify_audio_bp.create_scene_sound": "Use sound effects/music to create a scene.",
-      "spotify_audio_bp.music_selection_important": "Music selection can enhance message.",
-      "spotify_audio_bp.voice_actor_match": "Voice actor should match brand and message.",
-      "spotify_audio_specs_link": "Refer to Spotify Audio Ad specifications.",
-      "spotify_audio_pg": "Generate an audio ad script (max 30s) for Spotify. Focus on conversational tone, clear CTA, and using sound effectively to paint a picture. Include companion image concept if applicable.",
-      "spotify_video_bp.sound_on_experience": "Optimize for a sound-on experience.",
-      "spotify_video_bp.vertical_first": "Vertical video (9:16) is key.",
-      "spotify_video_bp.quick_cuts_engaging": "Use quick cuts and keep it engaging.",
-      "spotify_video_bp.brand_early_often": "Show brand early and often.",
-      "spotify_video_specs_link": "Refer to Spotify Video Ad specifications.",
-      "spotify_video_pg": "Create a video script for Spotify Vertical Video Takeover (max 30s). Design for sound-on, 9:16 aspect ratio, and fast-paced engagement. Highlight brand clearly.",
-
-      "x_image_bp.visually_compelling": "Visually compelling image.",
-      "x_image_bp.minimal_text_on_image": "Minimal text on the image itself.",
-      "x_image_bp.clear_branding_x": "Clear branding in image or Tweet copy.",
-      "x_image_bp.concise_tweet_copy": "Concise and engaging Tweet copy (280 chars).",
-      "x_image_bp.relevant_hashtags": "Use 1-2 relevant hashtags.",
-      "x_ads_creative_specs_link": "Refer to X (Twitter) Ads creative specifications.",
-      "x_image_pg": "Generate Tweet copy (max 280 chars) and an image for an X (Twitter) Promoted Ad. Focus on concise messaging, a strong visual, and relevant hashtags.",
-      "x_video_bp.hook_first_3s": "Hook viewers in the first 3 seconds.",
-      "x_video_bp.brand_prominently_video": "Brand prominently, ideally early.",
-      "x_video_bp.captions_sound_off": "Use captions; design for sound-off.",
-      "x_video_bp.clear_cta_x_video": "Clear Call to Action in Tweet copy or video.",
-      "x_video_bp.mobile_optimized_video": "Optimize for mobile viewing.",
-      "x_video_pg": "Create a video script for an X (Twitter) Promoted Video Ad (recommended <15s, max 2m20s). Focus on a strong hook, captions for sound-off, and clear branding."
+      "status": {
+        "ok": "OK",
+        "fail": "Fallo"
+      }
+    },
+    "spec": {
+        "noSpec": "No hay especificaciones técnicas específicas para validar en este formato de texto."
+    }
+  },
+  "feedbackButton": {
+    "tooltip": "Enviar Feedback",
+    "emailSubject": "Feedback para {{appName}}",
+    "emailBodyPlaceholder": "Hola equipo,\n\nTengo algunas sugerencias sobre la aplicación {{appName}}:\n\n"
+  },
+  "helpBotButton": {
+    "tooltip": "Obtener Ayuda"
+  },
+  "helpBotModal": {
+    "title": "Centro de Ayuda",
+    "closeButtonAriaLabel": "Cerrar modal de ayuda",
+    "topicsListHeader": "Temas",
+    "noTopicSelected": "Selecciona un tema de la lista para ver la respuesta.",
+    "introduction": "¿En qué podemos ayudarte?",
+    "backToTopics": "Volver a Temas"
+  },
+  "helpTopics": {
+    "aboutApp": {
+        "question": "¿Para qué sirve esta aplicación?",
+        "answer": "<strong>Specs & Creatives</strong> es una herramienta para ayudarte a crear y validar materiales publicitarios. <br/>Usa el <strong>Generador Creativo</strong> para producir imágenes, copys o guiones de vídeo con IA. <br/>Usa el <strong>Validador Creativo</strong> para comprobar si tus activos existentes cumplen los requisitos técnicos de las diferentes plataformas publicitarias."
+    },
+    "generatingAssets": {
+        "question": "¿Cómo genero un activo?",
+        "answer": "1. Ve a la pestaña 'Generador Creativo'.<br/>2. Selecciona una <strong>Plataforma Publicitaria</strong> (ej. Meta).<br/>3. Selecciona un <strong>Formato de Anuncio</strong> (ej. Imagen para Feed).<br/>4. Describe tu <strong>Idea Creativa</strong> en el cuadro de texto. ¡Cuanto más detalle, mejor!<br/>5. (Opcional) Añade un objetivo de campaña, inclusiones obligatorias o exclusiones.<br/>6. Haz clic en el botón 'Generar' y espera a que la IA cree tu activo."
+    },
+    "validatingAssets": {
+        "question": "¿Cómo valido un activo?",
+        "answer": "1. Ve a la pestaña 'Validador Creativo'.<br/>2. Selecciona la <strong>Plataforma</strong> y el <strong>Formato</strong> para el que fue diseñado tu activo. También puedes seleccionar 'Todos los Formatos' para comprobarlo con todos los de la plataforma.<br/>3. Sube tu archivo (imagen, vídeo) o pega tu texto en el área de entrada.<br/>4. Haz clic en el botón 'Validar Activo'.<br/>5. Los resultados mostrarán una tabla comparando las propiedades de tu activo (como dimensiones, tamaño de archivo o longitud) con los requisitos de la plataforma."
+    },
+    "apiKey": {
+        "question": "¿Necesito una clave de API?",
+        "answer": "Sí, esta aplicación requiere una clave de API de Google Gemini para funcionar. La aplicación está diseñada para usar una variable de entorno `API_KEY` que debe ser configurada en el entorno donde se despliega. Si la clave falta o es inválida, la generación fallará."
+    },
+    "interpretingResults": {
+        "question": "¿Cómo interpreto los resultados de la validación?",
+        "answer": "La tabla de resultados muestra una fila por cada especificación técnica.<ul><li><strong>Esperado:</strong> El requisito de la plataforma publicitaria.</li><li><strong>Actual:</strong> La propiedad medida de tu activo.</li><li><strong>Estado:</strong> 'OK' si tu activo cumple, 'Fallo' si no.</li></ul> El 'Estado General' en la parte superior te dice si tu activo pasó todas las comprobaciones."
     }
   }
 };
 
 
 i18next
-  .use(LanguageDetector) // Detect user language
-  .use(initReactI18next) // Pass i18next down to react-i18next
+  .use(initReactI18next)
   .init({
-    resources,
-    supportedLngs: ['en', 'es'],
+    resources: {
+      en: {
+        translation: en
+      },
+      es: {
+        translation: es
+      }
+    },
+    lng: 'es', // Set a default language
     fallbackLng: 'en',
-    detection: {
-      order: ['localStorage', 'navigator', 'htmlTag'],
-      caches: ['localStorage'],
-    },
     interpolation: {
-      escapeValue: false, // React already does escaping
+      escapeValue: false, // React already safes from xss
     },
-    debug: false, // Set to true for development debugging
+    debug: false,
   });
 
 export default i18next;
