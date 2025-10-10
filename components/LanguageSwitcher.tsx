@@ -22,7 +22,7 @@ export const LanguageSwitcher: React.FC = () => {
       <button
         onClick={() => changeLanguage('es')}
         disabled={i18n.language === 'es'}
-        className={`px-3 py-1 text-sm rounded-md font-montserrat transition-colors duration-150 ease-in-out
+        className={`pl-2.5 pr-3.5 py-1 text-sm rounded-md font-montserrat transition-colors duration-150 ease-in-out
                     ${i18n.language === 'es' ? 'bg-[var(--llyc-red)] text-[var(--llyc-white)] cursor-default' : 'bg-[var(--llyc-input-bg)] text-[var(--llyc-turquoise)] hover:bg-[var(--llyc-red)] hover:text-[var(--llyc-white)]'}`}
       >
         ES
