@@ -9,9 +9,11 @@ interface AssetDisplayProps {
   formatNameKey: string;
   onRefine: (refinementPrompt: string) => void;
   isRefining: boolean;
+  onRemoveText: () => void;
+  isRemovingText: boolean;
 }
 
-export const AssetDisplay: React.FC<AssetDisplayProps> = ({ asset, platform, formatNameKey, onRefine, isRefining }) => {
+export const AssetDisplay: React.FC<AssetDisplayProps> = ({ asset, platform, formatNameKey, onRefine, isRefining, onRemoveText, isRemovingText }) => {
   const { t } = useTranslation();
   const [refinementPrompt, setRefinementPrompt] = useState('');
 
@@ -55,9 +57,11 @@ export const AssetDisplay: React.FC<AssetDisplayProps> = ({ asset, platform, for
       {asset.type === 'image' && asset.data && (
         <div className="mt-6 pt-6 border-t border-[var(--llyc-gray-4)]">
            <h3 className="text-lg font-montserrat font-semibold text-[var(--llyc-turquoise)] mb-2">{t('refineImage.title')}</h3>
-           {isRefining ? (
-             <LoadingSpinner message={t('refineImage.loading')} />
-           ) : (
+           
+           {isRefining && <LoadingSpinner message={t('refineImage.loading')} />}
+           {isRemovingText && <LoadingSpinner message={t('refineImage.removeTextLoading')} />}
+
+           {!(isRefining || isRemovingText) && (
              <div className="space-y-4">
                <textarea
                  value={refinementPrompt}
@@ -65,13 +69,20 @@ export const AssetDisplay: React.FC<AssetDisplayProps> = ({ asset, platform, for
                  rows={3}
                  placeholder={t('refineImage.placeholder')}
                  className="w-full p-3 font-open-sans bg-[var(--llyc-input-bg)] border border-[var(--llyc-gray-3)] rounded-md shadow-sm focus:ring-2 focus:ring-[var(--llyc-red)] focus:border-[var(--llyc-red)] text-[var(--llyc-dark-blue)] placeholder-[var(--llyc-gray-2)]"
-                 disabled={isRefining}
+                 disabled={isRefining || isRemovingText}
                />
-               <div className="text-right">
+               <div className="flex flex-col sm:flex-row justify-end items-center space-y-2 sm:space-y-0 sm:space-x-4">
+                 <button
+                   onClick={onRemoveText}
+                   disabled={isRefining || isRemovingText}
+                   className="px-6 py-2 bg-gray-600 hover:bg-gray-700 text-white font-montserrat font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-gray-500 transition-all duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
+                 >
+                   {t('refineImage.removeTextButton')}
+                 </button>
                  <button
                    onClick={handleRefineClick}
-                   disabled={!refinementPrompt.trim() || isRefining}
-                   className="px-6 py-2 bg-[var(--llyc-turquoise)] hover:bg-teal-600 text-[var(--llyc-white)] font-montserrat font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[var(--llyc-white)] focus:ring-[var(--llyc-turquoise)] transition-all duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 disabled:transform-none"
+                   disabled={!refinementPrompt.trim() || isRefining || isRemovingText}
+                   className="px-6 py-2 bg-[var(--llyc-turquoise)] hover:bg-teal-600 text-white font-montserrat font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-[var(--llyc-turquoise)] transition-all duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
                  >
                    {t('refineImage.button')}
                  </button>

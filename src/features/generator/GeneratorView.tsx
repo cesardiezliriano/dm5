@@ -20,7 +20,7 @@ import { Platform, AdFormatSpec, CreativeAsset } from '../../types';
 import { PLATFORMS, AD_SPECS_DATA } from '../../constants';
 
 // Services
-import { generateCreativeAsset, refineImage } from '../../services/geminiService';
+import { generateCreativeAsset, refineImage, removeTextFromImage } from '../../services/geminiService';
 
 export const GeneratorView: React.FC = () => {
   const { t } = useTranslation();
@@ -34,6 +34,7 @@ export const GeneratorView: React.FC = () => {
   const [generatedAsset, setGeneratedAsset] = useState<CreativeAsset | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRefining, setIsRefining] = useState<boolean>(false);
+  const [isRemovingText, setIsRemovingText] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const availableFormats = useMemo(() => {
@@ -117,7 +118,25 @@ export const GeneratorView: React.FC = () => {
 
   }, [generatedAsset, t]);
 
-  const isGenerationDisabled = !selectedPlatform || !selectedFormatId || !creativeIdea.trim() || isLoading || isRefining;
+  const handleRemoveTextFromImage = useCallback(async () => {
+    if (!generatedAsset || generatedAsset.type !== 'image') return;
+
+    setIsRemovingText(true);
+    setError(null);
+    
+    try {
+      const textlessAsset = await removeTextFromImage(generatedAsset.data, generatedAsset);
+      setGeneratedAsset(textlessAsset);
+    } catch (e: any) {
+      setError(e.message || t("fallbackError"));
+      console.error("Text removal failed:", e);
+    } finally {
+      setIsRemovingText(false);
+    }
+  }, [generatedAsset, t]);
+
+
+  const isGenerationDisabled = !selectedPlatform || !selectedFormatId || !creativeIdea.trim() || isLoading || isRefining || isRemovingText;
   const isImageFormatSelected = selectedFormatSpec?.generationType === 'image';
 
   const showFormatSelector = selectedPlatform !== null;
@@ -196,6 +215,8 @@ export const GeneratorView: React.FC = () => {
             formatNameKey={selectedFormatSpec.formatNameKey} 
             onRefine={handleRefineImage}
             isRefining={isRefining}
+            onRemoveText={handleRemoveTextFromImage}
+            isRemovingText={isRemovingText}
           />
         )}
         

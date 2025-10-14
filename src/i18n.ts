@@ -134,7 +134,9 @@ const en = {
     "title": "Refine This Image",
     "placeholder": "Describe the changes you want, e.g., 'Change the text to `Hello World`', 'Make the background blue', 'Add a cat'.",
     "button": "🎨 Refine",
-    "loading": "Refining image..."
+    "loading": "Refining image...",
+    "removeTextButton": "Remove Text",
+    "removeTextLoading": "Removing text..."
   },
   "fallbackError": "An unexpected error occurred during generation.",
   "geminiService": { "errors": { "apiKeyMissing": "API_KEY is not configured. Please set the API_KEY environment variable.", "imageGenFailed": "Image generation failed or returned no data.", "refinementFailed": "Image refinement failed or returned no data.", "textGenFailed": "Text generation failed or returned no data.", "unknown": "An unknown error occurred while communicating with the Gemini API.", "apiKeyInvalid": "Gemini API Error: API Key is invalid or missing, or you lack permissions. Please ensure the API_KEY environment variable is correctly set and valid. Original error: {{originalError}}", "quotaExceeded": "Gemini API Error: You have exceeded your API quota. Please check your usage and limits. Original error: {{originalError}}", "apiError": "Gemini API Error: {{originalError}}" } },
@@ -345,7 +347,9 @@ const es = {
     "title": "Refinar Esta Imagen",
     "placeholder": "Describe los cambios que quieres, ej: 'Cambia el texto a `Hola Mundo`', 'Haz el fondo azul', 'Añade un gato'.",
     "button": "🎨 Refinar",
-    "loading": "Refinando imagen..."
+    "loading": "Refinando imagen...",
+    "removeTextButton": "Quitar Texto",
+    "removeTextLoading": "Quitando texto..."
   },
   "fallbackError": "Ocurrió un error inesperado durante la generación.",
   "geminiService": { "errors": { "apiKeyMissing": "API_KEY no está configurada. Por favor, establece la variable de entorno API_KEY.", "imageGenFailed": "La generación de imagen falló o no devolvió datos.", "refinementFailed": "El refinamiento de la imagen falló o no devolvió datos.", "textGenFailed": "La generación de texto falló o no devolvió datos.", "unknown": "Ocurrió un error desconocido al comunicarse con la API de Gemini.", "apiKeyInvalid": "Error API Gemini: La API Key es inválida, no existe o careces de permisos. Asegúrate de que la variable de entorno API_KEY está correctamente configurada y es válida. Error original: {{originalError}}", "quotaExceeded": "Error API Gemini: Has excedido tu cuota de API. Por favor, revisa tu uso y límites. Error original: {{originalError}}", "apiError": "Error API Gemini: {{originalError}}" } },

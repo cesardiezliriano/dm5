@@ -232,7 +232,6 @@ export const refineImage = async (
 
   const { base64ImageData, refinementPrompt } = refinement;
   
-  // Extract mime type and base64 data from the data URL
   const match = base64ImageData.match(/^data:(image\/\w+);base64,(.+)$/);
   if (!match) {
     throw new Error("Invalid base64 image data format.");
@@ -240,13 +239,17 @@ export const refineImage = async (
   const mimeType = match[1];
   const data = match[2];
 
+  const finalRefinementPrompt = `The user wants to refine the provided image. Their instruction is: "${refinementPrompt}".
+Please apply this change precisely. If the instruction is to correct text, pay extremely close attention to spelling, capitalization, and accents. The output text must be an exact match of the requested text.
+For example, if the user asks for 'Envío Gratis', the output text MUST be 'Envío Gratis' with the accent on the 'i'. This is a strict requirement.`;
+
   try {
     const response = await ai.models.generateContent({
       model: IMAGE_EDIT_MODEL,
       contents: {
         parts: [
           { inlineData: { data, mimeType } },
-          { text: refinementPrompt },
+          { text: finalRefinementPrompt },
         ],
       },
       config: {
@@ -257,17 +260,76 @@ export const refineImage = async (
     for (const part of response.candidates[0].content.parts) {
       if (part.inlineData && part.inlineData.data) {
         return {
-          ...originalAsset, // Retain original description etc.
+          ...originalAsset, 
           data: `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`,
         };
       }
     }
     
-    // If no image part is found in the response
     throw new Error(i18n.t('geminiService.errors.refinementFailed'));
     
   } catch(error) {
      console.error("Gemini API Error (Refinement):", error);
+     let errorMessageKey = 'geminiService.errors.unknown';
+     let originalErrorMessage = (error instanceof Error ? error.message : String(error));
+
+     if (error instanceof Error) {
+        if (originalErrorMessage.toLowerCase().includes("api key not valid")) {
+             errorMessageKey = 'geminiService.errors.apiKeyInvalid';
+        } else if (originalErrorMessage.toLowerCase().includes("quota")) {
+            errorMessageKey = 'geminiService.errors.quotaExceeded';
+        } else {
+             errorMessageKey = 'geminiService.errors.apiError';
+        }
+    }
+    throw new Error(i18n.t(errorMessageKey, { defaultValue: "An unknown error occurred.", originalError: originalErrorMessage }));
+  }
+};
+
+export const removeTextFromImage = async (
+  base64ImageData: string,
+  originalAsset: CreativeAsset
+): Promise<CreativeAsset> => {
+   if (!API_KEY || API_KEY === "MISSING_API_KEY_DO_NOT_USE_PLACEHOLDER") {
+    throw new Error(i18n.t('geminiService.errors.apiKeyMissing'));
+  }
+  
+  const match = base64ImageData.match(/^data:(image\/\w+);base64,(.+)$/);
+  if (!match) {
+    throw new Error("Invalid base64 image data format.");
+  }
+  const mimeType = match[1];
+  const data = match[2];
+
+  const removalPrompt = "A strict instruction: Remove any and all text from this image completely. Do not add any new elements or objects. Inpaint the background where the text was located to make it look natural and seamless as if the text was never there.";
+
+  try {
+    const response = await ai.models.generateContent({
+      model: IMAGE_EDIT_MODEL,
+      contents: {
+        parts: [
+          { inlineData: { data, mimeType } },
+          { text: removalPrompt },
+        ],
+      },
+      config: {
+        responseModalities: [Modality.IMAGE, Modality.TEXT],
+      },
+    });
+
+    for (const part of response.candidates[0].content.parts) {
+      if (part.inlineData && part.inlineData.data) {
+        return {
+          ...originalAsset, 
+          data: `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`,
+        };
+      }
+    }
+    
+    throw new Error(i18n.t('geminiService.errors.refinementFailed'));
+    
+  } catch(error) {
+     console.error("Gemini API Error (Text Removal):", error);
      let errorMessageKey = 'geminiService.errors.unknown';
      let originalErrorMessage = (error instanceof Error ? error.message : String(error));
 
