@@ -1,7 +1,5 @@
-
-
-import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
-import { AdFormatSpec, CreativeAsset, Platform, PlatformTranslationKeys } from '../types';
+import { GoogleGenAI, GenerateContentResponse, Modality } from "@google/genai";
+import { AdFormatSpec, CreativeAsset, Platform, PlatformTranslationKeys, CreativeRefinement } from '../types';
 import i18n from '../i18n'; // Import i18n instance for translations
 
 const API_KEY = process.env.API_KEY;
@@ -18,6 +16,8 @@ if (!API_KEY || API_KEY === "MISSING_API_KEY_DO_NOT_USE_PLACEHOLDER") { // Use a
 
 const TEXT_MODEL = 'gemini-2.5-flash';
 const IMAGE_MODEL = 'imagen-4.0-generate-001';
+const IMAGE_EDIT_MODEL = 'gemini-2.5-flash-image';
+
 
 const constructTextPrompt = (
   spec: AdFormatSpec,
@@ -218,5 +218,68 @@ export const generateCreativeAsset = async (
     }
     // Use i18n.t with the determined key, providing the original error message for interpolation
     throw new Error(i18n.t(errorMessageKey, { ns: 'translation', defaultValue: errorMessageDefault, originalError: originalErrorMessage }));
+  }
+};
+
+
+export const refineImage = async (
+  refinement: CreativeRefinement,
+  originalAsset: CreativeAsset
+): Promise<CreativeAsset> => {
+   if (!API_KEY || API_KEY === "MISSING_API_KEY_DO_NOT_USE_PLACEHOLDER") {
+    throw new Error(i18n.t('geminiService.errors.apiKeyMissing'));
+  }
+
+  const { base64ImageData, refinementPrompt } = refinement;
+  
+  // Extract mime type and base64 data from the data URL
+  const match = base64ImageData.match(/^data:(image\/\w+);base64,(.+)$/);
+  if (!match) {
+    throw new Error("Invalid base64 image data format.");
+  }
+  const mimeType = match[1];
+  const data = match[2];
+
+  try {
+    const response = await ai.models.generateContent({
+      model: IMAGE_EDIT_MODEL,
+      contents: {
+        parts: [
+          { inlineData: { data, mimeType } },
+          { text: refinementPrompt },
+        ],
+      },
+      config: {
+        responseModalities: [Modality.IMAGE, Modality.TEXT],
+      },
+    });
+
+    for (const part of response.candidates[0].content.parts) {
+      if (part.inlineData && part.inlineData.data) {
+        return {
+          ...originalAsset, // Retain original description etc.
+          data: `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`,
+        };
+      }
+    }
+    
+    // If no image part is found in the response
+    throw new Error(i18n.t('geminiService.errors.refinementFailed'));
+    
+  } catch(error) {
+     console.error("Gemini API Error (Refinement):", error);
+     let errorMessageKey = 'geminiService.errors.unknown';
+     let originalErrorMessage = (error instanceof Error ? error.message : String(error));
+
+     if (error instanceof Error) {
+        if (originalErrorMessage.toLowerCase().includes("api key not valid")) {
+             errorMessageKey = 'geminiService.errors.apiKeyInvalid';
+        } else if (originalErrorMessage.toLowerCase().includes("quota")) {
+            errorMessageKey = 'geminiService.errors.quotaExceeded';
+        } else {
+             errorMessageKey = 'geminiService.errors.apiError';
+        }
+    }
+    throw new Error(i18n.t(errorMessageKey, { defaultValue: "An unknown error occurred.", originalError: originalErrorMessage }));
   }
 };

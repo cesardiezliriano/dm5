@@ -1,4 +1,5 @@
 
+
 import { Platform, AdFormatSpec } from './types';
 
 export const PLATFORMS: Platform[] = [
@@ -39,13 +40,14 @@ export const AD_SPECS_DATA: AdFormatSpec[] = [
     sourceUrl: "https://www.facebook.com/business/ads-guide/update?content_id=T8wuJkRscrVtGVS"
   },
   {
-    id: "meta_stories_image_concept",
+    id: "meta_stories_image",
     platform: Platform.META,
     formatNameKey: "adFormatNames.meta_stories_image",
-    generationType: "image_concept",
+    generationType: "image",
     dimensions: { width: 1080, height: 1920, unit: "px" },
     aspectRatio: "9:16",
     fileTypes: ["JPEG", "PNG"],
+    maxFileSize: "30MB",
     bestPracticesKeys: [
       "meta_stories_image_bp.fullscreen",
       "meta_stories_image_bp.interactive",
@@ -75,13 +77,14 @@ export const AD_SPECS_DATA: AdFormatSpec[] = [
     sourceUrl: "https://www.facebook.com/business/ads-guide/update?content_id=T8wuJkRscrVtGVS"
   },
   {
-    id: "meta_feed_image_concept",
+    id: "meta_feed_image",
     platform: Platform.META,
     formatNameKey: "adFormatNames.meta_feed_image",
-    generationType: "image_concept",
+    generationType: "image",
     dimensions: { width: 1080, height: 1080, unit: "px" }, // or 1080x1350 for 4:5
-    aspectRatio: "1:1 (recommended), 4:5", // 1.91:1 also supported
+    aspectRatio: "1:1 or 4:5", // 1.91:1 also supported
     fileTypes: ["JPEG", "PNG"],
+    maxFileSize: "30MB",
     bestPracticesKeys: [
         "meta_feed_image_bp.quality",
         "meta_feed_image_bp.minimaltext", // Adhere to text in image policies
@@ -228,13 +231,13 @@ export const AD_SPECS_DATA: AdFormatSpec[] = [
 
   // LinkedIn Ads
   {
-    id: "linkedin_single_image_ad_concept",
+    id: "linkedin_single_image_ad",
     platform: Platform.LINKEDIN,
     formatNameKey: "adFormatNames.linkedin_single_image_ad_concept",
-    generationType: "image_concept", // and ad_copy
+    generationType: "image", // and ad_copy
     dimensions: { width: 1200, height: 627, unit: "px" }, // For 1.91:1. Also 1:1 (1200x1200)
     aspectRatio: "1.91:1 or 1:1",
-    fileTypes: ["JPEG", "PNG", "GIF (non-animated)"],
+    fileTypes: ["JPEG", "PNG", "GIF"],
     maxFileSize: "5MB",
     bestPracticesKeys: [
         "linkedin_singleimage_bp.professionalimage",
@@ -272,12 +275,12 @@ export const AD_SPECS_DATA: AdFormatSpec[] = [
 
   // Google Ads (Display, Search)
    {
-    id: "google_display_ad_image_concept", // HTML5 ads also common
+    id: "google_display_ad_image", // HTML5 ads also common
     platform: Platform.GOOGLE_ADS,
     formatNameKey: "adFormatNames.google_display_ad_image_concept",
-    generationType: "image_concept",
+    generationType: "image",
     dimensions: { width: 300, height: 250, unit: "px" }, // Example, many sizes
-    aspectRatio: "Various (e.g., 300x250 MREC, 728x90 Leaderboard, 300x600 HPA)",
+    aspectRatio: "1.2:1",
     fileTypes: ["JPEG", "PNG", "GIF"],
     maxFileSize: "150KB",
     bestPracticesKeys: [
@@ -502,13 +505,14 @@ export const AD_SPECS_DATA: AdFormatSpec[] = [
 
   // X (Twitter) Ads
   {
-    id: "x_twitter_image_ad_concept",
+    id: "x_twitter_image_ad",
     platform: Platform.X_TWITTER,
     formatNameKey: "adFormatNames.x_twitter_image_ad_concept",
-    generationType: "image_concept", // and ad_copy
+    generationType: "image", // and ad_copy
     // Image: 1200x675 for 16:9, 1200x1200 for 1:1. Max 5MB.
     aspectRatio: "16:9 or 1:1",
-    fileTypes: ["JPEG", "PNG", "GIF (non-animated)"], // Animated GIF treated as video
+    fileTypes: ["JPEG", "PNG", "GIF"], // Animated GIF treated as video
+    maxFileSize: "5MB",
     maxLength: { value: 280, unit: "characters"}, // Tweet copy
     bestPracticesKeys: [
       "x_image_bp.visually_compelling",

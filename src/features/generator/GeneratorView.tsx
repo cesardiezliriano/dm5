@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -21,7 +20,7 @@ import { Platform, AdFormatSpec, CreativeAsset } from '../../types';
 import { PLATFORMS, AD_SPECS_DATA } from '../../constants';
 
 // Services
-import { generateCreativeAsset } from '../../services/geminiService';
+import { generateCreativeAsset, refineImage } from '../../services/geminiService';
 
 export const GeneratorView: React.FC = () => {
   const { t } = useTranslation();
@@ -34,6 +33,7 @@ export const GeneratorView: React.FC = () => {
 
   const [generatedAsset, setGeneratedAsset] = useState<CreativeAsset | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isRefining, setIsRefining] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const availableFormats = useMemo(() => {
@@ -96,7 +96,29 @@ export const GeneratorView: React.FC = () => {
     }
   }, [selectedFormatSpec, creativeIdea, campaignObjective, inclusions, exclusions, t]);
 
-  const isGenerationDisabled = !selectedPlatform || !selectedFormatId || !creativeIdea.trim() || isLoading;
+  const handleRefineImage = useCallback(async (refinementPrompt: string) => {
+      if (!generatedAsset || generatedAsset.type !== 'image') return;
+
+      setIsRefining(true);
+      setError(null);
+      
+      try {
+        const refinedAsset = await refineImage({
+          base64ImageData: generatedAsset.data,
+          refinementPrompt
+        }, generatedAsset);
+        setGeneratedAsset(refinedAsset);
+      } catch (e: any) {
+        setError(e.message || t("fallbackError"));
+        console.error("Refinement failed:", e);
+      } finally {
+        setIsRefining(false);
+      }
+
+  }, [generatedAsset, t]);
+
+  const isGenerationDisabled = !selectedPlatform || !selectedFormatId || !creativeIdea.trim() || isLoading || isRefining;
+  const isImageFormatSelected = selectedFormatSpec?.generationType === 'image';
 
   const showFormatSelector = selectedPlatform !== null;
   const showCreativeInputs = selectedPlatform !== null && selectedFormatId !== null;
@@ -145,6 +167,20 @@ export const GeneratorView: React.FC = () => {
                     onChange={setExclusions}
                 />
               </div>
+              {isImageFormatSelected && (
+                 <div className="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg">
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                       <svg className="h-5 w-5 text-amber-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.21 3.03-1.742 3.03H4.42c-1.532 0-2.492-1.696-1.742-3.03l5.58-9.92zM10 5a1 1 0 011 1v3a1 1 0 01-2 0V6a1 1 0 011-1zm1 5a1 1 0 10-2 0v2a1 1 0 102 0v-2z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="ml-3">
+                      <p className="text-sm text-amber-700" dangerouslySetInnerHTML={{ __html: t('imageGeneration.textWarning') }} />
+                    </div>
+                  </div>
+                </div>
+              )}
               <AssetGenerator onGenerate={handleGenerateAsset} disabled={isGenerationDisabled} />
             </>
           )}
@@ -158,6 +194,8 @@ export const GeneratorView: React.FC = () => {
             asset={generatedAsset} 
             platform={selectedFormatSpec.platform} 
             formatNameKey={selectedFormatSpec.formatNameKey} 
+            onRefine={handleRefineImage}
+            isRefining={isRefining}
           />
         )}
         

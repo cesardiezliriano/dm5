@@ -161,6 +161,11 @@ export interface GeneratedCreativeOutput {
   selectedFormatSpec: AdFormatSpec;
 }
 
+export interface CreativeRefinement {
+  base64ImageData: string;
+  refinementPrompt: string;
+}
+
 export type PlatformKey = keyof typeof Platform;
 
 // Types for the Creative Validator

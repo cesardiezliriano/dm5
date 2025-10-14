@@ -1,21 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CreativeAsset, Platform, PlatformTranslationKeys } from '../types';
+import { LoadingSpinner } from './LoadingSpinner';
 
 interface AssetDisplayProps {
   asset: CreativeAsset;
   platform: Platform;
   formatNameKey: string;
+  onRefine: (refinementPrompt: string) => void;
+  isRefining: boolean;
 }
 
-export const AssetDisplay: React.FC<AssetDisplayProps> = ({ asset, platform, formatNameKey }) => {
+export const AssetDisplay: React.FC<AssetDisplayProps> = ({ asset, platform, formatNameKey, onRefine, isRefining }) => {
   const { t } = useTranslation();
+  const [refinementPrompt, setRefinementPrompt] = useState('');
 
   const translatedPlatform = t(PlatformTranslationKeys[platform]);
   const translatedFormatName = t(formatNameKey);
-  // Construct a more dynamic description or use the one from asset if already translated/set by geminiService
   const displayDescription = asset.assetFormatDescription || `${translatedPlatform} - ${translatedFormatName}`;
 
+  const handleRefineClick = () => {
+    if (refinementPrompt.trim()) {
+      onRefine(refinementPrompt);
+    }
+  };
 
   return (
     <section className="bg-[var(--llyc-card-bg)] p-6 rounded-xl shadow-md mt-8 transition-all duration-300 hover:shadow-lg hover:shadow-[var(--llyc-red)]/30 border border-[var(--llyc-gray-4)]">
@@ -41,6 +49,36 @@ export const AssetDisplay: React.FC<AssetDisplayProps> = ({ asset, platform, for
       )}
        {asset.type === 'text' && (
          <p className="text-xs text-[var(--llyc-gray-2)] mt-2 text-center font-open-sans">{t('assetDisplay.copyTextHint')}</p>
+      )}
+
+      {/* Image Refinement Section */}
+      {asset.type === 'image' && asset.data && (
+        <div className="mt-6 pt-6 border-t border-[var(--llyc-gray-4)]">
+           <h3 className="text-lg font-montserrat font-semibold text-[var(--llyc-turquoise)] mb-2">{t('refineImage.title')}</h3>
+           {isRefining ? (
+             <LoadingSpinner message={t('refineImage.loading')} />
+           ) : (
+             <div className="space-y-4">
+               <textarea
+                 value={refinementPrompt}
+                 onChange={(e) => setRefinementPrompt(e.target.value)}
+                 rows={3}
+                 placeholder={t('refineImage.placeholder')}
+                 className="w-full p-3 font-open-sans bg-[var(--llyc-input-bg)] border border-[var(--llyc-gray-3)] rounded-md shadow-sm focus:ring-2 focus:ring-[var(--llyc-red)] focus:border-[var(--llyc-red)] text-[var(--llyc-dark-blue)] placeholder-[var(--llyc-gray-2)]"
+                 disabled={isRefining}
+               />
+               <div className="text-right">
+                 <button
+                   onClick={handleRefineClick}
+                   disabled={!refinementPrompt.trim() || isRefining}
+                   className="px-6 py-2 bg-[var(--llyc-turquoise)] hover:bg-teal-600 text-[var(--llyc-white)] font-montserrat font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[var(--llyc-white)] focus:ring-[var(--llyc-turquoise)] transition-all duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 disabled:transform-none"
+                 >
+                   {t('refineImage.button')}
+                 </button>
+               </div>
+             </div>
+           )}
+        </div>
       )}
     </section>
   );
