@@ -1,3 +1,4 @@
+
 export enum Platform {
   META = "Meta (Instagram/Facebook)",
   YOUTUBE = "YouTube Ads",
@@ -166,9 +167,12 @@ export interface CreativeRefinement {
   refinementPrompt: string;
 }
 
-export type PlatformKey = keyof typeof Platform;
+export interface HelpTopic {
+  id: string;
+  questionKey: string;
+  answerKey: string;
+}
 
-// Types for the Creative Validator
 export interface ValidationResultItem {
   key: string;
   specName: string;
@@ -187,9 +191,16 @@ export interface FormattedValidationResult {
   result: ValidationResult;
 }
 
-// Type for Help Modal topics
-export interface HelpTopic {
-  id: string;
-  questionKey: string; // Translation key for the question/title
-  answerKey: string; // Translation key for the answer/content
+export type PlatformKey = keyof typeof Platform;
+
+// Type for History items
+export interface HistoryItem {
+  id: string; // Unique ID, can be a timestamp
+  platform: Platform;
+  formatId: string;
+  campaignObjective: string;
+  creativeIdea: string;
+  inclusions?: string;
+  exclusions?: string;
+  timestamp: number;
 }

@@ -241,7 +241,8 @@ export const refineImage = async (
 
   const finalRefinementPrompt = `The user wants to refine the provided image. Their instruction is: "${refinementPrompt}".
 Please apply this change precisely. If the instruction is to correct text, pay extremely close attention to spelling, capitalization, and accents. The output text must be an exact match of the requested text.
-For example, if the user asks for 'Envío Gratis', the output text MUST be 'Envío Gratis' with the accent on the 'i'. This is a strict requirement.`;
+IMPORTANT: All text must be rendered using UTF-8 character encoding to correctly display special characters and accents (e.g., 'í', 'ñ', 'á', 'ü').
+For example, if the user asks for 'Envío Gratis', the output text MUST be 'Envío Gratis' with the accent on the 'i'. This is a strict requirement. Do not mis-encode characters.`;
 
   try {
     const response = await ai.models.generateContent({

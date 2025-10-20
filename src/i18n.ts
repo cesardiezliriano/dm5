@@ -5,8 +5,9 @@ import { initReactI18next } from 'react-i18next';
 const en = {
   "header": {
     "llycLogo": "LLYC",
-    "title": "Specs & Creatives",
-    "subtitle": "DM 5: Generate and validate optimized ad creatives with AI."
+    "title": "DM 5 - Specs & Creatives",
+    "subtitle": "Generate and validate optimized ad creatives with AI.",
+    "langSwitcherLabel": "Language:"
   },
   "tabs": {
     "generator": "Creative Generator",
@@ -20,7 +21,7 @@ const en = {
     "label": "Ad Format / Creative Type",
     "selectPlaceholder": "Select a Format",
     "disabledPlaceholder": "Select a platform first",
-    "allFormats": "All Formats for Platform"
+    "allFormats": "Validate against all compatible formats"
   },
   "objectiveInput": {
     "label": "Campaign Objective (Optional)",
@@ -29,19 +30,13 @@ const en = {
   "creativeInput": {
     "label": "Creative Idea / Base Asset Description",
     "placeholder": "Describe your product, service, target audience, key message, desired style, or any existing assets. For example: 'A minimalist ad for a new eco-friendly coffee brand targeting young professionals. Show a sleek product shot with natural elements.'",
-    "subtext": "The more detail you provide, the better the AI can assist."
-  },
-  "detailedCreativeInput": {
-    "inclusions": {
-      "label": "Mandatory Inclusions (Optional)",
-      "placeholder": "e.g., Brand name 'EcoMornings', the color green, a toucan",
-      "subtext": "Keywords, objects, or themes that must be in the asset."
-    },
-    "exclusions": {
-      "label": "Negative Keywords / Exclusions (Optional)",
-      "placeholder": "e.g., No plastic, no cities, avoid the color red",
-      "subtext": "Keywords, objects, or themes to strictly avoid."
-    }
+    "subtext": "The more detail you provide, the better the AI can assist.",
+    "inclusionsLabel": "Must-Include Elements (Optional)",
+    "inclusionsPlaceholder": "e.g., 'the logo in the top right', 'the slogan Happy Days', 'a call to action with 10% off'",
+    "inclusionsSubtext": "Specify any text, objects, or concepts that must appear in the creative.",
+    "exclusionsLabel": "Elements to Exclude (Optional)",
+    "exclusionsPlaceholder": "e.g., 'the color blue', 'images of people', 'the word cheap'",
+    "exclusionsSubtext": "Specify any text, objects, or concepts that must NOT appear in the creative."
   },
   "assetGenerator": {
     "buttonText": "✨ Generate Creative Asset"
@@ -81,6 +76,85 @@ const en = {
   "footer": {
     "apiKeyWarning": "Ensure your API_KEY is correctly configured for Gemini API interactions.",
     "copyright": "Creative Campaign Assistant - LLYC"
+  },
+   "history": {
+    "title": "Recent Activity",
+    "useButton": "Use This Prompt",
+    "clearButton": "Clear History",
+    "clearConfirm": "Are you sure you want to clear your entire request history? This action cannot be undone.",
+    "empty": "Your recent generation requests will appear here.",
+    "used": "Used"
+  },
+   "validator": {
+    "validateButton": "🔍 Validate Asset",
+    "loading": "Analyzing your asset...",
+    "uploadLabel": "Upload Creative Asset",
+    "uploadAction": "Upload a file",
+    "uploadOrDrag": "or drag and drop",
+    "fileTypesHint": "Compatible types for this format: {{types}}",
+    "textInputLabel": "Paste Ad Copy",
+    "textInputPlaceholder": "Paste the ad copy here to validate its length...",
+    "textInputSubtext": "The validator will check the character or word count against the format's limits.",
+    "results": {
+        "title": "Validation Results",
+        "overallStatus": "Overall Status",
+        "compliant": "Compliant",
+        "nonCompliant": "Non-Compliant",
+        "table": {
+            "spec": "Specification",
+            "expected": "Expected",
+            "actual": "Actual",
+            "status": "Status"
+        },
+        "status": {
+            "ok": "OK",
+            "fail": "Fail"
+        }
+    },
+    "errors": {
+        "noAssetOrFormat": "Please select a format and provide an asset to validate."
+    },
+    "spec": {
+        "noSpec": "No specific technical specifications to validate for this format."
+    }
+  },
+  "feedbackButton": {
+      "tooltip": "Send Feedback",
+      "emailSubject": "Feedback for {{appName}}",
+      "emailBodyPlaceholder": "Hi team,\n\nI have the following feedback for the {{appName}} application:\n\n"
+  },
+  "helpBotButton": {
+      "tooltip": "Help Center"
+  },
+  "helpBotModal": {
+      "title": "Help Center",
+      "closeButtonAriaLabel": "Close help modal",
+      "topicsListHeader": "Topics",
+      "noTopicSelected": "Select a topic from the list to see the details.",
+      "introduction": "How can we help you today?",
+      "backToTopics": "Back to Topics"
+  },
+  "helpTopics": {
+    "aboutApp": {
+        "question": "What is this application for?",
+        "answer": "<strong>DM 5 - Specs & Creatives</strong> is a tool designed to streamline the creation of advertising materials. You can:<br><ul><li><strong>Generate creatives:</strong> Get AI-powered ad copy, image concepts, and video scripts tailored to specific platforms and ad formats.</li><li><strong>Validate assets:</strong> Check if your existing creatives meet the technical specifications (size, dimensions, length, etc.) of different ad platforms.</li></ul>Its goal is to save time, reduce errors, and improve the quality of your campaign assets."
+    },
+    "generatingAssets": {
+        "question": "How do I generate a creative asset?",
+        "answer": "It's a simple process:<br><ol><li>Select the <strong>'Creative Generator'</strong> tab.</li><li>Choose the <strong>Advertising Platform</strong> (e.g., Meta, Google Ads).</li><li>Select the specific <strong>Ad Format</strong> you need (e.g., Instagram Reel, Google Search Ad).</li><li>(Optional) Enter your <strong>Campaign Objective</strong> to give the AI more context.</li><li>Describe your <strong>Creative Idea</strong> in detail. The more specific you are, the better the result. You can also specify elements to include or exclude.</li><li>Click the <strong>'Generate Creative Asset'</strong> button and wait for the AI to work its magic.</li></ol>"
+    },
+     "validatingAssets": {
+        "question": "How does the asset validator work?",
+        "answer": "The validator checks your creative's technical specs against the requirements of the chosen ad format.<br><ol><li>Go to the <strong>'Creative Validator'</strong> tab.</li><li>Select the <strong>Platform</strong> and <strong>Ad Format</strong>.</li><li>Upload your file (image, video) or paste your text into the input area.</li><li>Click the <strong>'Validate Asset'</strong> button.</li><li>The results will show a checklist of specifications (e.g., Dimensions, File Size, Character Count) and indicate whether your asset is compliant or not.</li></ol>"
+    },
+    "apiKey": {
+        "question": "Do I need an API Key?",
+        "answer": "Yes. This application requires a valid Google Gemini API key to function. The application is configured to read this key from an environment variable (`API_KEY`) in its execution environment. Ensure this key is correctly set up for the application to work."
+    },
+    "interpretingResults": {
+        "question": "How do I interpret the results?",
+        "answer": "When you generate an asset, you will receive two main components:<br><ul><li><strong>Generated Asset:</strong> This is the creative itself—an image, a block of text, or a script.</li><li><strong>Format Details:</strong> This is a card showing the key technical specs and creative best practices for the ad format you selected. Use this as a guide for production and to ensure your final asset is compliant.</li></ul> For the validator, the results table clearly shows each specification, the expected value, the actual value of your asset, and a pass/fail status."
+    }
   },
   "platforms": {
     "META": "Meta (Instagram/Facebook)",
@@ -127,90 +201,15 @@ const en = {
   "generationTypes": {
     "image_concept": "Image Concept", "image": "Image", "text": "Text", "video_script": "Video Script", "ad_copy": "Ad Copy", "creative_concept": "Creative Concept", "asset_ideas": "Asset Ideas", "form_concept": "Form Concept", "audio_script": "Audio Script", "listing_copy": "Product Listing Copy"
   },
-  "imageGeneration": {
-    "textWarning": "<strong>AI Note:</strong> Text within images generated by AI can sometimes be inaccurate. For critical text, use the 'Refine Image' feature below to make corrections, or consider adding text with a separate design tool for best results."
-  },
-  "refineImage": {
-    "title": "Refine This Image",
-    "placeholder": "Describe the changes you want, e.g., 'Change the text to `Hello World`', 'Make the background blue', 'Add a cat'.",
-    "button": "🎨 Refine",
-    "loading": "Refining image...",
-    "removeTextButton": "Remove Text",
-    "removeTextLoading": "Removing text..."
-  },
   "fallbackError": "An unexpected error occurred during generation.",
-  "geminiService": { "errors": { "apiKeyMissing": "API_KEY is not configured. Please set the API_KEY environment variable.", "imageGenFailed": "Image generation failed or returned no data.", "refinementFailed": "Image refinement failed or returned no data.", "textGenFailed": "Text generation failed or returned no data.", "unknown": "An unknown error occurred while communicating with the Gemini API.", "apiKeyInvalid": "Gemini API Error: API Key is invalid or missing, or you lack permissions. Please ensure the API_KEY environment variable is correctly set and valid. Original error: {{originalError}}", "quotaExceeded": "Gemini API Error: You have exceeded your API quota. Please check your usage and limits. Original error: {{originalError}}", "apiError": "Gemini API Error: {{originalError}}" } },
-  "meta_reels_video_script_bp.hook": "Hook in first 3s.", "meta_reels_video_script_bp.trending": "Use trending audio/effects.", "meta_reels_video_script_bp.vertical": "Shoot vertical (9:16).", "meta_reels_video_script_bp.length": "Keep it short (max 90s).", "meta_reels_video_script_bp.cta": "Clear Call to Action.", "meta_reels_video_script_bp.captions": "Use captions/text overlays.", "meta_reels_video_script_pg": "Generate a concept or script for a Meta Reel. Emphasize visual storytelling, a strong hook, and use of native features like trending audio or text overlays. Aim for authenticity and quick engagement.", "meta_ads_guide_general_link": "Refer to Meta Ads Guide for detailed specs.", "meta_stories_image_bp.fullscreen": "Design for fullscreen vertical (9:16).", "meta_stories_image_bp.interactive": "Utilize interactive elements (polls, stickers).", "meta_stories_image_bp.branding": "Clear branding, visible quickly.", "meta_stories_image_bp.compelling": "Compelling visuals, concise text.", "meta_stories_image_pg": "Generate an image for Meta Stories. Focus on vertical, full-screen impact, and opportunities for interactive elements. Visuals should be captivating and messaging brief.", "meta_stories_video_script_bp.fastpaced": "Fast-paced, engaging content.", "meta_stories_video_script_bp.overlays": "Use text overlays and stickers.", "meta_stories_video_script_bp.sound": "Design for sound-on, but make sense sound-off.", "meta_stories_video_script_bp.swipeup": "Include a clear 'Swipe Up' or CTA.", "meta_stories_video_script_pg": "Create a video script for Meta Stories. Emphasize quick, visually engaging scenes, native features like polls or quizzes, and a clear call to action. Max 60 seconds, but 15s often better.", "meta_feed_image_bp.quality": "High-quality, visually appealing image.", "meta_feed_image_bp.minimaltext": "Minimize text on image.", "meta_feed_image_bp.alignbrand": "Align with brand identity.", "meta_feed_image_bp.focalpoint": "Clear focal point.", "meta_feed_image_pg": "Generate an image for Meta Feed. Consider 1:1 or 4:5 aspect ratios. Image should be high quality with minimal text on it. Focus on a clear message and brand alignment.", "meta_feed_ad_copy_bp.valueprop": "Clear value proposition.", "meta_feed_ad_copy_bp.headline": "Compelling headline (40 chars).", "meta_feed_ad_copy_bp.cta": "Strong Call to Action.", "meta_feed_ad_copy_bp.emojis": "Use emojis appropriately.", "meta_feed_ad_copy_bp.concise": "Keep primary text concise (around 125 chars).", "meta_feed_ad_copy_pg": "Write ad copy for Meta Feed. Include a primary text (approx 125 chars), a headline (40 chars), and a link description (30 chars optional). Focus on clarity, value, and a strong CTA.", "youtube_non_skippable_bp.keymessage": "Deliver key message upfront.", "youtube_non_skippable_bp.branding": "Strong branding within first few seconds.", "youtube_non_skippable_bp.visuals": "Compelling visuals.", "youtube_non_skippable_bp.cta_non_skip": "Clear CTA if applicable (though often for awareness).", "youtube_non_skippable_pg": "Generate a video script for a YouTube Non-Skippable In-Stream Ad (max 15-20s). Focus on immediate impact, clear branding, and delivering the core message quickly.", "google_ads_video_specs_link": "Refer to Google Ads Video specifications for details.", "youtube_bumper_bp.shortmemorable": "Short, memorable message (6s).", "youtube_bumper_bp.oneidea": "Focus on a single, simple idea.", "youtube_bumper_bp.visualsbranding": "Strong visuals and branding.", "youtube_bumper_bp.sequence": "Consider using in a sequence.", "youtube_bumper_pg": "Create a script for a YouTube Bumper Ad (6 seconds). It must be concise, impactful, and leave a lasting impression. Focus on one key message or brand element.", "youtube_abcds_effectiveness": "Follow YouTube's ABCD framework for effective ads (Attract, Brand, Connect, Direct).", "google_ads_bumper_specs_link": "Refer to Google Ads Bumper Ad specifications.", "youtube_trueview_instream_bp.hook5s": "Hook viewers in the first 5 seconds.", "youtube_trueview_instream_bp.story": "Tell a compelling story.", "youtube_trueview_instream_bp.showdonttell": "Show, don't just tell.", "youtube_trueview_instream_bp.cta": "Clear Call to Action.", "youtube_trueview_instream_bp.endscreen": "Use end screens effectively.", "youtube_trueview_instream_pg": "Develop a video script for a YouTube Skippable In-Stream Ad. Grab attention in the first 5 seconds. Provide value to encourage viewers not to skip. Include a clear CTA.", "google_ads_skippable_specs_link": "Refer to Google Ads Skippable In-Stream Ad specifications.", "google_ads_video_action_bp.clear_cta": "Prominent and clear call-to-action.", "google_ads_video_action_bp.value_prop": "Highlight value proposition early.", "google_ads_video_action_bp.various_lengths": "Test various video lengths (10s+ recommended).", "google_ads_video_action_pg": "Generate asset ideas (video script, headlines, descriptions) for a Google Ads Video Action Campaign. Focus on driving conversions with clear CTAs and value propositions.", "google_ads_video_action_specs_link": "Refer to Google Ads Video Action Campaign specs.",
-  "validator": {
-    "uploadLabel": "Upload your creative asset",
-    "uploadAction": "Upload a file",
-    "uploadOrDrag": "or drag and drop",
-    "fileTypesHint": "Supports: {{types}}",
-    "textInputLabel": "Paste your text asset",
-    "textInputPlaceholder": "Paste your ad copy, headline, or script here...",
-    "textInputSubtext": "The content will be validated against the selected format's text length specifications.",
-    "validateButton": "🔍 Validate Asset",
-    "loading": "Analyzing your creative...",
-    "errors": {
-      "noAssetOrFormat": "Please select a format and provide an asset to validate."
-    },
-    "results": {
-      "title": "Validation Results",
-      "overallStatus": "Overall Status",
-      "compliant": "Compliant",
-      "nonCompliant": "Non-Compliant",
-      "table": {
-        "spec": "Specification",
-        "expected": "Expected",
-        "actual": "Actual",
-        "status": "Status"
-      },
-      "status": {
-        "ok": "OK",
-        "fail": "Fail"
-      }
-    },
-    "spec": {
-        "noSpec": "No specific technical specs to validate for this text format."
-    }
-  },
-  "feedbackButton": {
-    "tooltip": "Send Feedback",
-    "emailSubject": "Feedback for {{appName}}",
-    "emailBodyPlaceholder": "Hi team,\n\nI have some feedback regarding the {{appName}} application:\n\n"
-  },
-  "helpBotButton": {
-    "tooltip": "Get Help"
-  },
-  "helpBotModal": {
-    "title": "Help Center",
-    "closeButtonAriaLabel": "Close help modal",
-    "topicsListHeader": "Topics",
-    "noTopicSelected": "Select a topic from the list to see the answer.",
-    "introduction": "How can we help you today?",
-    "backToTopics": "Back to Topics"
-  },
-  "helpTopics": {
-    "aboutApp": {
-        "question": "What is this application for?",
-        "answer": "<strong>Specs & Creatives</strong> is a tool to help you create and validate advertising materials. <br/>Use the <strong>Creative Generator</strong> to produce images, ad copy, or video scripts with AI. <br/>Use the <strong>Creative Validator</strong> to check if your existing assets meet the technical requirements for different ad platforms."
-    },
-    "generatingAssets": {
-        "question": "How do I generate an asset?",
-        "answer": "1. Go to the 'Creative Generator' tab.<br/>2. Select an <strong>Advertising Platform</strong> (e.g., Meta).<br/>3. Select an <strong>Ad Format</strong> (e.g., Feed Image).<br/>4. Describe your <strong>Creative Idea</strong> in the text box. The more detail, the better!<br/>5. (Optional) Add a campaign objective, mandatory inclusions, or exclusions.<br/>6. Click the 'Generate' button and wait for the AI to create your asset."
-    },
-    "validatingAssets": {
-        "question": "How do I validate an asset?",
-        "answer": "1. Go to the 'Creative Validator' tab.<br/>2. Select the <strong>Platform</strong> and <strong>Format</strong> your asset was designed for. You can also select 'All Formats for Platform' to check against every format.<br/>3. Upload your file (image, video) or paste your text into the input area.<br/>4. Click the 'Validate Asset' button.<br/>5. The results will show a table comparing your asset's properties (like dimensions, file size, or length) against the platform's requirements."
-    },
-    "apiKey": {
-        "question": "Do I need an API key?",
-        "answer": "Yes, this application requires a Google Gemini API key to function. The application is designed to use an `API_KEY` environment variable that should be configured in the environment where it's deployed. If the key is missing or invalid, the generation will fail."
-    },
-    "interpretingResults": {
-        "question": "How do I interpret the validation results?",
-        "answer": "The results table shows a row for each technical specification.<ul><li><strong>Expected:</strong> The requirement from the ad platform.</li><li><strong>Actual:</strong> The property measured from your asset.</li><li><strong>Status:</strong> 'OK' if your asset is compliant, 'Fail' if it is not.</li></ul> The 'Overall Status' at the top tells you if your asset passed all checks."
-    }
+  "geminiService": { "errors": { "apiKeyMissing": "API_KEY is not configured. Please set the API_KEY environment variable.", "imageGenFailed": "Image generation failed or returned no data.", "textGenFailed": "Text generation failed or returned no data.", "unknown": "An unknown error occurred while communicating with the Gemini API.", "apiKeyInvalid": "Gemini API Error: API Key is invalid or missing, or you lack permissions. Please ensure the API_KEY environment variable is correctly set and valid. Original error: {{originalError}}", "quotaExceeded": "Gemini API Error: You have exceeded your API quota. Please check your usage and limits. Original error: {{originalError}}", "apiError": "Gemini API Error: {{originalError}}", "refinementFailed": "Image refinement failed or returned no data." } },
+  "refineImage": {
+    "title": "Refine Generated Image",
+    "placeholder": "Describe the changes you want... e.g., 'change the background to a beach', 'make the text larger', 'correct the text to say Free Shipping'",
+    "button": "Refine",
+    "removeTextButton": "Remove All Text",
+    "loading": "Refining your image...",
+    "removeTextLoading": "Removing text from image..."
   }
 };
 
@@ -218,8 +217,9 @@ const en = {
 const es = {
   "header": {
     "llycLogo": "LLYC",
-    "title": "Specs & Creatives",
-    "subtitle": "DM 5: Genera y valida creatividades publicitarias optimizadas con IA."
+    "title": "DM 5 - Specs & Creatives",
+    "subtitle": "Genera y valida creatividades publicitarias optimizadas con IA.",
+    "langSwitcherLabel": "Idioma:"
   },
   "tabs": {
     "generator": "Generador Creativo",
@@ -233,7 +233,7 @@ const es = {
     "label": "Formato de Anuncio / Tipo de Creatividad",
     "selectPlaceholder": "Selecciona un Formato",
     "disabledPlaceholder": "Selecciona una plataforma primero",
-    "allFormats": "Todos los Formatos de la Plataforma"
+    "allFormats": "Validar contra todos los formatos compatibles"
   },
   "objectiveInput": {
     "label": "Objetivo de Campaña (Opcional)",
@@ -242,19 +242,13 @@ const es = {
   "creativeInput": {
     "label": "Idea Creativa / Descripción Base del Activo",
     "placeholder": "Describe tu producto, servicio, público objetivo, mensaje clave, estilo deseado o cualquier activo existente. Por ejemplo: 'Un anuncio minimalista para una nueva marca de café ecológico dirigida a jóvenes profesionales. Mostrar una foto de producto elegante con elementos naturales.'",
-    "subtext": "Cuanto más detalle proporciones, mejor podrá ayudarte la IA."
-  },
-  "detailedCreativeInput": {
-    "inclusions": {
-      "label": "Inclusiones Obligatorias (Opcional)",
-      "placeholder": "Ej: Nombre de marca 'EcoMornings', el color verde, un tucán",
-      "subtext": "Palabras clave, objetos o temas que deben estar en el activo."
-    },
-    "exclusions": {
-      "label": "Palabras Clave Negativas / Exclusiones (Opcional)",
-      "placeholder": "Ej: Nada de plástico, no ciudades, evitar el color rojo",
-      "subtext": "Palabras clave, objetos o temas a evitar estrictamente."
-    }
+    "subtext": "Cuanto más detalle proporciones, mejor podrá ayudarte la IA.",
+    "inclusionsLabel": "Elementos a Incluir (Opcional)",
+    "inclusionsPlaceholder": "Ej: 'el logo en la esquina superior derecha', 'el eslogan Días Felices', 'una llamada a la acción con 10% dto.'",
+    "inclusionsSubtext": "Especifica cualquier texto, objeto o concepto que deba aparecer en la creatividad.",
+    "exclusionsLabel": "Elementos a Excluir (Opcional)",
+    "exclusionsPlaceholder": "Ej: 'el color azul', 'imágenes de personas', 'la palabra barato'",
+    "exclusionsSubtext": "Especifica cualquier texto, objeto o concepto que NO deba aparecer en la creatividad."
   },
   "assetGenerator": {
     "buttonText": "✨ Generar Activo Creativo"
@@ -294,6 +288,85 @@ const es = {
   "footer": {
     "apiKeyWarning": "Asegúrate de que tu API_KEY esté configurada correctamente para las interacciones con la API de Gemini.",
     "copyright": "Asistente de Campañas Creativas - LLYC"
+  },
+   "history": {
+    "title": "Actividad Reciente",
+    "useButton": "Usar esta Petición",
+    "clearButton": "Borrar Historial",
+    "clearConfirm": "¿Seguro que quieres borrar todo tu historial de peticiones? Esta acción no se puede deshacer.",
+    "empty": "Tus peticiones de generación recientes aparecerán aquí.",
+    "used": "Usado"
+  },
+  "validator": {
+    "validateButton": "🔍 Validar Activo",
+    "loading": "Analizando tu activo...",
+    "uploadLabel": "Sube el Activo Creativo",
+    "uploadAction": "Sube un archivo",
+    "uploadOrDrag": "o arrástralo y suéltalo",
+    "fileTypesHint": "Tipos compatibles para este formato: {{types}}",
+    "textInputLabel": "Pega el Copy del Anuncio",
+    "textInputPlaceholder": "Pega el copy del anuncio aquí para validar su longitud...",
+    "textInputSubtext": "El validador comprobará el número de caracteres o palabras contra los límites del formato.",
+    "results": {
+        "title": "Resultados de la Validación",
+        "overallStatus": "Estado General",
+        "compliant": "Cumple",
+        "nonCompliant": "No Cumple",
+        "table": {
+            "spec": "Especificación",
+            "expected": "Esperado",
+            "actual": "Actual",
+            "status": "Estado"
+        },
+        "status": {
+            "ok": "OK",
+            "fail": "Fallo"
+        }
+    },
+    "errors": {
+        "noAssetOrFormat": "Por favor, selecciona un formato y proporciona un activo para validar."
+    },
+    "spec": {
+        "noSpec": "No hay especificaciones técnicas que validar para este formato."
+    }
+  },
+    "feedbackButton": {
+      "tooltip": "Enviar Feedback",
+      "emailSubject": "Feedback para {{appName}}",
+      "emailBodyPlaceholder": "Hola equipo,\n\nTengo el siguiente feedback para la aplicación {{appName}}:\n\n"
+  },
+  "helpBotButton": {
+      "tooltip": "Centro de Ayuda"
+  },
+  "helpBotModal": {
+      "title": "Centro de Ayuda",
+      "closeButtonAriaLabel": "Cerrar modal de ayuda",
+      "topicsListHeader": "Temas",
+      "noTopicSelected": "Selecciona un tema de la lista para ver los detalles.",
+      "introduction": "¿En qué podemos ayudarte?",
+      "backToTopics": "Volver a Temas"
+  },
+  "helpTopics": {
+    "aboutApp": {
+        "question": "¿Para qué sirve esta aplicación?",
+        "answer": "<strong>DM 5 - Specs & Creatives</strong> es una herramienta diseñada para agilizar la creación de materiales publicitarios. Puedes:<br><ul><li><strong>Generar creatividades:</strong> Obtén copys, conceptos de imagen y guiones de vídeo con IA, adaptados a plataformas y formatos específicos.</li><li><strong>Validar activos:</strong> Comprueba si tus creatividades existentes cumplen con las especificaciones técnicas (tamaño, dimensiones, longitud, etc.) de las distintas plataformas publicitarias.</li></ul>Su objetivo es ahorrar tiempo, reducir errores y mejorar la calidad de los activos de tus campañas."
+    },
+    "generatingAssets": {
+        "question": "¿Cómo genero un activo creativo?",
+        "answer": "Es un proceso sencillo:<br><ol><li>Selecciona la pestaña <strong>'Generador Creativo'</strong>.</li><li>Elige la <strong>Plataforma Publicitaria</strong> (ej. Meta, Google Ads).</li><li>Selecciona el <strong>Formato de Anuncio</strong> específico que necesites (ej. Reel de Instagram, Anuncio de Búsqueda de Google).</li><li>(Opcional) Introduce el <strong>Objetivo de Campaña</strong> para dar más contexto a la IA.</li><li>Describe tu <strong>Idea Creativa</strong> en detalle. Cuanto más específico seas, mejor será el resultado. También puedes especificar elementos a incluir o excluir.</li><li>Haz clic en el botón <strong>'Generar Activo Creativo'</strong> y espera a que la IA haga su magia.</li></ol>"
+    },
+     "validatingAssets": {
+        "question": "¿Cómo funciona el validador de activos?",
+        "answer": "El validador comprueba las especificaciones técnicas de tu creatividad contra los requisitos del formato de anuncio elegido.<br><ol><li>Ve a la pestaña <strong>'Validador Creativo'</strong>.</li><li>Selecciona la <strong>Plataforma</strong> y el <strong>Formato de Anuncio</strong>.</li><li>Sube tu archivo (imagen, vídeo) o pega tu texto en el área de entrada.</li><li>Haz clic en el botón <strong>'Validar Activo'</strong>.</li><li>Los resultados mostrarán una lista de especificaciones (ej. Dimensiones, Tamaño del archivo, Número de caracteres) e indicarán si tu activo cumple o no.</li></ol>"
+    },
+    "apiKey": {
+        "question": "¿Necesito una API Key?",
+        "answer": "Sí. Esta aplicación requiere una API key de Google Gemini válida para funcionar. La aplicación está configurada para leer esta clave desde una variable de entorno (`API_KEY`) en su entorno de ejecución. Asegúrate de que esta clave esté correctamente configurada para que la aplicación funcione."
+    },
+    "interpretingResults": {
+        "question": "¿Cómo interpreto los resultados?",
+        "answer": "Cuando generas un activo, recibirás dos componentes principales:<br><ul><li><strong>Activo Generado:</strong> Esta es la creatividad en sí: una imagen, un bloque de texto o un guion.</li><li><strong>Detalles del Formato:</strong> Es una tarjeta que muestra las especificaciones técnicas clave y las mejores prácticas creativas para el formato de anuncio que seleccionaste. Úsalo como guía para la producción y para asegurar que tu activo final cumpla con los requisitos.</li></ul>Para el validador, la tabla de resultados muestra claramente cada especificación, el valor esperado, el valor real de tu activo y un estado de aprobado/fallido."
+    }
   },
   "platforms": {
     "META": "Meta (Instagram/Facebook)",
@@ -340,90 +413,15 @@ const es = {
   "generationTypes": {
     "image_concept": "Concepto de Imagen", "image": "Imagen", "text": "Texto", "video_script": "Guion de Video", "ad_copy": "Copy de Anuncio", "creative_concept": "Concepto Creativo", "asset_ideas": "Ideas de Activos", "form_concept": "Concepto de Formulario", "audio_script": "Guion de Audio", "listing_copy": "Copy de Ficha de Producto"
   },
-   "imageGeneration": {
-    "textWarning": "<strong>Nota de IA:</strong> El texto dentro de las imágenes generadas por IA a veces puede ser impreciso. Para texto crítico, usa la función 'Refinar Imagen' para hacer correcciones, o considera añadir el texto con una herramienta de diseño externa para mejores resultados."
-  },
-  "refineImage": {
-    "title": "Refinar Esta Imagen",
-    "placeholder": "Describe los cambios que quieres, ej: 'Cambia el texto a `Hola Mundo`', 'Haz el fondo azul', 'Añade un gato'.",
-    "button": "🎨 Refinar",
-    "loading": "Refinando imagen...",
-    "removeTextButton": "Quitar Texto",
-    "removeTextLoading": "Quitando texto..."
-  },
   "fallbackError": "Ocurrió un error inesperado durante la generación.",
-  "geminiService": { "errors": { "apiKeyMissing": "API_KEY no está configurada. Por favor, establece la variable de entorno API_KEY.", "imageGenFailed": "La generación de imagen falló o no devolvió datos.", "refinementFailed": "El refinamiento de la imagen falló o no devolvió datos.", "textGenFailed": "La generación de texto falló o no devolvió datos.", "unknown": "Ocurrió un error desconocido al comunicarse con la API de Gemini.", "apiKeyInvalid": "Error API Gemini: La API Key es inválida, no existe o careces de permisos. Asegúrate de que la variable de entorno API_KEY está correctamente configurada y es válida. Error original: {{originalError}}", "quotaExceeded": "Error API Gemini: Has excedido tu cuota de API. Por favor, revisa tu uso y límites. Error original: {{originalError}}", "apiError": "Error API Gemini: {{originalError}}" } },
-  "meta_reels_video_script_bp.hook": "Engancha en los primeros 3s.", "meta_reels_video_script_bp.trending": "Usa audio/efectos en tendencia.", "meta_reels_video_script_bp.vertical": "Graba en vertical (9:16).", "meta_reels_video_script_bp.length": "Sé breve (máx 90s).", "meta_reels_video_script_bp.cta": "Llamada a la Acción clara.", "meta_reels_video_script_bp.captions": "Usa subtítulos/texto superpuesto.", "meta_reels_video_script_pg": "Genera un concepto o guion para un Reel de Meta. Enfatiza la narración visual, un gancho fuerte y el uso de funciones nativas como audio en tendencia o superposiciones de texto. Busca autenticidad y engagement rápido.", "meta_ads_guide_general_link": "Consulta la Guía de Anuncios de Meta para especificaciones detalladas.", "meta_stories_image_bp.fullscreen": "Diseña para vertical a pantalla completa (9:16).", "meta_stories_image_bp.interactive": "Utiliza elementos interactivos (encuestas, stickers).", "meta_stories_image_bp.branding": "Branding claro, visible rápidamente.", "meta_stories_image_bp.compelling": "Visuales atractivos, texto conciso.", "meta_stories_image_pg": "Genera una imagen para Meta Stories. Enfócate en el impacto vertical a pantalla completa y oportunidades para elementos interactivos. Los visuales deben ser cautivadores y el mensaje breve.", "meta_stories_video_script_bp.fastpaced": "Contenido rápido y atractivo.", "meta_stories_video_script_bp.overlays": "Usa superposiciones de texto y stickers.", "meta_stories_video_script_bp.sound": "Diseña para sonido activado, pero que tenga sentido sin sonido.", "meta_stories_video_script_bp.swipeup": "Incluye un 'Desliza hacia arriba' o CTA claro.", "meta_stories_video_script_pg": "Crea un guion de video para Meta Stories. Enfatiza escenas rápidas y visualmente atractivas, funciones nativas como encuestas o quizzes, y una llamada a la acción clara. Máx 60 segundos, pero 15s suele ser mejor.", "meta_feed_image_bp.quality": "Imagen de alta calidad y visualmente atractiva.", "meta_feed_image_bp.minimaltext": "Minimiza el texto en la imagen.", "meta_feed_image_bp.alignbrand": "Alinea con la identidad de marca.", "meta_feed_image_bp.focalpoint": "Punto focal claro.", "meta_feed_image_pg": "Genera una imagen para el Feed de Meta. Considera relaciones de aspecto 1:1 o 4:5. La imagen debe ser de alta calidad con texto mínimo sobre ella. Enfócate en un mensaje claro y alineación de marca.", "meta_feed_ad_copy_bp.valueprop": "Propuesta de valor clara.", "meta_feed_ad_copy_bp.headline": "Titular atractivo (40 car.).", "meta_feed_ad_copy_bp.cta": "Llamada a la Acción fuerte.", "meta_feed_ad_copy_bp.emojis": "Usa emojis apropiadamente.", "meta_feed_ad_copy_bp.concise": "Mantén el texto principal conciso (alrededor de 125 car.).", "meta_feed_ad_copy_pg": "Escribe un copy para un anuncio de Feed de Meta. Incluye un texto principal (aprox 125 car.), un titular (40 car.) y una descripción del enlace (30 car. opcional). Enfócate en claridad, valor y una CTA fuerte.", "youtube_non_skippable_bp.keymessage": "Entrega el mensaje clave al inicio.", "youtube_non_skippable_bp.branding": "Branding fuerte en los primeros segundos.", "youtube_non_skippable_bp.visuals": "Visuales atractivos.", "youtube_non_skippable_bp.cta_non_skip": "CTA claro si aplica (aunque suele ser para notoriedad).", "youtube_non_skippable_pg": "Genera un guion para un anuncio In-Stream No Saltable de YouTube (máx 15-20s). Enfócate en impacto inmediato, branding claro y entrega rápida del mensaje central.", "google_ads_video_specs_link": "Consulta las especificaciones de Vídeo de Google Ads para detalles.", "youtube_bumper_bp.shortmemorable": "Mensaje corto y memorable (6s).", "youtube_bumper_bp.oneidea": "Enfócate en una idea simple y única.", "youtube_bumper_bp.visualsbranding": "Visuales y branding fuertes.", "youtube_bumper_bp.sequence": "Considera usar en secuencia.", "youtube_bumper_pg": "Crea un guion para un Bumper Ad de YouTube (6 segundos). Debe ser conciso, impactante y dejar una impresión duradera. Enfócate en un mensaje clave o elemento de marca.", "youtube_abcds_effectiveness": "Sigue el framework ABCD de YouTube para anuncios efectivos (Atraer, Brandear, Conectar, Dirigir).", "google_ads_bumper_specs_link": "Consulta las especificaciones de Bumper Ads de Google Ads.", "youtube_trueview_instream_bp.hook5s": "Engancha a los espectadores en los primeros 5 segundos.", "youtube_trueview_instream_bp.story": "Cuenta una historia atractiva.", "youtube_trueview_instream_bp.showdonttell": "Muestra, no solo cuentes.", "youtube_trueview_instream_bp.cta": "Llamada a la Acción clara.", "youtube_trueview_instream_bp.endscreen": "Usa las pantallas finales eficazmente.", "youtube_trueview_instream_pg": "Desarrolla un guion para un anuncio In-Stream Saltable de YouTube. Capta la atención en los primeros 5 segundos. Proporciona valor para animar a los espectadores a no saltar. Incluye una CTA clara.", "google_ads_skippable_specs_link": "Consulta las especificaciones de Anuncios In-Stream Saltables de Google Ads.", "google_ads_video_action_bp.clear_cta": "Llamada a la acción prominente y clara.", "google_ads_video_action_bp.value_prop": "Destaca la propuesta de valor pronto.", "google_ads_video_action_bp.various_lengths": "Prueba varias duraciones de video (10s+ recomendado).", "google_ads_video_action_pg": "Genera ideas de activos (guion de video, titulares, descripciones) para una Campaña de Vídeo de Acción de Google Ads. Enfócate en impulsar conversiones con CTAs claras y propuestas de valor.", "google_ads_video_action_specs_link": "Consulta las especificaciones de Campañas de Vídeo de Acción de Google Ads.",
-  "validator": {
-    "uploadLabel": "Sube tu activo creativo",
-    "uploadAction": "Sube un archivo",
-    "uploadOrDrag": "o arrastra y suelta",
-    "fileTypesHint": "Soportados: {{types}}",
-    "textInputLabel": "Pega tu activo de texto",
-    "textInputPlaceholder": "Pega aquí el copy de tu anuncio, titular o guion...",
-    "textInputSubtext": "El contenido se validará según las especificaciones de longitud del formato seleccionado.",
-    "validateButton": "🔍 Validar Activo",
-    "loading": "Analizando tu creatividad...",
-    "errors": {
-      "noAssetOrFormat": "Por favor, selecciona un formato y proporciona un activo para validar."
-    },
-    "results": {
-      "title": "Resultados de la Validación",
-      "overallStatus": "Estado General",
-      "compliant": "Cumple",
-      "nonCompliant": "No Cumple",
-      "table": {
-        "spec": "Especificación",
-        "expected": "Esperado",
-        "actual": "Actual",
-        "status": "Estado"
-      },
-      "status": {
-        "ok": "OK",
-        "fail": "Fallo"
-      }
-    },
-    "spec": {
-        "noSpec": "No hay especificaciones técnicas específicas para validar en este formato de texto."
-    }
-  },
-  "feedbackButton": {
-    "tooltip": "Enviar Feedback",
-    "emailSubject": "Feedback para {{appName}}",
-    "emailBodyPlaceholder": "Hola equipo,\n\nTengo algunas sugerencias sobre la aplicación {{appName}}:\n\n"
-  },
-  "helpBotButton": {
-    "tooltip": "Obtener Ayuda"
-  },
-  "helpBotModal": {
-    "title": "Centro de Ayuda",
-    "closeButtonAriaLabel": "Cerrar modal de ayuda",
-    "topicsListHeader": "Temas",
-    "noTopicSelected": "Selecciona un tema de la lista para ver la respuesta.",
-    "introduction": "¿En qué podemos ayudarte?",
-    "backToTopics": "Volver a Temas"
-  },
-  "helpTopics": {
-    "aboutApp": {
-        "question": "¿Para qué sirve esta aplicación?",
-        "answer": "<strong>Specs & Creatives</strong> es una herramienta para ayudarte a crear y validar materiales publicitarios. <br/>Usa el <strong>Generador Creativo</strong> para producir imágenes, copys o guiones de vídeo con IA. <br/>Usa el <strong>Validador Creativo</strong> para comprobar si tus activos existentes cumplen los requisitos técnicos de las diferentes plataformas publicitarias."
-    },
-    "generatingAssets": {
-        "question": "¿Cómo genero un activo?",
-        "answer": "1. Ve a la pestaña 'Generador Creativo'.<br/>2. Selecciona una <strong>Plataforma Publicitaria</strong> (ej. Meta).<br/>3. Selecciona un <strong>Formato de Anuncio</strong> (ej. Imagen para Feed).<br/>4. Describe tu <strong>Idea Creativa</strong> en el cuadro de texto. ¡Cuanto más detalle, mejor!<br/>5. (Opcional) Añade un objetivo de campaña, inclusiones obligatorias o exclusiones.<br/>6. Haz clic en el botón 'Generar' y espera a que la IA cree tu activo."
-    },
-    "validatingAssets": {
-        "question": "¿Cómo valido un activo?",
-        "answer": "1. Ve a la pestaña 'Validador Creativo'.<br/>2. Selecciona la <strong>Plataforma</strong> y el <strong>Formato</strong> para el que fue diseñado tu activo. También puedes seleccionar 'Todos los Formatos' para comprobarlo con todos los de la plataforma.<br/>3. Sube tu archivo (imagen, vídeo) o pega tu texto en el área de entrada.<br/>4. Haz clic en el botón 'Validar Activo'.<br/>5. Los resultados mostrarán una tabla comparando las propiedades de tu activo (como dimensiones, tamaño de archivo o longitud) con los requisitos de la plataforma."
-    },
-    "apiKey": {
-        "question": "¿Necesito una clave de API?",
-        "answer": "Sí, esta aplicación requiere una clave de API de Google Gemini para funcionar. La aplicación está diseñada para usar una variable de entorno `API_KEY` que debe ser configurada en el entorno donde se despliega. Si la clave falta o es inválida, la generación fallará."
-    },
-    "interpretingResults": {
-        "question": "¿Cómo interpreto los resultados de la validación?",
-        "answer": "La tabla de resultados muestra una fila por cada especificación técnica.<ul><li><strong>Esperado:</strong> El requisito de la plataforma publicitaria.</li><li><strong>Actual:</strong> La propiedad medida de tu activo.</li><li><strong>Estado:</strong> 'OK' si tu activo cumple, 'Fallo' si no.</li></ul> El 'Estado General' en la parte superior te dice si tu activo pasó todas las comprobaciones."
-    }
+  "geminiService": { "errors": { "apiKeyMissing": "API_KEY no está configurada. Por favor, establece la variable de entorno API_KEY.", "imageGenFailed": "La generación de imagen falló o no devolvió datos.", "textGenFailed": "La generación de texto falló o no devolvió datos.", "unknown": "Ocurrió un error desconocido al comunicarse con la API de Gemini.", "apiKeyInvalid": "Error API Gemini: La API Key es inválida, no existe o careces de permisos. Asegúrate de que la variable de entorno API_KEY está correctamente configurada y es válida. Error original: {{originalError}}", "quotaExceeded": "Error API Gemini: Has excedido tu cuota de API. Por favor, revisa tu uso y límites. Error original: {{originalError}}", "apiError": "Error API Gemini: {{originalError}}", "refinementFailed": "La modificación de la imagen falló o no devolvió datos." } },
+  "refineImage": {
+    "title": "Refinar Imagen Generada",
+    "placeholder": "Describe los cambios que quieres... ej: 'cambia el fondo a una playa', 'haz el texto más grande', 'corrige el texto para que ponga Envío Gratis'",
+    "button": "Refinar",
+    "removeTextButton": "Quitar Todo el Texto",
+    "loading": "Refinando tu imagen...",
+    "removeTextLoading": "Quitando texto de la imagen..."
   }
 };
 

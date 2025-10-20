@@ -20,7 +20,7 @@ export const Tabs: React.FC<TabsProps> = ({ activeTab, onTabChange }) => {
   };
 
   return (
-    <div className="border-b border-[var(--llyc-gray-3)]/50 flex" role="tablist" aria-label="Main functionality">
+    <div className="border-b border-[var(--llyc-gray-4)] flex" role="tablist" aria-label="Main functionality">
       <button
         onClick={() => onTabChange('generator')}
         className={getTabClass('generator')}
