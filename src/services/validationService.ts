@@ -105,13 +105,17 @@ export const validateAsset = async (
     }
     
     if (spec.fileTypes && spec.fileTypes.length > 0) {
-        const fileExtension = file.name.split('.').pop()?.toUpperCase() ?? '';
+        let fileExtension = file.name.split('.').pop()?.toUpperCase() ?? '';
+        const originalExtension = fileExtension;
+        if (fileExtension === 'JPG') {
+            fileExtension = 'JPEG';
+        }
         const compliant = spec.fileTypes.some(type => type.toUpperCase() === fileExtension);
         results.push({
             key: 'fileType',
             specName: t('specsDisplay.fileTypesLabel'),
             expected: spec.fileTypes.join(', '),
-            actual: fileExtension,
+            actual: originalExtension,
             compliant,
         });
     }
@@ -131,7 +135,12 @@ export const validateAsset = async (
     }
 
     if (spec.dimensions && typeof metadata.width === 'number' && typeof metadata.height === 'number') {
-        const compliant = metadata.width === spec.dimensions.width && metadata.height === spec.dimensions.height;
+        const widthTolerance = spec.dimensions.width * 0.1;
+        const heightTolerance = spec.dimensions.height * 0.1;
+        const widthOk = Math.abs(metadata.width - spec.dimensions.width) <= widthTolerance;
+        const heightOk = Math.abs(metadata.height - spec.dimensions.height) <= heightTolerance;
+        const compliant = widthOk && heightOk;
+        
         results.push({
             key: 'dimensions',
             specName: t('specsDisplay.dimensionsLabel'),
