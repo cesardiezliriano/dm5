@@ -85,46 +85,6 @@ For each scene, provide:
   return prompt;
 }
 
-const constructImagePrompt = (
-  spec: AdFormatSpec,
-  creativeIdea: string,
-  campaignObjective?: string,
-  inclusions?: string,
-  exclusions?: string,
-): string => {
-    const t = (key: string) => i18n.t(key, { lng: 'en' });
-    const guidance = spec.promptGuidanceKey ? t(spec.promptGuidanceKey) : '';
-    const bestPractices = spec.bestPracticesKeys.map(key => t(key)).join(', ');
-
-    let prompt = `Generate a single, professional, high-quality, photorealistic advertisement image. The image must visually represent this core idea: "${creativeIdea}".`;
-
-    if (inclusions) {
-        prompt += `\n\n**Mandatory Elements:** The image MUST include the following elements: "${inclusions}".`;
-    }
-
-    if (exclusions) {
-        prompt += `\n\n**Negative Keywords:** The image must NOT contain any of the following themes, objects, or concepts: "${exclusions}". This is a strict rule.`;
-    }
-
-    prompt += `\n\n**Style and Mood:** Cinematic, clean, modern, engaging. The lighting should be professional (e.g., soft natural light or dramatic studio lighting, as appropriate for the subject). The image should have a sharp focus and high detail.`;
-
-    if (campaignObjective) {
-        prompt += `\n\n**Campaign Context:** The objective is to "${campaignObjective}". The image should support this goal.`;
-    }
-    if (guidance) {
-        prompt += `\n\n**Format Specifics:** Follow this guidance for the ad format: "${guidance}".`;
-    }
-    if (bestPractices) {
-        prompt += `\n\n**Creative Best Practices to follow:** ${bestPractices}.`;
-    }
-    prompt += `\n\n**Audience:** The entire scene, including any models, environment, and objects, must be culturally authentic and relevant for an audience in Spain.`;
-
-    prompt += `\n\n**CRITICAL INSTRUCTION FOR TEXT:** If the creative idea or mandatory elements include any text to be rendered on the image, you MUST render it EXACTLY as specified.
-1.  **Language:** The language must be Spanish unless otherwise specified. Do not confuse it with Portuguese or other languages.
-2.  **Character Encoding:** You MUST use UTF-8 character encoding. This is essential to correctly display all special characters and accents (e.g., 'í', 'ñ', 'á', 'ü'). For example, if asked to include the text 'Envío Gratis', the image MUST show 'Envío Gratis' with the correctly rendered accent 'í'. Failure to render accents correctly is a critical failure. This is a non-negotiable requirement.`;
-
-    return prompt;
-}
 
 export const generateCreativeAsset = async (
   spec: AdFormatSpec,
@@ -143,9 +103,47 @@ export const generateCreativeAsset = async (
 
   try {
     if (spec.generationType === 'image') {
-      const imageGenPrompt = constructImagePrompt(spec, creativeIdea, campaignObjective, inclusions, exclusions);
-      console.log("Constructed Image Prompt:", imageGenPrompt);
+       // STEP 1: Use a text model to generate a high-quality, concise prompt for the image model.
+      const t = (key: string) => i18n.t(key, { lng: 'en' });
+      const bestPractices = spec.bestPracticesKeys.map(key => t(key)).join(', ');
 
+      let promptForPromptGenerator = `You are an expert prompt engineer for a text-to-image AI model. Your task is to take the following ad creative request and convert it into a single, concise, and highly descriptive paragraph. This paragraph will be the ONLY input for the image model.
+
+**IMPORTANT RULES:**
+1.  **Do NOT include labels, titles, or meta-instructions** like 'Prompt:', 'Description:', 'Style:', etc. in your final output. Your output must be a single block of descriptive text.
+2.  Focus on visual details: composition, subjects, environment, lighting, colors, and mood.
+3.  Synthesize all the provided information into a coherent visual description.
+
+**Creative Request Details:**
+-   **Core Idea:** "${creativeIdea}"
+-   **Campaign Objective:** "${campaignObjective || 'Not specified'}"
+-   **Mandatory Elements to Include:** "${inclusions || 'None'}"
+-   **Elements to Exclude:** "${exclusions || 'None'}"
+-   **Format Best Practices:** "${bestPractices}"
+-   **Target Audience:** Spain. The image must be culturally authentic and relevant.
+
+**CRITICAL INSTRUCTION FOR TEXT:** If the request includes text to be rendered *in the image*, you must include it in your description EXACTLY as specified.
+-   **Language:** The language must be Spanish unless otherwise specified.
+-   **Character Encoding & Accents:** Emphasize that the text must be rendered perfectly with correct Spanish accents and special characters (like 'í', 'ñ', 'á'). For example, if the request is for 'Envío Gratis', the prompt must explicitly state to render 'Envío Gratis' with the accent.
+
+Now, generate the single-paragraph prompt for the image model based on the request above.`;
+      
+      console.log("Constructed Prompt for Prompt Generator (Gemini):", promptForPromptGenerator);
+
+      const promptGenResponse = await ai.models.generateContent({
+        model: TEXT_MODEL,
+        contents: promptForPromptGenerator,
+      });
+
+      const imageGenPrompt = promptGenResponse.text;
+      if (!imageGenPrompt) {
+        throw new Error(i18n.t('geminiService.errors.promptGenFailed'));
+      }
+      
+      console.log("Generated Image Prompt (for Imagen):", imageGenPrompt);
+
+
+      // STEP 2: Use the generated prompt to create the image.
       const imageGenConfig: any = {
           numberOfImages: 1,
           outputMimeType: 'image/jpeg',
@@ -162,7 +160,7 @@ export const generateCreativeAsset = async (
       
       const response = await ai.models.generateImages({
         model: IMAGE_MODEL,
-        prompt: imageGenPrompt,
+        prompt: imageGenPrompt.trim(),
         config: imageGenConfig,
       });
 
