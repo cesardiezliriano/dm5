@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -122,7 +123,7 @@ export const GeneratorView: React.FC = () => {
     } finally {
         setIsRefining(false);
     }
-}, [generatedAsset]);
+}, [generatedAsset, t]);
 
   const handleRemoveText = useCallback(async () => {
     if (!generatedAsset || generatedAsset.type !== 'image') return;
@@ -136,7 +137,7 @@ export const GeneratorView: React.FC = () => {
     } finally {
       setIsRemovingText(false);
     }
-  }, [generatedAsset]);
+  }, [generatedAsset, t]);
 
 
   const handleUseHistoryItem = useCallback((item: HistoryItem) => {

@@ -119,6 +119,10 @@ const constructImagePrompt = (
     }
     prompt += `\n\n**Audience:** The entire scene, including any models, environment, and objects, must be culturally authentic and relevant for an audience in Spain.`;
 
+    prompt += `\n\n**CRITICAL INSTRUCTION FOR TEXT:** If the creative idea or mandatory elements include any text to be rendered on the image, you MUST render it EXACTLY as specified.
+1.  **Language:** The language must be Spanish unless otherwise specified. Do not confuse it with Portuguese or other languages.
+2.  **Character Encoding:** You MUST use UTF-8 character encoding. This is essential to correctly display all special characters and accents (e.g., 'í', 'ñ', 'á', 'ü'). For example, if asked to include the text 'Envío Gratis', the image MUST show 'Envío Gratis' with the correctly rendered accent 'í'. Failure to render accents correctly is a critical failure. This is a non-negotiable requirement.`;
+
     return prompt;
 }
 
@@ -239,10 +243,14 @@ export const refineImage = async (
   const mimeType = match[1];
   const data = match[2];
 
-  const finalRefinementPrompt = `The user wants to refine the provided image. Their instruction is: "${refinementPrompt}".
-Please apply this change precisely. If the instruction is to correct text, pay extremely close attention to spelling, capitalization, and accents. The output text must be an exact match of the requested text.
-IMPORTANT: All text must be rendered using UTF-8 character encoding to correctly display special characters and accents (e.g., 'í', 'ñ', 'á', 'ü').
-For example, if the user asks for 'Envío Gratis', the output text MUST be 'Envío Gratis' with the accent on the 'i'. This is a strict requirement. Do not mis-encode characters.`;
+  const finalRefinementPrompt = `A user wants to refine the provided image based on this instruction: "${refinementPrompt}".
+
+**CRITICAL INSTRUCTIONS FOR TEXT MODIFICATION:**
+1.  **Exact Match:** Apply the text change precisely as requested. Pay extremely close attention to spelling, capitalization, and accents. The output text must be an exact match of what the user requested.
+2.  **Language:** The language must be Spanish unless the user specifies otherwise. Do not confuse Spanish with Portuguese.
+3.  **Character Encoding:** You MUST use UTF-8 character encoding. This is essential to correctly display all special characters and accents (e.g., 'í', 'ñ', 'á', 'ü').
+For example, if the user asks to correct text to 'Envío Gratis', the final image MUST show 'Envío Gratis' with the correctly rendered accent 'í'.
+This is a strict, non-negotiable requirement. Do not mis-encode characters.`;
 
   try {
     const response = await ai.models.generateContent({
